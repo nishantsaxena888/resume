@@ -1,0 +1,321 @@
+NISHANT SAXENA
+                                                
+Email: nishant.saxena.varad@gmail.com 
+Contact Ph: (848)-345-0433 
+Linkedin: https://www.linkedin.com/in/nishantasaxena/  
+
+Professional Summary
+
+	•	17+ years of experience in software development and delivery across web and client/server applications.
+	•	Expertise in Python (Django, Flask, FastAPI) and React.js (19, Next.js), delivering full-stack, scalable, and maintainable systems.
+	•	Strong foundation in system analysis, architecture, design, development, testing, and implementation.
+	•	Proven ability to simplify complex systems via clean architecture, code optimization, and automation.
+	•	Hands-on in frontend & backend development, building responsive UIs, REST/GraphQL APIs, and microservices.
+	•	Skilled in authentication & security (JWT, OAuth2, Keycloak), async execution (Celery, RQ), and real-time features (WebSockets).
+	•	Experienced with databases (PostgreSQL, MySQL, MongoDB,Aurora, Redis) including schema design, indexing, and optimization.
+	•	Hands-on experience with OCR + Document AI workflows using AWS Textract, Tesseract, docTR, Mindee, and Azure Vision for structured data extraction.
+	•	Practical familiarity with LLM APIs (OpenAI/HuggingFace) for summarization, text refinement, and structured extraction assistance inside document automation pipelines.
+	•	Experience using embeddings and Elasticsearch dense vectors for semantic search, similarity-based retrieval, and RAG-style lookups.
+	•	Worked on ML-driven validation workflows, rule engines, and classification logic integrated with Python microservices.
+	•	Well-versed in DevOps & Cloud: Docker, AWS (Lambda, Step Functions, ECS, S3, DynamoDB), Terraform, GitHub Actions, CI/CD.
+	•	Strong background in Elasticsearch & Kafka for search, messaging, and event-driven systems.
+	•	Collaborative team player with experience in Agile/Scrum environments across US, Singapore, and India.
+Skill Specifications
+
+	•	Languages & Frameworks: Python, JavaScript (ES6+), TypeScript, ReactJS (React 19, Next.js), Django, Flask, FastAPI, Flask-RESTful, GraphQL, Celery, Selenium
+	•	Frontend: React.js (hooks, context, Redux), Next.js, Tailwind CSS, Bootstrap, Responsive Design, Performance Optimization
+	•	Backend: Django/Flask/FastAPI, RESTful APIs, GraphQL, Authentication & Security (JWT/OAuth2/Keycloak), WebSockets, Async Background Tasks (Celery/RQ), Microservices Architecture
+	•	Cloud & DevOps: AWS (Step Functions, Lambda, DynamoDB, S3, SNS, SQS, ECS, MSK), Docker, Docker Compose, Terraform, GitHub Actions, Kubernetes,  LocalStack, CI/CD Pipelines, Nginx/Apache
+	•	Database Technologies: PostgreSQL, MySQL, MongoDB, Redis, DynamoDB, SQL Server
+	•	Search & Messaging: Elasticsearch, Kafka, RabbitMQ
+	•	Document & Data Processing: Pandas, SQLAlchemy, AWS Textract, Tesseract OCR, docTR, Mindee, OpenERP, APScheduler, Label Studio
+	•	Testing, Monitoring & Automation: PyTest, Jest, React Testing Library, Locust, New Relic, TDD, CI/CD Test Automation
+	•	Authentication & Access Control: JWT, OAuth2, Keycloak, IAM (AWS)
+	•	Project Delivery & Methodologies: Agile/Scrum, SaaS Delivery, Multi-Tenant Architecture, Technical Documentation
+	•	AI / ML & LLM Technologies: Embeddings, Semantic Search, LLM API Integration (OpenAI, HuggingFace), Vector Search (Elasticsearch Dense Vectors), Prompt Engineering (basic), RAG Fundamentals, Document AI Workflows, Text Classification & Validation Pipelines
+	•	Others: Serverless Architecture, Event-Driven Systems, API Gateway, Low-Code/No-Code Platforms
+
+Professional Experience 
+ Centene, Remote 									 Nov 2025 – Till Date
+Senior Software Lead 
+
+Responsibilities 
+
+	•	Leading backend services in Python (Django/FastAPI) and supporting React-based UIs for internal insurance workflows.
+	•	Stabilizing production systems including async consumers, Celery workers, and external integrations (Salesforce, payment & broker systems).
+	•	Driving project sunset strategy by decommissioning legacy Novasys components and migrating workflows to Salesforce.
+	•	Supporting data cleanup, reconciliation (DMR execution), and validation cycles prior to Salesforce transition.
+	•	Refactoring and simplifying Python services for long-term maintainability during transition phase.
+	•	Providing ongoing Salesforce integration support and resolving production issues during migration.
+	•	Improving logging, PII compliance, monitoring, and deterministic recovery processes.
+	•	Collaborating with business and Salesforce teams to ensure smooth handoff and operational continuity.
+
+ KKR, New York, NY 									 May 2025 – Nov 2025
+Solution Lead – Valuation 
+
+Responsibilities 
+
+	•	Built and delivered a valuation data platform with Python FastAPI backend and React + Redux frontend, ensuring scalable and maintainable architecture.
+	•	Developed RESTful APIs for data ingestion, validation, and replication across SharePoint, Excel, and external systems.
+	•	Containerized backend services using Docker and supported deployments on Kubernetes-based environments for scalable microservices orchestration.
+	•	Implemented pipeline monitoring, exception handling, and audit trail tracking with automated alerts for reliability.
+	•	Designed and deployed a React-based admin dashboard for pipeline observability, exception management, and reporting.
+	•	Migrated complex Excel valuation models into web-native, API-driven workflows, improving transparency and investor-ready reporting.
+	•	Worked across PostgreSQL + Elasticsearch layers for storage and search, with Docker + AWS ECS for deployment.
+	•	Added LLM-assisted utility functions to generate concise exception summaries and support structured data validation within the valuation workflow.
+	•	Implemented semantic search using Elasticsearch embeddings to improve anomaly detection and cross-sheet data verification.
+	•	Developed lightweight Python orchestration modules to coordinate Excel parsing, DB lookups, and validation flows end-to-end.
+
+Charter Communications Denver CO							   Denver
+Lead | AWS | React |Python  				                                           Jan 2025 – May 2025
+	•	Built a dynamic reporting dashboard with React.js frontend and Django REST Framework backend, supporting multiple departmental reporting needs.
+	•	Developed and optimized REST APIs for real-time reporting and analytics integration.
+	•	Integrated Apache NiFi pipelines for ingesting and transforming multi-source data into PostgreSQL.
+	•	Leveraged Elasticsearch to power fast, flexible queries and dashboards across large datasets.
+	•	Implemented operational alerts and sync monitoring using AWS SNS and Lambda for system visibility.
+	•	Designed and delivered reusable React components generated from schema-driven APIs for scalable UI integration.
+
+CapitalOne, NYC									Onsite, Manhattan, NYC
+Project Lead – Architect (Python/AWS)						Apr 2024- September 2024 
+
+Developed a transaction pipeline using AWS Step Functions as a coordinator service, representing the complete lifecycle of a transaction. The system ensured that all services interact seamlessly, coordinating each step in the transaction journey.
+ 
+Technologies: Python, TypeScript, AWS Step Functions, Lambda, DynamoDB, Localstack, TDD, Client's inbuilt infrastructure tool (wrapped around CDK and written in TypeScript).
+
+	•	Contributed implementation of transaction processing pipeline using AWS Step Functions to orchestrate various microservices in the transaction lifecycle
+	•	Convert Java Code to Python for the utility services, using TDD
+	•	Created aws lambda function, to call the API generically, including retries exception handling erc.
+	•	Used DynamoDB to store transaction metadata for orchestration. 
+	•	Worked closely with client stakeholders to gather requirements and deliver technical solutions  
+	•	Developed end-to-end tests with pytest 
+	•	Used LocalStack to validate AWS Step Functions, Lambda, and DynamoDB interactions
+	•	Improved reliability of the transaction pipeline by adding retry logic, fallback handlers, and structured exception flows within Step Functions.
+	•	Optimized Lambda invocations and API execution patterns, reducing latency and making the orchestration more predictable under load.
+	•	Built internal debugging utilities to trace each transaction step, improving visibility during integration and UAT testing.
+	•	Developed and maintained Angular-based enterprise UI components using services, routing, and RxJS.
+	•	Integrated Angular dashboards with RESTful backend APIs for real-time data visualization and reporting.
+
+
+Mind Master Solutions Pte Ltd, Singapore					Hyderabad India			
+Chief Architect ( Python/ React/ Cloud/ AI-ML/Gen AI)			June-2022 – May 2024
+
+Project # 1 Document Extraction   (https://www.simplyflow.ai)  The project involves building a Document Extraction system using Python, Django, Postgresql, and OCRs like AWS Textract, Microsoft Azure, Fitz, and Tesseract OCR. The goal of the project is to automate the process of extracting relevant information from a large number of documents, such as invoices, receipts, and contracts, and save them into a structured format in a database for easy access and analysis
+
+Technologies: MSSQL, Postgresql,Django,  FastAPI, Python, Azure Functions, Elastic search, Azure
+
+	•	Extended Django REST Framework (DRF) for low-code/no-code CRUD APIs based on database schemas.
+	•	Created several microservices using FastAPI
+	•	Entity-based Identity and Access Management (IAM) with dynamic menu access control.
+	•	Developed and validated AI/ML pipelines for text recognition, entity extraction, and contextual analysis using GenAI models.
+	•	Integrated Generative AI with OCR tools (AWS Textract, Tesseract) for enhanced document processing and accuracy improvement.
+	•	Leveraged AWS SageMaker to train and deploy lightweight ML models for document classification and validation within large-scale OCR and document extraction pipelines.
+	•	Engineered cloud-deployed AI workflows, ensuring high model accuracy through robust validation techniques.
+	•	Created custom AI wrappers and connectors to streamline data extraction from documents.
+	•	Created versatile Python-based connector classes for CRUD consistency across modules.
+	•	Enhanced OCR capabilities with a FITZ OCR connector using Pytesseract for image data extraction.
+	•	Implemented AWS Textract connector using Boto3 for document processing.
+	•	Integrated Mindee API and docTR connectors for advanced data extraction and document recognition.
+	•	Standardized outputs from multiple OCR tools into a unified format for interoperability.
+	•	Created a rule-based classification system for document type detection.
+	•	Designed heuristic rule engines for intelligent data extraction.
+	•	Automated pipeline execution with Python threading and schedulers.
+	•	Orchestrated data processing workflows with AWS Step Functions for classification, processing, and ERP integration.
+	•	Developed Python-based email modules using IMAP and SMTP for automated email handling.
+	•	SaaS-ready implementation for customizable client interaction and scalability.
+	•	Developed dynamic ReactJS interfaces configured via low-code API outputs.
+	•	Integrated robust search, filtering, and data visualization.
+	•	Streamlined authentication and access control integration with backend IAM.
+	•	Dockerized backend and frontend for scalability and consistent deployment.
+	•	Hosted on AWS (ECS, S3, CloudFront) with CI/CD pipelines using GitHub Actions.
+	•	Built unified monitoring and retry mechanisms across WebMethods → Kafka → AWS Lambda pipeline using Python and Step Functions.
+	•	Built validation frameworks for ML/AI pipelines using Python, Terraform, and Robot Framework, embedding resilience checks and observability into cloud-native workflows. 
+	•	Partnered with infra/MLOps teams to enforce validation-as-code and quality engineering across platform components.
+	•	Enabled horizontal scaling and caching with Redis.
+	•	Built end-to-end workflows using API Gateway, AWS Lambda, Step Functions, and Amazon MSK (Managed Streaming for Apache Kafka) for SSO and secure, scalable microservices orchestration. 
+	•	Leveraged Kafka topics for event-driven architecture for real-time processing and ensuring seamless integration across services. Automated infrastructure provisioning with Terraform, building all components from scratch.
+	•	Monitored and analyzed application and database performance using Amazon CloudWatch, New Relic, and ELK (Elasticsearch, Logstash, Kibana) for real-time insights and debugging.
+	•	Designed and developed intuitive front-end components using React and Next.js for user-friendly interfaces in automation platforms.
+
+Highiq.ai  								Hyderabad India
+Senior Python Product developer					March-2021 - 10 April 2022
+Project # 1 Bumi
+Bumi (Contract Reader ): https://highiq.ai/Intelligent-contract-reader.php is contract analysis automation solution, processing thousands of contracts rapidly to deliver precise insights for informed decision-making, customizable and seamlessly integrable for enhanced efficiency and competitive advantage.
+Project # 2 Oscar  Oscar (Accounts payable): https://highiq.ai/Accounts-Payable-I HYPERLINK
+Cloud-based solution for intelligent automation of accounts payable, handling invoice monitoring, pre-processing error-free data, automatic extraction, multi-step validation workflows, and seamless ERP integration for efficient invoice processing
+Technologies: SQL Server, Postgresql, React, Django, ELK, Angular, Python, AWS, Textract.
+
+	•	Developed backend APIs using Django REST Framework to automate contract analysis and invoice workflows.
+	•	Maintained legacy .NET modules for core business rule validation and PO compliance, ensuring backward compatibility with existing ERP workflows.
+	•	Integrated Python services with .NET-based validation layers to preserve business-critical logic while modernizing data pipelines.
+	•	Supported hybrid environments where .NET legacy logic handled complex regulatory validations before document ingestion.
+	•	Leveraged AWS SageMaker to train and deploy lightweight ML models for document classification and validation within OCR-based extraction pipelines
+	•	Designed and optimized databases with SQL Server and PostgreSQL for efficient data storage and retrieval.
+	•	Implemented Python scripts and utilities for file processing, automation, and data transformation.
+	•	Integrated secure authentication and authorization mechanisms using SSO, JWT, and Azure Identity.
+	•	Created schedulers using Python APScheduler for interval-based job execution and file processing pipelines.
+	•	Replaced UI Path with open-source RPA tools to reduce costs and improve automation efficiency.
+	•	Built a file processing pipeline with Python APScheduler to handle large-scale document automation tasks.
+	•	Designed real-time data pipelines integrating AWS Textract with Snowflake for scalable invoice analytics
+	•	Designed a validation framework to minimize code redundancy and streamline validation workflows.
+	•	Created wrapper functionalities for CRUD operations on PostgreSQL using Python SQLAlchemy for database interactions.
+	•	Processed CSV files using Python pandas for data manipulation and cleaning.
+	•	Extracted data from documents using AWS Textract API with Boto3 for automation of invoice pre-processing.
+	•	Implemented a SaaS solution on AWS Marketplace for cloud-based, scalable deployment of the application.
+	•	Utilized the ELK stack to monitor and analyze application logs for system insights and error detection.
+	•	Supported ERP system integrations through APIs and utilities, enabling seamless multi-step validation workflows.
+	•	Implemented robust database security with IAM policies, encryption (KMS), and compliance configurations.
+	•	Developed heuristic rule engines and AI/ML models for intelligent invoice processing and error validation workflows.
+	•	Developed monitoring dashboards using Databricks and ELK to visualize extraction accuracy and processing KPIs
+	•	Automated data annotation using Label Studio, enabling efficient model training and accuracy improvements.
+	•	Developed monitoring dashboards using Databricks and ELK to visualize extraction accuracy and processing KPIs
+	•	Integrated AWS Textract and Python-based ML pipelines for data extraction, entity recognition
+
+ Development Director /Architect							Hyderabad India
+https://www.infomagnus.com							April-2019 - March 2021
+
+Project # 1 Retail Suite of tools 
+https://advantagesolutions.net/  Advantage Solutions merged Daymon , resulting in the most comprehensive suite of brand-centric and retailer-centric services in the U.S. and internationally. Both of them had their own legacy systems. RSOT is to provide a suite of tools where these 2 different systems and workforce can work together and better. 
+Technologies: Flask, Postgresql , Elasticsearch, Angular, AWS.
+
+Project # 2 Risk Mitigation    (Walmart) Enhance the legacy Django based product [SAS] , to ensure the system works well for 3 times of current load. Used load testing techniques along with log analysis using new relic and inbuilt postgrtesql query for optimization. 
+Technologies: Python 3.6, Django, pycharm, PostgreSQL, Flask-RESTful, SQL Alchemy, pandas, py-test. Locust, New Relic.
+
+	•	Developed a suite of tools using Flask to integrate legacy systems from Advantage Solutions and Daymon, ensuring seamless collaboration between systems and workforce.
+	•	Used PostgreSQL and Elasticsearch to implement efficient data storage, retrieval, and advanced search capabilities.
+	•	Built and maintained APIs to support Angular-based front-end applications, enabling user-friendly interfaces for the tools.
+	•	Deployed the tools on AWS, leveraging its cloud infrastructure for scalability and reliability.
+	•	Enhanced a Django-based legacy system (SAS) to handle three times the current load, ensuring scalability and performance improvements.
+	•	Performed load testing with Locust and analyzed logs using New Relic to identify performance bottlenecks.
+	•	Designed a generic framework using the Locust module to dynamically add test cases and load options for performance testing.
+	•	Integrated REST API testing with Flask-RESTful and py-test modules to ensure the reliability of backend services.
+	•	Developed an application-level PostgreSQL connector using SQLAlchemy for optimized database interactions.
+	•	Created Python decorators at multiple layers to collect logs for detailed analysis and debugging.
+	•	Conducted sprint planning, combining metrics from testing and log analysis to prioritize code enhancements.
+	•	Utilized New Relic to monitor and analyze application performance, implementing code and query optimizations to improve system efficiency.  
+
+Exponential Machines,Senior Python Platform Architect				(Jan-2017 March 2019)
+											Hyderabad India
+
+https://exponentialai.com  Project # 1 DOC (RPA/AI monitoring and control platform)   Pulse is a Decision Intelligence dashboard that gives you decision and operational insights that help you manage low-touch or autonomous processes in real-time. It enables you to track the evolution of decision agents and the quality of decisions over time to guide adjustments to decision models. Pulse enables you to manage the performance of decision agents to deliver transparent, predictable, and explainable decisions.
+Technologies : Flask, Elasticsearch, Python, MongoDB, Neo4J, Splunk, Angular, Key-cloak,  AWS SQS, SNS, Rabbitmq, UI Path.
+
+Project # 2 Enso (ML/AI platform and client specific solution)  Enso is a Decision Intelligence Platform that simplifies building, orchestrating, and managing decision agents at scale. It comes with pre-built decision agents, which you can easily assemble to build Decision Intelligence solutions that continuously improve with more data, insights, and decisions.
+Decision Agents are Intelligent Digital Workers trained to make decisions like humans. Agents can be easily trained to become functional experts that continuously learn from feedback to improve decision-making across your processes.
+Technologies : Flask, Elasticsearch, Python, MongoDB, Splunk, Angular, Key-cloak, Apache Nifi, Django, Tornado, Kafka, Rabbitmq.
+
+	•	Developed microservices and APIs using Flask for dashboards, analytics, and event-trigger systems.
+	•	Created reusable wrappers for Elasticsearch and Splunk to streamline integration and improve code efficiency.
+	•	Migrated data from Splunk to Elasticsearch, optimizing system performance and search capabilities.
+	•	Built a connector for UI Path to extract metadata about RPA bots, enabling better monitoring and insights.
+	•	Developed APIs for Angular-based dashboards to display real-time decision insights and analytics graphs.
+	•	Designed APIs for event-trigger systems to handle various operational events and analytics scenarios.
+	•	Utilized Django to create admin interfaces for platform management and configuration in client-specific solutions.
+	•	Managed high-concurrency asynchronous tasks using Tornado to ensure real-time decision-making capabilities.
+	•	Designed and maintained databases with MongoDB, ensuring efficient storage and retrieval for operational data.
+	•	Architected system-level designs for platform scalability and efficiency, aligning with client requirements.
+	•	Used Kafka and RabbitMQ for real-time messaging, event streaming, and asynchronous communication between components.
+	•	Integrated Neo4j to model the graph of decision agents, their dependencies, and interactions with other agents, policies, and events.
+	•	Automated data orchestration and integration using Apache NiFi to streamline data flows between different services.
+	•	Managed authentication and role-based access using Keycloak for secure platform access.
+	•	Collaborated with business stakeholders for sprint planning, feature prioritization, and client demos.
+	•	Conducted code reviews, ensuring adherence to coding standards and best practices.
+	•	Delivered technical documentation to facilitate knowledge transfer and system maintenance.
+	•	Provided demos and walkthroughs to clients, highlighting key functionalities and system features.
+	•	Set up and maintained robust development environments to support seamless team operations and deployments.
+.
+
+Pramati Technologies, Principal Engineer 		 			(Dec 13 – Jan 2017) 
+https://www.pramati.com ​							 Hyderabad India
+											  
+Client: Castlight Health (https://www.castlighthealth.com/
+Project # 1 Analytics and Legacy system enhancement and reporting.   System had several Java Process and Microsoft Excel macros to generate reports. Maintenance and enhancement of the legacy portal was the main requirement. The legacy system has been converted to Django Portal where the complex business rules and logics are implemented in the web portal.
+Further the Database was migrated from mysql to green plum, so the Django portal was enhanced accordingly.
+Technologies : Python, Django, High chart, MySQL.
+
+
+Project # 2 In-house Test automation framework   This Framework is to facilitate the Testing team for their operations. Contains features like Configuring the servers, running tests from dashboard, Enable the historic reports, trends of code coverage etc. Configurable with Bug tracking tool Jira to automate raising bugs etc. Having capability to configure the API-based test cases to reduce the regression suite time. 
+Technologies : Python, Django, Celery, selenium
+
+Project # 3 ODEX   A tool to streamline daily operations for the Customer Support Team by automating repetitive tasks, identified through patterns in bug tracker requests and database queries, significantly reducing time spent on operational work.
+
+Technologies :Python, Django, DRF, PostgreSQL.
+
+	•	Migrated a legacy system from Java processes and Excel macros to a Django-based web portal, implementing complex business rules and logic.
+	•	Designed and implemented a Highcharts framework to enable dynamic report generation through configuration.
+	•	Migrated databases from MySQL to Greenplum, enhancing the Django portal to accommodate the changes.
+	•	Created and maintained APIs using Django and Django REST Framework (DRF) for automated workflows and seamless data handling.
+	•	Updated Python and Django versions in legacy projects for improved compatibility, performance, and security.
+	•	Designed and developed an in-house test automation framework using Django, Selenium, and Celery to streamline testing operations.
+	•	Integrated the test automation framework with Jira for automated bug reporting and management.
+	•	Built a UI-based dashboard using Django to configure and execute test cases, monitor historical reports, and analyze trends.
+	•	Automated repetitive tasks for customer support by identifying patterns in bug tracker requests and database queries using Python and Django.
+	•	Developed operational efficiency tools by creating APIs with Django REST Framework and managing PostgreSQL databases.
+	•	Reduced regression suite runtime by enabling API-based test case configurations within the test automation framework.
+	•	Wrote test cases for all developed systems to ensure reliability, performance, and maintainability.
+	•	Worked on both backend and frontend development, leveraging Python, Django, and PostgreSQL to deliver end-to-end solutions.
+	•	Provided solutions to streamline operations and reduce manual work by understanding team pain points and designing effective tools.
+
+
+HTmedia, Product Lead (https://www.htmedia.in/ ) 				(Aug-2011 - Dec 2013)
+										Gurugram, India
+Product Shine (https://www.shine.com/)   Led a team of developers at Shine.com (millions of users), managing development and real-time data indexing using Python, Django, Solr, and MongoDB to ensure efficient application performance under high load.
+
+Technologies : Flask, Elasticsearch, Python, MongoDB, Splunk, Angular, Key-cloak, AWS SQS, SNS, Rabbitmq, UI Path.
+	•	Led a development team to manage Shine.com, using Python and Django to handle millions of users, ensuring high performance and scalability.
+	•	Designed and managed MongoDB for efficient storage and retrieval of data, handling thousands of concurrent requests.
+	•	Implemented a near real-time data indexing pipeline with Solr to enhance search functionality and reduce latency.
+	•	Used Python and Flask to build backend APIs for various platform functionalities.
+	•	Reduced technical debt by refactoring legacy Python and Django code, improving maintainability and performance.
+	•	Developed a custom log management tool using Python to streamline bug identification and troubleshooting.
+	•	Delivered a high-performance content management system (CMS) using Django, enabling efficient management of platform content.
+	•	Utilized Elasticsearch for analytics and search enhancements on the platform.
+	•	Deployed services on AWS for scalable and reliable infrastructure support.
+	•	Integrated Elasticsearch for real-time monitoring and log analysis to ensure platform stability.
+	•	Managed user authentication and authorization using Keycloak for secure access control.
+	•	Handled message queues with RabbitMQ for asynchronous communication across system components.
+
+
+Innovektor Consultancy pvt. Ltd Mumbai as Lead Technology		 (Dec-2009- July 2011)
+Project #1 Groffr  Online platform for group buying in real estate, allowing buyers to negotiate deals with builders for exclusive discounts and offers. With a user-friendly interface and transparent information, Groffr simplifies property purchases and fosters community engagement among buyers.
+Project #2 Verkko   ConnectAlum is an alumni network platform that enables seamless onboarding for alumni and facilitates connections between alumni and college students through chat and networking features.
+Technologies : Php Symfony, Python, Jquery, Mysql .
+	•	Developed web platforms using PHP Symfony framework for Groffr (real estate group buying) and Verkko (alumni networking).
+	•	Managed MySQL databases for user authentication, data storage, and API integrations, ensuring efficient backend operations.
+	•	Designed and optimized user interfaces using JQuery for an intuitive and seamless user experience.
+	•	Utilized Python for scripting and backend automation tasks to support platform functionalities.
+	•	Implemented secure data handling practices to ensure user data protection across the platforms.
+	•	Collaborated with teams to write detailed documentation, conduct testing, and implement continuous improvement initiatives.
+
+
+
+
+Silverline IT Private. Ltd Noida, Senior  Software Engineer (Now https://www.sendinblue.com​)		 (Jul-2008- Dec 2009)
+
+Projects#  Turbogear Project and Several PHP client’s projects  The client had collaboration with French partner and he used to bring several php stack projects for development. 
+Technologies: Typo3, Php5, Apache, linux, MySql5, smarty , mootools, OpenERP, Python, linux.
+	•	Supported PHP projects using Typo3, Smarty, and other MVC frameworks to deliver customized client solutions.
+	•	Managed MySQL5 databases for efficient data storage, retrieval, and backend support.
+	•	Implemented automation projects using Turbogears and Python, streamlining workflows and improving efficiency.
+	•	Provided server management on Linux, including configuring Apache servers and managing deployments.
+	•	Developed interactive front-end components using Mootools for an enhanced user experience.
+	•	Integrated and supported OpenERP for client-specific requirements, optimizing operational processes.
+	•	Collaborated with teams for testing, debugging, and deploying PHP and Python-based applications.
+
+Ozas Technologies as Software Developer								 (Mar-2007- June 2008)
+https://currenex.com - Currenex is a financial technology company that provides foreign exchange (FX) trading services. They offer access to liquidity for both anonymous and disclosed trades, catering to a wide range of clients including banks, hedge funds, brokers, fund managers, and corporations.
+Technologies : Java, Swing , Struts2, Oracle 9i , Jasper reports
+	•	
+	•	Developed backend functionalities using Java to support tasks within the financial trading platform.
+	•	Created user interfaces using Swing for interactive and responsive desktop applications.
+	•	Designed and implemented workflows and business logic using the Struts2 framework for web application development.
+	•	Built front-end components and layouts using HTML and CSS to meet specific client design requirements.
+	•	Generated detailed financial reports using Jasper Reports for analytics and insights.
+	•	Managed and optimized database operations with Oracle 9i for secure and efficient data storage and retrieval.’
+
+
+
+Education : B-Tech Information Technology in 2006-2007 from UPTU , Hindustan College Of science and Technology. (Sharda University) 
+
+
+
+
