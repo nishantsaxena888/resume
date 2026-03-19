@@ -1,0 +1,15 @@
+NEXT_PUBLIC_CLIENT_NAME=pioneer_fresh
+NEXT_PUBLIC_TEMPLATE_NAME=blueberry
+NEXT_PUBLIC_USE_MOCK=false
+
+NEXT_PUBLIC_API_BASE=https://nishify-backend-inventory-f624407669c2.herokuapp.com/api
+NEXT_PUBLIC_API_BASE_URL=https://nishify-backend-inventory-f624407669c2.herokuapp.com/api
+
+NEXT_PUBLIC_API_MDM=https://nishify-mdm-backend-0fef467ee9f0.herokuapp.com/api
+
+NEXT_PUBLIC_AUTH_PROVIDER=keycloak
+NEXT_PUBLIC_AUTH_URL=https://nishify-keycloak-app-ca1bd1ba8892.herokuapp.com
+NEXT_PUBLIC_KC_BASE=https://nishify-keycloak-app-ca1bd1ba8892.herokuapp.com
+
+NEXT_PUBLIC_CLIENT_ID=react-app
+NEXT_PUBLIC_REALM_NAME=pioneer_fresh

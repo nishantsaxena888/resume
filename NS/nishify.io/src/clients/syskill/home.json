@@ -1,0 +1,103 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Syskill",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "hero-slider",
+      "id": "heroSlider",
+      "socials": [
+        {
+          "id": "fb",
+          "label": "Fb",
+          "href": "#"
+        },
+        {
+          "id": "li",
+          "label": "Li",
+          "href": "#"
+        },
+        {
+          "id": "dr",
+          "label": "Dr",
+          "href": "#"
+        },
+        {
+          "id": "in",
+          "label": "In",
+          "href": "#"
+        }
+      ],
+      "swiper": {
+        "loop": true,
+        "centeredSlides": true,
+        "speed": 1000,
+        "parallax": true,
+        "autoplayDelay": 5000,
+        "effect": "fade",
+        "slidesPerView": 1
+      },
+      "slides": [
+        {
+          "id": "slide-1",
+          "slideClass": "slide-1",
+          "discountText": "Flat 30% Off",
+          "headingLevel": "h1",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Healthy",
+            "post": " & Fresh Fruits"
+          },
+          "cta": {
+            "text": "Shop Now",
+            "href": "/shop-left-sidebar-col-3"
+          },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img1.png",
+            "alt": "hero"
+          }
+        },
+        {
+          "id": "slide-2",
+          "slideClass": "slide-2",
+          "discountText": "Flat 20% Off",
+          "headingLevel": "h2",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Warm",
+            "post": " Fast Food & Snacks"
+          },
+          "cta": {
+            "text": "Shop Now",
+            "href": "/shop-left-sidebar-col-3"
+          },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img2.png",
+            "alt": "hero"
+          }
+        },
+        {
+          "id": "slide-3",
+          "slideClass": "slide-3",
+          "discountText": "Flat 30% Off",
+          "headingLevel": "h2",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Organic",
+            "post": " & Fresh Vegetables"
+          },
+          "cta": {
+            "text": "Shop Now",
+            "href": "/shop-left-sidebar-col-3"
+          },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img3.png",
+            "alt": "hero"
+          }
+        }
+      ]
+    }
+  ]
+}

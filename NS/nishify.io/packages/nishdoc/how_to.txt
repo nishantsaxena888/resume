@@ -1,0 +1,172 @@
+Step 1: 
+------
+cd nishify
+mkdir -p packages/nishdoc
+cd packages/nishdoc
+npm init -y
+
+(.venv) nishantsaxena@Nishants-MacBook-Pro packages % cat nishdoc/package.json 
+{
+  "name": "nishdoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
+
+(.venv) nishantsaxena@Nishants-MacBook-Pro nishdoc % npm install -D react react-dom reactflow @tiptap/react @tiptap/starter-kit
+
+
+added 122 packages, and audited 123 packages in 4s
+
+30 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+(.venv) nishantsaxena@Nishants-MacBook-Pro nishdoc % cat package.json 
+{
+  "name": "nishdoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tiptap/react": "^3.2.2",
+    "@tiptap/starter-kit": "^3.2.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "reactflow": "^11.11.4"
+  }
+}
+
+Step 2:
+------- 
+make config files
+
+tsconfig.json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
+
+tsup.config.ts
+
+import { defineConfig } from "tsup";
+export default defineConfig({
+  entry: ["src/index.ts"],
+  dts: true,
+  format: ["esm", "cjs"],
+  sourcemap: true,
+  clean: true
+});
+
+
+
+Step 3: edit package.json
+
+{
+  "name": "@nishify/nishdoc",
+  "version": "0.1.0",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "vite --config playground/vite.config.ts"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "reactflow": "^11",
+    "@tiptap/react": "^2",
+    "@tiptap/starter-kit": "^2"
+  }
+}
+
+
+
+Step 4: Make minimal 
+
+mkdir -p src/components
+echo "import React from 'react'; export const Hello=()=> <div>Hello from nishdoc 👋</div>;" > src/components/Hello.tsx
+echo "export { Hello } from './components/Hello';" > src/index.ts
+mkdir playground
+
+playground/index.html
+<!doctype html>
+<html>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
+
+playground/main.tsx
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Hello } from "../src";
+
+function App() {
+  return <Hello />;
+}
+
+createRoot(document.getElementById("root")!).render(<App />);
+
+
+playground/vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+export default defineConfig({
+  plugins: [react()],
+  root: __dirname,
+  server: { port: 5173 }
+});
+
+Step 5: run dev mode, build & publish 
+From nishify 
+npm install   # sab deps sync ho jaye
+npm run dev -w @nishify/nishdoc
+
+
+👉 open http://localhost:5173
+ → “Hello from nishdoc 👋”
+
+
+Build: 
+
+npm run build -w @nishify/nishdoc
+
+
+Publish 
+cd packages/nishdoc
+npm publish --access public
+
+✅ ab aapke paas ek independent package (nishdoc) hai jo dev ke liye vite playground se run hota hai aur baad me install bhi ho sakta hai.
+
+
+
+
+
+
+https://www.youtube.com/watch?v=e4vxg2stIIA

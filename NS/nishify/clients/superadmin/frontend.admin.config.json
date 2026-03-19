@@ -1,0 +1,30 @@
+{
+    "mode": "hybrid",
+    "default": "mock",
+    "app_name": "SuperAdmin Control Center",
+    "routing": {
+        "tenant": {
+            "options": "api"
+        },
+        "environment": {
+            "options": "api"
+        },
+        "database_connection": {
+            "options": "api"
+        },
+        "deployment_target": {
+            "options": "api"
+        },
+        "superadmin": {
+            "options": "api"
+        }
+    },
+    "direct": {},
+    "nav_order": {
+        "tenant": 1,
+        "environment": 2,
+        "database_connection": 3,
+        "deployment_target": 4,
+        "superadmin": 5
+    }
+}

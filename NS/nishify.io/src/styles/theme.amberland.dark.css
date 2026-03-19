@@ -1,0 +1,29 @@
+.dark .theme-amberland {
+  --background: oklch(0.18 0.02 45);
+  --foreground: oklch(0.98 0.015 82);
+  --card: oklch(0.13 0.01 45);
+  --card-foreground: oklch(0.95 0.01 90);
+  --popover: oklch(0.15 0.01 45);
+  --popover-foreground: oklch(0.97 0.02 85);
+  --primary: oklch(0.7 0.15 85);
+  --primary-foreground: oklch(0.15 0.01 45);
+  --secondary: oklch(0.25 0.01 70);
+  --secondary-foreground: oklch(0.98 0.015 82);
+  --muted: oklch(0.2 0.005 80);
+  --muted-foreground: oklch(0.75 0.015 90);
+  --accent: oklch(0.65 0.12 85);
+  --accent-foreground: oklch(0.95 0.01 85);
+  --destructive: oklch(0.48 0.16 28);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(27.795% 0.0115 55.777);
+  --input: oklch(37.527% 0.01504 50.879);
+  --ring: oklch(0.6 0.09 85);
+  --sidebar: oklch(0.18 0.02 45);
+  --sidebar-foreground: oklch(0.97 0.015 82);
+  --sidebar-primary: oklch(0.7 0.15 85);
+  --sidebar-primary-foreground: oklch(0.15 0.01 45);
+  --sidebar-accent: oklch(0.65 0.12 85);
+  --sidebar-accent-foreground: oklch(0.95 0.01 85);
+  --sidebar-border: oklch(0.28 0.01 60);
+  --sidebar-ring: oklch(0.6 0.09 85);
+}

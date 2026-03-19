@@ -1,0 +1,18 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Checkout - Nishify",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "breadcrumb",
+      "id": "breadcrumb",
+      "title": "Checkout"
+    },
+    {
+      "type": "checkout-template",
+      "id": "checkout-template"
+    }
+  ]
+}

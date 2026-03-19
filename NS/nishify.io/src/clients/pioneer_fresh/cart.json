@@ -1,0 +1,28 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Cart - Nishify",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "breadcrumb",
+      "id": "breadcrumb",
+      "title": "Cart"
+    },
+    {
+      "type": "cart-template",
+      "id": "cart-template",
+      "buttons": [
+        {
+          "label": "Checkout",
+          "href": "/checkout"
+        },
+        {
+          "label": "Explore More",
+          "href": "/"
+        }
+      ]
+    }
+  ]
+}

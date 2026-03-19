@@ -1,0 +1,23 @@
+{
+  "name": "flip_book",
+  "label": "Flip Book",
+  "app": "content",
+  "audit": true,
+  "fields": [
+    { "name": "id", "type": "uuid", "primary": true },
+    { "name": "title", "type": "string", "required": true },
+    { "name": "subtitle", "type": "string" },
+    { "name": "active", "type": "boolean", "default": true }
+  ],
+  "relations": [
+    {
+      "name": "pages",
+      "type": "one_to_many",
+      "entity": "flip_book_page",
+      "local_key": "id",
+      "foreign_key": "flip_book_id",
+      "order_by": "page_order"
+    }
+  ]
+}
+

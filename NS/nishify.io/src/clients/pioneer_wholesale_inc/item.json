@@ -1,0 +1,39 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Signin - Nishify",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "product-details",
+      "id": "product-details",
+      "top_information": [
+        {
+          "label": "Category",
+          "key": "category.name"
+        },
+        {
+          "label": "Secondary Category",
+          "key": "secondary_category.name"
+        },
+        {
+          "label": "Vendor",
+          "key": "vendor.name"
+        },
+        {
+          "label": "Brand",
+          "key": "brand.name"
+        },
+        {
+          "label": "Expire Date",
+          "key": "expire_date"
+        },
+        {
+          "label": "Locations",
+          "key": "locations"
+        }
+      ]
+    }
+  ]
+}

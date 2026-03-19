@@ -1,0 +1,10 @@
+{
+    "company": {
+        "name": "Nishify SuperAdmin",
+        "logo": "/images/logo.png"
+    },
+    "theme": {
+        "primaryColor": "#1e3a8a",
+        "fontFamily": "Inter, sans-serif"
+    }
+}

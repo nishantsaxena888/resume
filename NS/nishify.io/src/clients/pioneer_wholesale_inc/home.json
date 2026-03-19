@@ -1,0 +1,137 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Nishify",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "hero-slider",
+      "id": "heroSlider",
+      "socials": [
+        { "id": "fb", "label": "Fb", "href": "#" },
+        { "id": "li", "label": "Li", "href": "#" },
+        { "id": "dr", "label": "Dr", "href": "#" },
+        { "id": "in", "label": "In", "href": "#" }
+      ],
+      "swiper": {
+        "loop": true,
+        "centeredSlides": true,
+        "speed": 1000,
+        "parallax": true,
+        "autoplayDelay": 5000,
+        "effect": "fade",
+        "slidesPerView": 1
+      },
+      "slides": [
+        {
+          "id": "slide-1",
+          "slideClass": "slide-1",
+          "discountText": "Flat 30% Off",
+          "headingLevel": "h1",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Healthy",
+            "post": " & Fresh Fruits"
+          },
+          "cta": { "text": "Shop Now", "href": "/shop-left-sidebar-col-3" },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img1.png",
+            "alt": "hero"
+          }
+        },
+        {
+          "id": "slide-2",
+          "slideClass": "slide-2",
+          "discountText": "Flat 20% Off",
+          "headingLevel": "h2",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Warm",
+            "post": " Fast Food & Snacks"
+          },
+          "cta": { "text": "Shop Now", "href": "/shop-left-sidebar-col-3" },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img2.png",
+            "alt": "hero"
+          }
+        },
+        {
+          "id": "slide-3",
+          "slideClass": "slide-3",
+          "discountText": "Flat 30% Off",
+          "headingLevel": "h2",
+          "heading": {
+            "pre": "Explore ",
+            "highlight": "Organic",
+            "post": " & Fresh Vegetables"
+          },
+          "cta": { "text": "Shop Now", "href": "/shop-left-sidebar-col-3" },
+          "image": {
+            "src": "/assets/blueberry/img/hero/banner-img3.png",
+            "alt": "hero"
+          }
+        }
+      ]
+    },
+    {
+      "type": "explore-category",
+      "id": "exploreCategory",
+      "banner": {
+        "image": "/assets/blueberry/img/category/category.jpg",
+        "alt": "category",
+        "offerText": "50% Off"
+      },
+      "title": "Explore Categories",
+      "swiper": {
+        "spaceBetween": 24,
+        "loop": true,
+        "autoplayDelay": 3000,
+        "breakpoints": {
+          "0": { "slidesPerView": 1 },
+          "421": { "slidesPerView": 2 },
+          "768": { "slidesPerView": 3 },
+          "1200": { "slidesPerView": 4 }
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "name": "Fresh Fruits",
+          "image": "/assets/blueberry/img/category/1.svg",
+          "itemCount": 24,
+          "href": "/shop-left-sidebar-col-3?category=fruits",
+          "num": 1
+        },
+        {
+          "id": 2,
+          "name": "Vegetables",
+          "image": "/assets/blueberry/img/category/2.svg",
+          "itemCount": 18,
+          "href": "/shop-left-sidebar-col-3?category=vegetables",
+          "num": 2
+        },
+        {
+          "id": 3,
+          "name": "Snacks",
+          "image": "/assets/blueberry/img/category/3.svg",
+          "itemCount": 32,
+          "href": "/shop-left-sidebar-col-3?category=snacks",
+          "num": 3
+        },
+        {
+          "id": 4,
+          "name": "Beverages",
+          "image": "/assets/blueberry/img/category/4.svg",
+          "itemCount": 12,
+          "href": "/shop-left-sidebar-col-3?category=beverages",
+          "num": 4
+        }
+      ]
+    },
+    {
+      "type": "product-list",
+      "id": "product-list"
+    }
+  ]
+}

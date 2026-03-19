@@ -1,0 +1,12 @@
+{
+  "mode": "hybrid",
+  "default": "mock",
+  "app_name": "Property",
+  "routing": {
+    "project": {
+      "options": "mock"
+    }
+  },
+  "direct": {},
+  "nav_order": {}
+}

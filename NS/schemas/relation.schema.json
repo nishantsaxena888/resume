@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nishify/relation.schema.json",
+  "title": "Nishify Relation Schema",
+  "type": "object",
+  "required": ["type", "name"],
+  "additionalProperties": false,
+
+  "properties": {
+    "type": {
+      "enum": [
+        "one_to_one",
+        "one_to_many",
+        "many_to_many",
+        "self"
+      ]
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "entity": {
+      "type": "string",
+      "description": "Target entity"
+    },
+
+    "local_key": {
+      "type": "string"
+    },
+
+    "foreign_key": {
+      "type": "string"
+    },
+
+    "join_entity": {
+      "type": "string"
+    },
+
+    "join_local_key": {
+      "type": "string"
+    },
+
+    "join_foreign_key": {
+      "type": "string"
+    },
+
+    "order_by": {
+      "type": "string"
+    }
+  },
+
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "one_to_many" } } },
+      "then": { "required": ["entity", "local_key", "foreign_key"] }
+    },
+    {
+      "if": { "properties": { "type": { "const": "many_to_many" } } },
+      "then": {
+        "required": [
+          "entity",
+          "join_entity",
+          "join_local_key",
+          "join_foreign_key"
+        ]
+      }
+    }
+  ]
+}
+

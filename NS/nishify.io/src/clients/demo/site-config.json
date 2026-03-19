@@ -1,0 +1,34 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Demo",
+    "description": ""
+  },
+  "header": {
+    "main_menu": [
+      {
+        "type": "link",
+        "label": "Home",
+        "href": "/"
+      }
+    ]
+  },
+  "footer": {
+    "bottom_footer": {
+      "copyright": {
+        "links": [
+          {
+            "label": "Nishify",
+            "href": "/"
+          },
+          {
+            "label": "All rights reserved."
+          }
+        ]
+      }
+    }
+  },
+  "none_header_page": [],
+  "none_footer_page": [],
+  "sections": []
+}

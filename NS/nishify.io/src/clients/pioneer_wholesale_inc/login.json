@@ -1,0 +1,14 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Signin - Nishify",
+    "description": ""
+  },
+  "sections": [
+    {
+      "type": "auth-template",
+      "id": "auth-template",
+      "logo": "/assets/blueberry/img/logo/logo.png"
+    }
+  ]
+}

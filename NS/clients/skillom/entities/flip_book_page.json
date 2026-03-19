@@ -1,0 +1,15 @@
+{
+  "name": "flip_book_page",
+  "label": "Flip Book Page",
+  "app": "content",
+  "audit": true,
+  "fields": [
+    { "name": "id", "type": "uuid", "primary": true },
+    { "name": "flip_book_id", "type": "fk", "ref": "flip_book.id", "required": true },
+    { "name": "page_order", "type": "number", "required": true },
+    { "name": "page_type", "type": "enum", "values": ["cover", "page", "end"], "required": true },
+    { "name": "image", "type": "image", "required": true },
+    { "name": "text", "type": "string" }
+  ]
+}
+

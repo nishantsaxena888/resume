@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nishify/accounting.schema.json",
+  "title": "Nishify accounting schema",
+  "type": "object",
+  "description": "Base schema for accounting. This file defines the contract and must be versioned carefully.",
+  "additionalProperties": true
+}

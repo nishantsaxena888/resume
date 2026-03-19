@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nishify/events.schema.json",
+  "title": "Nishify events schema",
+  "type": "object",
+  "description": "Base schema for events. This file defines the contract and must be versioned carefully.",
+  "additionalProperties": true
+}

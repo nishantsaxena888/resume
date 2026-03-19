@@ -1,0 +1,33 @@
+{
+  "mode": "hybrid",
+  "default": "mock",
+  "app_name": "Demo",
+  "routing": {
+    "user": {
+      "options": "mock"
+    },
+    "user_profile": {
+      "options": "mock"
+    },
+    "vendor": {
+      "options": "mock"
+    },
+    "tag": {
+      "options": "mock"
+    },
+    "product": {
+      "options": "mock"
+    },
+    "product_tag": {
+      "options": "mock"
+    },
+    "order": {
+      "options": "mock"
+    },
+    "order_item": {
+      "options": "mock"
+    }
+  },
+  "direct": {},
+  "nav_order": {}
+}

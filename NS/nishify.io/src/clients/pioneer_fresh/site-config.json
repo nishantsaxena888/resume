@@ -1,0 +1,283 @@
+{
+  "layout": "default",
+  "meta": {
+    "title": "Nishify",
+    "description": ""
+  },
+  "header": {
+    "top_header": {
+      "announcement": {
+        "label": "Flat 50% Off On Grocery Shop.",
+        "href": "/shop-left-sidebar-col-3"
+      },
+      "right": {
+        "links": [
+          { "label": "Help?", "href": "/faq" },
+          { "label": "Track Order", "href": "/track-order" }
+        ],
+        "dropdowns": [
+          {
+            "label": "Language",
+            "selectedIndex": 0,
+            "items": [
+              { "label": "English", "href": "#" },
+              { "label": "Hindi", "href": "#" },
+              { "label": "Gujarati", "href": "#" }
+            ]
+          },
+          {
+            "label": "Currency",
+            "selectedIndex": 0,
+            "items": [
+              { "label": "USD $", "href": "#" },
+              { "label": "EUR €", "href": "#" }
+            ]
+          }
+        ]
+      }
+    },
+    "main_menu": [
+      {
+        "type": "link",
+        "label": "Home",
+        "href": "/"
+      },
+
+      {
+        "type": "link",
+        "label": "Cart",
+        "href": "/cart"
+      },
+      {
+        "type": "link",
+        "label": "Checkout",
+        "href": "/checkout"
+      }
+    ],
+    "visibility": {
+      "top_header": true,
+      "bottom_footer": true,
+      "scroll_to_top": true
+    },
+    "logo": {
+      "light": "/assets/blueberry/img/logo/logo.png",
+      "dark": "/assets/blueberry/img/logo/logo.png"
+    },
+    "my_account_menus": [
+      {
+        "label": "Orders",
+        "href": "/orders"
+      },
+      {
+        "label": "My Profile",
+        "href": "/my-profile"
+      }
+    ],
+    "login_menus": [
+      {
+        "label": "Register",
+        "href": "/register"
+      },
+      {
+        "label": "Checkout",
+        "href": "/checkout"
+      },
+      {
+        "label": "Login",
+        "href": "/login"
+      }
+    ]
+  },
+  "footer": {
+    "top_footer": {
+      "title": "Brands Directory",
+      "links_list": [
+        {
+          "title": "Jewellery",
+          "links": [
+            { "label": "Necklace", "href": "/jewellery/necklace" },
+            { "label": "Earrings", "href": "/jewellery/earrings" },
+            { "label": "Couple Rings", "href": "/jewellery/couple-rings" },
+            { "label": "Pendants", "href": "/jewellery/pendants" },
+            { "label": "Crystal", "href": "/jewellery/crystal" },
+            { "label": "Bangles", "href": "/jewellery/bangles" },
+            { "label": "Bracelets", "href": "/jewellery/bracelets" },
+            { "label": "Nose Pin", "href": "/jewellery/nose-pin" },
+            { "label": "Chain", "href": "/jewellery/chain" },
+            { "label": "Earrings", "href": "/jewellery/earrings" },
+            { "label": "Couple Rings", "href": "/jewellery/couple-rings" }
+          ]
+        },
+        {
+          "title": "Fashion",
+          "links": [
+            { "label": "T-Shirt", "href": "/fashion/tshirt" },
+            { "label": "Short & Jeans", "href": "/fashion/short-jeans" },
+            { "label": "Jacket", "href": "/fashion/jacket" },
+            { "label": "Dress & Frock", "href": "/fashion/dress-frock" },
+            { "label": "Inner Wear", "href": "/fashion/inner-wear" },
+            { "label": "Hosiery", "href": "/fashion/hosiery" }
+          ]
+        },
+        {
+          "title": "Footwear",
+          "links": [
+            { "label": "Sport", "href": "/footwear/sport" },
+            { "label": "Formal", "href": "/footwear/formal" },
+            { "label": "Boots", "href": "/footwear/boots" },
+            { "label": "Casual", "href": "/footwear/casual" },
+            { "label": "Cowboy Shoes", "href": "/footwear/cowboy-shoes" },
+            { "label": "Safety Shoes", "href": "/footwear/safety-shoes" },
+            { "label": "Party Wear Shoes", "href": "/footwear/party-wear" },
+            { "label": "Branded", "href": "/footwear/branded" },
+            { "label": "First Copy", "href": "/footwear/first-copy" },
+            { "label": "Long Shoes", "href": "/footwear/long-shoes" }
+          ]
+        },
+
+        {
+          "title": "Cosmetics",
+          "links": [
+            { "label": "Shampoo", "href": "/cosmetics/shampoo" },
+            { "label": "Body Wash", "href": "/cosmetics/body-wash" },
+            { "label": "Face Wash", "href": "/cosmetics/face-wash" },
+            { "label": "Makeup Kit", "href": "/cosmetics/makeup-kit" },
+            { "label": "Liner", "href": "/cosmetics/liner" },
+            { "label": "Lipstick", "href": "/cosmetics/lipstick" },
+            { "label": "Perfume", "href": "/cosmetics/perfume" },
+            { "label": "Body Shop", "href": "/cosmetics/body-shop" },
+            { "label": "Scrub", "href": "/cosmetics/scrub" },
+            { "label": "Hair Gel", "href": "/cosmetics/hair-gel" },
+            { "label": "Hair Colors", "href": "/cosmetics/hair-colors" },
+            { "label": "Hair Dye", "href": "/cosmetics/hair-dye" },
+            { "label": "Sunscreen", "href": "/cosmetics/sunscreen" },
+            { "label": "Skin Lotion", "href": "/cosmetics/skin-lotion" },
+            { "label": "Liner", "href": "/cosmetics/liner" },
+            { "label": "Lipstick", "href": "/cosmetics/lipstick" }
+          ]
+        }
+      ]
+    },
+    "middle_footer": {
+      "category": {
+        "title": "Category",
+        "links": [
+          { "label": "About us", "href": "/about-us" },
+          { "label": "Delivery", "href": "/delivery" },
+          { "label": "Legal Notice", "href": "/legal-notice" },
+          { "label": "Terms & conditions", "href": "/terms" },
+          { "label": "Secure payment", "href": "/secure-payment" },
+          { "label": "Contact us", "href": "/contact-us" }
+        ]
+      },
+      "company": {
+        "title": "Company",
+        "links": [
+          { "label": "About us", "href": "/about-us" },
+          { "label": "Delivery", "href": "/delivery" },
+          { "label": "Legal Notice", "href": "/legal-notice" },
+          { "label": "Terms & conditions", "href": "/terms" },
+          { "label": "Secure payment", "href": "/secure-payment" },
+          { "label": "Contact us", "href": "/contact-us" }
+        ]
+      },
+      "account": {
+        "title": "Account",
+        "links": [
+          { "label": "Sign In", "href": "/signin" },
+          { "label": "View Cart", "href": "/cart" },
+          { "label": "Return Policy", "href": "/return-policy" },
+          { "label": "Become a Vendor", "href": "/become-vendor" },
+          { "label": "Affiliate Program", "href": "/affiliate-program" },
+          { "label": "Payments", "href": "/payments" }
+        ]
+      },
+      "contact": {
+        "title": "Contact",
+        "items": [
+          {
+            "type": "address",
+            "icon": "ri-map-pin-line",
+            "text": "971 Lajamni, Motavarachha, Surat, Gujarat, Bharat 394101."
+          },
+          {
+            "type": "phone",
+            "icon": "ri-whatsapp-line",
+            "text": "+00 9876543210",
+            "href": "tel:+009876543210"
+          },
+          {
+            "type": "email",
+            "icon": "ri-mail-line",
+            "text": "example@email.com",
+            "href": "mailto:example@email.com"
+          }
+        ]
+      },
+      "social": {
+        "title": "Contact",
+        "items": [
+          { "icon": "ri-facebook-fill", "href": "#" },
+          { "icon": "ri-twitter-fill", "href": "#" },
+          { "icon": "ri-linkedin-fill", "href": "#" },
+          { "icon": "ri-instagram-fill", "href": "#" }
+        ]
+      },
+      "about": {
+        "logo": {
+          "light": "/assets/blueberry/img/logo/logo.png",
+          "dark": "/assets/blueberry/img/logo/logo-dark.png",
+          "alt": "footer logo"
+        },
+        "description": "Nishify is the biggest market of grocery products. Get your daily needs from our store.",
+        "appStores": [
+          {
+            "href": "#",
+            "img": "/assets/blueberry/img/app/android.png",
+            "alt": "android",
+            "className": "android"
+          },
+          {
+            "href": "#",
+            "img": "/assets/blueberry/img/app/apple.png",
+            "alt": "apple",
+            "className": "apple"
+          }
+        ]
+      }
+    },
+    "bottom_footer": {
+      "copyright": {
+        "links": [
+          { "label": "Nishify", "href": "/" },
+          { "label": "All rights reserved." }
+        ]
+      },
+      "payment_logo": {
+        "url": "/assets/blueberry/img/payment/payment.png",
+        "alt": "payment"
+      }
+    },
+    "visibility": {
+      "middle_footer": true,
+      "top_footer": false,
+      "bottom_footer": true,
+      "scroll_to_top": true
+    }
+  },
+  "none_header_page": [
+    "/login",
+    "/register",
+    "/forgot_password",
+    "/reset_password",
+    "/verification_page"
+  ],
+  "none_footer_page": [
+    "/login",
+    "/register",
+    "/forgot_password",
+    "/reset_password",
+    "/verification_page"
+  ],
+  "sections": []
+}

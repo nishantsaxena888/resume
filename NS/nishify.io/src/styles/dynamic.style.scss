@@ -1,0 +1,67 @@
+// Define the range of font sizes you want
+$min-font: 7;
+$max-font: 30;
+
+$min-padding: 0;
+$max-padding: 30;
+
+$min-height: 0;
+$max-height: 70;
+
+@for $i from $min-font through $max-font {
+  [data-font="#{$i}"] .form-input {
+    font-size: #{$i}px;
+  }
+  [data-button-font-size="#{$i}"] .form-button {
+    font-size: #{$i}px;
+  }
+  [data-sidebar-menu-size="#{$i}"] .sidebar-menu {
+    font-size: #{$i}px;
+  }
+  [data-line-height="#{$i}"] .form-input {
+    line-height: #{$i}px;
+  }
+  [data-label-font="#{$i}"] .form-label {
+    font-size: #{$i}px;
+  }
+  [data-table-header="#{$i}"] .table-header {
+    font-size: #{$i}px;
+  }
+  [data-table-cell="#{$i}"] .table-cell {
+    font-size: #{$i}px;
+  }
+}
+@for $i from $min-padding through $max-padding {
+  [data-padding-left="#{$i}"] .form-input {
+    padding-left: #{$i}px;
+  }
+  [data-padding-right="#{$i}"] .form-input {
+    padding-right: #{$i}px;
+  }
+  [data-padding-top="#{$i}"] .form-input {
+    padding-top: #{$i}px;
+  }
+  [data-padding-bottom="#{$i}"] .form-input {
+    padding-bottom: #{$i}px;
+  }
+  [data-button-padding-left="#{$i}"] .form-button {
+    padding-left: #{$i}px;
+  }
+  [data-button-padding-right="#{$i}"] .form-button {
+    padding-right: #{$i}px;
+  }
+  [data-button-padding-top="#{$i}"] .form-button {
+    padding-top: #{$i}px;
+  }
+  [data-button-padding-bottom="#{$i}"] .form-button {
+    padding-bottom: #{$i}px;
+  }
+}
+@for $i from $min-height through $max-height {
+  [data-input-height="#{$i}"] .form-input {
+    height: #{$i}px;
+  }
+  [data-button-height="#{$i}"] .form-button {
+    height: #{$i}px;
+  }
+}

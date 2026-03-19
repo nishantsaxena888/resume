@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: nishify_studio_postgres
+    environment:
+      POSTGRES_USER: nishify
+      POSTGRES_PASSWORD: nishify_password
+      POSTGRES_DB: nishify_studio
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: nishify_studio_es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9201:9200"
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: nishify_studio_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nishify:/app/nishify
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_URL=postgresql+psycopg2://nishify:nishify_password@postgres:5432/nishify_studio
+      - ELASTIC_URL=http://elasticsearch:9200
+    depends_on:
+      - postgres
+      - elasticsearch
+    restart: unless-stopped

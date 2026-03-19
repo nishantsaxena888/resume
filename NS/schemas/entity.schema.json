@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nishify/entity.schema.json",
+  "title": "Nishify Entity Schema",
+  "type": "object",
+  "required": ["name", "fields"],
+  "additionalProperties": false,
+
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z_]+$",
+      "description": "Entity name (snake_case)"
+    },
+
+    "label": {
+      "type": "string"
+    },
+
+    "app": {
+      "type": "string",
+      "description": "Bounded context / app name"
+    },
+
+    "audit": {
+      "type": "boolean",
+      "default": true
+    },
+
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/field" }
+    },
+
+    "relations": {
+      "type": "array",
+      "items": { "$ref": "nishify/relation.schema.json" }
+    }
+  },
+
+  "$defs": {
+    "field": {
+      "type": "object",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        },
+
+        "type": {
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "uuid",
+            "date",
+            "enum",
+            "fk",
+            "image"
+          ]
+        },
+
+        "primary": {
+          "type": "boolean",
+          "default": false
+        },
+
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+
+        "default": {},
+
+        "values": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Used when type = enum"
+        },
+
+        "ref": {
+          "type": "string",
+          "description": "Reference entity.field when type = fk"
+        }
+      },
+
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "enum" } } },
+          "then": { "required": ["values"] }
+        },
+        {
+          "if": { "properties": { "type": { "const": "fk" } } },
+          "then": { "required": ["ref"] }
+        }
+      ]
+    }
+  }
+}
+

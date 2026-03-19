@@ -1,0 +1,99 @@
+{
+  "mode": "hybrid",
+  "default": "mock",
+  "app_name": "Syskill",
+  "routing": {
+    "schools": {
+      "options": "mock"
+    },
+    "batch": {
+      "options": "mock"
+    },
+    "classroom": {
+      "options": "mock"
+    },
+    "users": {
+      "options": "mock"
+    },
+    "grouping": {
+      "options": "mock"
+    },
+    "group_user_map": {
+      "options": "mock"
+    },
+    "entity_permission": {
+      "options": "mock"
+    },
+    "session": {
+      "options": "mock"
+    },
+    "widget": {
+      "options": "mock"
+    },
+    "course": {
+      "options": "mock"
+    },
+    "result": {
+      "options": "mock"
+    },
+    "ai_chat_history": {
+      "options": "mock"
+    },
+    "teacher_class_config": {
+      "options": "mock"
+    },
+    "students": {
+      "options": "mock"
+    },
+    "grade": {
+      "options": "mock"
+    },
+    "student_course_map": {
+      "options": "mock"
+    },
+    "menu": {
+      "options": "mock"
+    },
+    "story": {
+      "options": "mock"
+    },
+    "flip_book_page": {
+      "options": "mock"
+    },
+    "lesson": {
+      "options": "mock"
+    },
+    "questionnaire": {
+      "options": "mock"
+    },
+    "game": {
+      "options": "mock"
+    },
+    "game_question": {
+      "options": "mock"
+    },
+    "game_option": {
+      "options": "mock"
+    },
+    "game_answer": {
+      "options": "mock"
+    },
+    "document": {
+      "options": "mock"
+    },
+    "block_note": {
+      "options": "mock"
+    },
+    "widgets_history": {
+      "options": "mock"
+    },
+    "course_history": {
+      "options": "mock"
+    },
+    "user_course_activity": {
+      "options": "mock"
+    }
+  },
+  "direct": {},
+  "nav_order": {}
+}

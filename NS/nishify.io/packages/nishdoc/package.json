@@ -1,0 +1,20 @@
+{
+  "name": "nishdoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tiptap/react": "^3.2.2",
+    "@tiptap/starter-kit": "^3.2.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "reactflow": "^11.11.4"
+  }
+}

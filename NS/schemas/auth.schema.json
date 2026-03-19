@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nishify/auth.schema.json",
+  "title": "Nishify auth schema",
+  "type": "object",
+  "description": "Base schema for auth. This file defines the contract and must be versioned carefully.",
+  "additionalProperties": true
+}

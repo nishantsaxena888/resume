@@ -1,0 +1,29 @@
+{
+    "name": "SuperAdmin Dashboard",
+    "menu": [
+        {
+            "title": "Clients",
+            "subtitle": "Manage active clients on the platform",
+            "icon": "users",
+            "link": "client"
+        },
+        {
+            "title": "Environments",
+            "subtitle": "Manage Dev/Stage/Prod environments per client",
+            "icon": "layers",
+            "link": "environment"
+        },
+        {
+            "title": "Databases",
+            "subtitle": "Postgres and Elasticsearch Connection Settings",
+            "icon": "database",
+            "link": "database_connection"
+        },
+        {
+            "title": "Deployments",
+            "subtitle": "Manage physical targets like AWS, Heroku, Docker",
+            "icon": "server",
+            "link": "deployment_target"
+        }
+    ]
+}

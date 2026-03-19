@@ -1,0 +1,50 @@
+{
+  "mode": "hybrid",
+  "default": "api",
+  "app_name": "Pioneer",
+  "routing": {
+    "users": {
+      "options": "api"
+    },
+    "warehouse": {
+      "options": "api"
+    },
+    "liquor_inventory": {
+      "options": "api"
+    },
+    "smoke_inventory": {
+      "options": "api"
+    },
+    "importer": {
+      "options": "api"
+    },
+    "retailer": {
+      "options": "api"
+    }
+  },
+  "direct": {},
+  "nav_order": {
+    "app_order": [
+      "settings",
+      "operations",
+      "import_export",
+      "inventory"
+    ],
+    "entity_order": {
+      "settings": [
+        "users"
+      ],
+      "operations": [
+        "warehouse",
+        "retailer"
+      ],
+      "import_export": [
+        "importer"
+      ],
+      "inventory": [
+        "liquor_inventory",
+        "smoke_inventory"
+      ]
+    }
+  }
+}

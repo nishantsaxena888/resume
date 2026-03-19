@@ -1,0 +1,376 @@
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Thin.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-ThinItalic.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-ExtraLight.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-ExtraLightItalic.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-BoldItalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-ExtraBoldItalic.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-Black.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins, sans-serif";
+  src: url("/assets/pioneer_wholesale_inc/fonts/poppins/Poppins-BlackItalic.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
+/*--  Quicksand font  --*/
+@font-face {
+  font-family: "Quicksand";
+  src: url("/assets/pioneer_wholesale_inc/fonts/quicksand/Quicksand-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("/assets/pioneer_wholesale_inc/fonts/quicksand/Quicksand-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("/assets/pioneer_wholesale_inc/fonts/quicksand/Quicksand-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("/assets/pioneer_wholesale_inc/fonts/quicksand/Quicksand-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quicksand";
+  src: url("/assets/pioneer_wholesale_inc/fonts/quicksand/Quicksand-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  font-family: "Poppins, sans-serif";
+  font-size: 15px;
+  font-weight: 400;
+  color: #686e7d;
+  line-height: 26px;
+  letter-spacing: 0.02rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+::-moz-selection {
+  color: #13151a;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+::selection {
+  color: #13151a;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.font-Poppins {
+  font-family: "Poppins, sans-serif";
+}
+
+.font-quicksand {
+  font-family: "quicksand";
+}
+
+.hero-slider {
+  .swiper-buttons {
+    display: none;
+  }
+  .swiper-pagination {
+    margin-left: 1px;
+    position: relative;
+    text-align: left;
+    bottom: -20px;
+    z-index: 1;
+  }
+  .swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+    margin: 0 2px !important;
+    transform: skew(340deg);
+    display: inline-block;
+    border-radius: 0;
+    opacity: 1;
+    background-color: #4b5966;
+    box-shadow: none;
+    transition: all 0.3s ease 0s;
+  }
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    @apply bg-primary;
+    width: 30px;
+  }
+}
+
+.swiper-slide-active .hero-contact *:nth-child(1) {
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.swiper-slide-active .hero-contact *:nth-child(2) {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.swiper-slide-active .hero-contact *:nth-child(3) {
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.hero-contact * {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+.hero-contact:nth-child(1) {
+  webkit-animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+.hero-contact:nth-child(2) {
+  webkit-animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+.hero-contact:nth-child(3) {
+  webkit-animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+.hero-contact h1 span:after,
+.hero-contact h2 span:after {
+  content: "";
+  width: 48px;
+  height: 60px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background-image: url("/assets/pioneer_wholesale_inc/img/hero/shape-1.png");
+  background-size: "100%";
+  background-repeat: no-repeat;
+}
+.swiper-slide-active .hero-image img {
+  opacity: 1;
+}
+
+.hero-image svg path {
+  fill: #fff;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.015));
+}
+/* Responsive footer css */
+@media only screen and (max-width: 1199px) {
+  .hero-contact h1 span:after,
+  .hero-contact h2 span:after {
+    height: 60px;
+    width: 40px;
+    top: -35px;
+    right: -35px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .hero-contact h1 span:after,
+  .hero-contact h2 span:after {
+    height: 40px;
+    width: 28px;
+    top: -25px;
+    right: -25px;
+  }
+  .hero-slider .swiper-pagination {
+    display: none;
+    margin: 0 0 0 -1px;
+    bottom: -8px;
+    text-align: right;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .hero-slider .swiper-pagination {
+    bottom: 0;
+  }
+}
+
+.category-title h2 {
+  text-shadow: 1px 1px #111a24, -1px 1px #111a24, 1px -1px #111a24,
+    -1px -1px #111a24;
+}
+
+/* menu style */
+
+.menu-item > .sub-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item:hover > .sub-menu {
+  display: block;
+  left: 0;
+}
+
+.menu-wrapper > .menu-item > .sub-menu .sub-menu {
+  left: 100%;
+  top: 0;
+}
+
+.menu-wrapper > .menu-item > a {
+  @apply dark:text-white text-[#3d4750] hover:text-primary  font-medium;
+}
+
+.menu-wrapper > .menu-item > .sub-menu {
+  top: 100%;
+}
+.menu-wrapper > .menu-item > .sub-menu a {
+  @apply text-[14px] hover:text-primary;
+}
+
+.sub-menu {
+  z-index: 16;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  min-width: 200px;
+  padding: 10px 5px;
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.07);
+}

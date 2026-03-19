@@ -1,0 +1,108 @@
+{
+  "mode": "hybrid",
+  "default": "mock",
+  "app_name": "Pioneer Fresh",
+  "routing": {
+    "classification_type": {
+      "options": "mock"
+    },
+    "tags": {
+      "options": "mock"
+    },
+    "colors": {
+      "options": "mock"
+    },
+    "weights": {
+      "options": "mock"
+    },
+    "classification": {
+      "options": "mock"
+    },
+    "user": {
+      "options": "mock"
+    },
+    "user_group": {
+      "options": "mock"
+    },
+    "state": {
+      "options": "mock"
+    },
+    "address_type": {
+      "options": "mock"
+    },
+    "user_role_map": {
+      "options": "mock"
+    },
+    "address": {
+      "options": "mock"
+    },
+    "item": {
+      "options": "mock"
+    },
+    "vendor": {
+      "options": "mock"
+    },
+    "vendor_user_map": {
+      "options": "mock"
+    },
+    "brand": {
+      "options": "mock"
+    },
+    "tax_group": {
+      "options": "mock"
+    },
+    "price_group": {
+      "options": "mock"
+    },
+    "cash_discount_group": {
+      "options": "mock"
+    },
+    "salesperson": {
+      "options": "mock"
+    },
+    "payment_terms": {
+      "options": "mock"
+    },
+    "customer": {
+      "options": "mock"
+    },
+    "item_image": {
+      "options": "mock"
+    },
+    "item_tags_map": {
+      "options": "mock"
+    },
+    "item_classification_map": {
+      "options": "mock"
+    },
+    "item_pricing": {
+      "options": "mock"
+    },
+    "purchase_order": {
+      "options": "mock"
+    },
+    "purchase_order_item": {
+      "options": "mock"
+    },
+    "goods_receipt": {
+      "options": "mock"
+    },
+    "goods_receipt_item": {
+      "options": "mock"
+    },
+    "sales_invoice": {
+      "options": "mock"
+    },
+    "invoice_item_map": {
+      "options": "mock"
+    },
+    "inventory_ledger": {
+      "options": "mock"
+    },
+    "item_tester": {
+      "options": "mock"
+    }
+  },
+  "direct": {},
+  "nav_order": {}
+}
