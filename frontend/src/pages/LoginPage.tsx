@@ -23,24 +23,12 @@ export default function LoginPage() {
       <div className="w-full max-w-[1000px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
         
         {/* Left Side: Branding Plaque */}
-        <div className="md:w-5/12 bg-slate-900 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+        <div className="md:w-5/12 bg-slate-900 p-12 text-white flex flex-col justify-center relative overflow-hidden">
           <div className="relative z-10">
             <div className="w-12 h-12 bg-rose-500 rounded-xl flex items-center justify-center mb-8 shadow-lg shadow-rose-500/30">
               <Layers className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-3xl font-bold mb-4 leading-tight">The Next Generation<br/>Skillon Engine</h1>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Metaprogrammed JSON Schema driven interface. Manage your Tailored Resumes, Job Description targets, and behavioral Interview CMS all from a single synchronized dashboard.
-            </p>
-          </div>
-
-          <div className="relative z-10 mt-12">
-            <div className="flex -space-x-3 mb-4">
-              <div className="w-10 h-10 rounded-full border-2 border-slate-900 bg-emerald-500"></div>
-              <div className="w-10 h-10 rounded-full border-2 border-slate-900 bg-indigo-500"></div>
-              <div className="w-10 h-10 rounded-full border-2 border-slate-900 bg-rose-500"></div>
-            </div>
-            <div className="text-xs font-bold uppercase tracking-widest text-slate-500">System Architecture Secured</div>
           </div>
           
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
