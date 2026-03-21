@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin, Plus, Trash2, MapPin } from 'lucide-react';
+import { Mail, Phone, Linkedin, Trash2, MapPin } from 'lucide-react';
 import type { ResumeModel } from '../../types/resumeBuilder/resume';
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
 import { EditableField } from '../../components/EditableField';
@@ -65,7 +65,6 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         <section className="relative group/section">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
             Professional Summary
-            <button onClick={() => updateData({ summary: [...data.summary, ''] })} className="print:hidden opacity-0 group-hover/section:opacity-100 text-indigo-500 hover:text-indigo-700"><Plus size={16}/></button>
           </h3>
           <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed">
             {data.summary.map((point, idx) => (
@@ -89,7 +88,6 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         <section className="relative group/section">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
             Skill Specifications
-            <button onClick={() => updateData({ skills: [...data.skills, { category: 'New Category', items: '' }] })} className="print:hidden opacity-0 group-hover/section:opacity-100 text-indigo-500 hover:text-indigo-700"><Plus size={16}/></button>
           </h3>
           <div className="space-y-2 text-sm text-gray-800 leading-relaxed">
             {data.skills.map((skillGroup, idx) => (
@@ -125,7 +123,6 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         <section className="relative group/section">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-4 tracking-wider flex items-center justify-between">
             Professional Experience
-            <button onClick={() => updateData({ experience: [{ company: 'New Company', role: 'Role', dates: 'Dates', points: [''] }, ...data.experience] })} className="print:hidden opacity-0 group-hover/section:opacity-100 text-indigo-500 hover:text-indigo-700"><Plus size={16}/></button>
           </h3>
           <div className="space-y-6">
             {data.experience.map((job, idx) => (
@@ -166,12 +163,6 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                   />
                 </div>
                 <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed relative group/points">
-                   {/* Add bullet point button */}
-                   <button onClick={() => {
-                        const updated = [...data.experience];
-                        updated[idx].points = [...updated[idx].points, ''];
-                        updateData({ experience: updated });
-                      }} className="absolute -left-12 top-0 print:hidden opacity-0 group-hover/points:opacity-100 text-indigo-500 hover:text-indigo-700 p-1"><Plus size={14}/></button>
                   
                   {job.points.map((point, pIdx) => (
                     <li key={pIdx} className="group/point relative">
@@ -201,7 +192,6 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         <section className="relative group/section">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
             Education
-            <button onClick={() => updateData({ education: [...data.education, { degree: 'New Degree', institution: 'University', dates: 'Year' }] })} className="print:hidden opacity-0 group-hover/section:opacity-100 text-indigo-500 hover:text-indigo-700"><Plus size={16}/></button>
           </h3>
           <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed">
             {data.education.map((edu, idx) => (
