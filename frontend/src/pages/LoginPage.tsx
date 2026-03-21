@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'nishant' && password === 'nishu123') {
+    if (username === 'nishant' && password === 'nishu') {
       setError('');
       navigate('/courses');
     } else {
