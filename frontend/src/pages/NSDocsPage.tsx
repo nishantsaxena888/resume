@@ -170,6 +170,38 @@ export default function NSDocsPage() {
           </div>
         </section>
 
+        {/* Section 5: Future TODOs */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-amber-100 text-amber-600 rounded-lg"><Blocks className="w-5 h-5" /></div>
+            <h2 className="text-2xl font-bold text-slate-900">5. Future Roadmap & TODOs</h2>
+          </div>
+          
+          <div className="bg-amber-50 rounded-2xl p-8 border border-amber-200 shadow-sm space-y-6">
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                TDD Multi-Source Architecture
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                We must implement strict Test-Driven Development (TDD) suites to rigorously validate the <code>SourceRouter</code>. The tests need to explicitly guarantee that Entity payloads interact identically whether they are routed through the <code>Memory</code>, <code>Postgres</code>, or <code>Elasticsearch</code> source adapters, catching schema mismatches before deployment.
+              </p>
+            </div>
+            
+            <hr className="border-amber-200/50" />
+
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                Strict Auth Permission Matrix (Parity w/ Resume Engine)
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                The NS Backend currently utilizes a basic role-checker. We need to physically port the advanced, 3-Dimensional JSON Field-Level Security matrix (<code>permissions.json</code>) from the React Frontend directly into the Python FastAPI middleware. This will ensure that if a <code>guest</code> tries to illegally <code>PATCH</code> a <code>fullName</code> field via API, the backend mathematically drops the request using the exact same logic the frontend utilizes to hide the DOM element.
+              </p>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   );
