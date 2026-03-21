@@ -68,6 +68,10 @@ const courseSchemaStr = fs.readFileSync(path.resolve(process.cwd(), '../system-c
 const courseSchemaObj = JSON.parse(courseSchemaStr);
 const courseZodCode = parseSchema(courseSchemaObj);
 
+// AUTH GATEWAY SCHEMAS
+const authLoginSchemaObj = readJsonSchema('auth/login.schema.json');
+const authLoginZodCode = parseSchema(authLoginSchemaObj);
+
 const finalFileContent = `import { z } from 'zod';
 
 /**
@@ -81,6 +85,9 @@ export type ResumeModel = z.infer<typeof ResumeModelSchema>;
 
 export const CourseModelSchema = ${courseZodCode};
 export type CourseModel = z.infer<typeof CourseModelSchema>;
+
+export const AuthLoginSchema = ${authLoginZodCode};
+export type AuthLoginModel = z.infer<typeof AuthLoginSchema>;
 `;
 
 // 4. Write back into the React App architecture

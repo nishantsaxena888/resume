@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Layers, ArrowRight, Github } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { AuthLoginSchema } from '../types/resumeBuilder/resume';
+import { UniversalSchemaForm } from '../components/common/UniversalSchemaForm';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const u = formData.get('username');
-    const p = formData.get('password');
+  const handleLoginSubmit = (data: Record<string, any>) => {
+    const { username, password } = data;
     
-    if (u === 'nishant' && p === 'nishu') {
+    if (username === 'nishant' && password === 'nishu') {
       setError('');
       navigate('/courses');
     } else {
@@ -44,50 +43,13 @@ export default function LoginPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h2>
             <p className="text-sm text-slate-500 mb-6">Enter your credentials to access the Skillom Ai Gateway.</p>
 
-            {error && (
-              <div className="mb-6 p-3 bg-rose-50 border border-rose-200 text-rose-600 text-sm font-medium rounded-xl">
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleLogin} className="space-y-5">
-              <div className="space-y-2">
-                <label htmlFor="username" className="text-xs font-bold text-slate-700 uppercase tracking-widest">Username</label>
-                <input 
-                  id="username"
-                  name="username"
-                  type="text" 
-                  defaultValue=""
-                  autoComplete="username"
-                  onChange={() => setError('')}
-                  placeholder="Enter Username"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="text-xs font-bold text-slate-700 uppercase tracking-widest">Password</label>
-                  <a href="#" className="text-xs font-medium text-rose-600 hover:text-rose-700">Forgot password?</a>
-                </div>
-                <input 
-                  id="password"
-                  name="password"
-                  type="password" 
-                  defaultValue=""
-                  autoComplete="current-password"
-                  onChange={() => setError('')}
-                  placeholder="Enter Password"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="w-full py-3.5 cursor-pointer bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 active:shadow-sm transition-all duration-200 flex items-center justify-center gap-2 group mt-8">
-                Enter Dashboard <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </form>
+            <UniversalSchemaForm 
+              schema={AuthLoginSchema} 
+              onSubmit={handleLoginSubmit} 
+              submitLabel="Enter Dashboard" 
+              error={error}
+              clearError={() => setError('')}
+            />
 
             <div className="mt-8 pt-8 border-t border-slate-100">
               <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 cursor-pointer bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
