@@ -26,7 +26,10 @@ export default function LoginPage() {
         <div className="md:w-5/12 bg-slate-900 p-12 text-white flex flex-col justify-center relative overflow-hidden">
           <div className="relative z-10">
             <img src="/skillom-logo.png" alt="Skillom Ai" className="w-16 h-16 mb-8 drop-shadow-2xl" />
-            <h1 className="text-3xl font-bold mb-4 leading-tight">The Next Generation<br/>Skillom Ai Engine</h1>
+            <h1 className="text-4xl font-bold mb-4 leading-tight tracking-tight">Future of<br/>Learning.</h1>
+            <p className="text-slate-400 text-base leading-relaxed">
+              Building immersive learning labs through AI and imagination.
+            </p>
           </div>
           
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
