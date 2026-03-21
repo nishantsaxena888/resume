@@ -232,6 +232,45 @@ export default function DocsPage() {
           </div>
         </section>
 
+        {/* 5. Schema Conventions & Interpolation */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3 border-b border-gray-200 pb-3">
+            <Code className="w-6 h-6 text-pink-500" />
+            <h3 className="text-2xl font-bold text-slate-800 tracking-tight">5. JSON Schema Conventions & Interpolation</h3>
+          </div>
+          <p className="text-slate-600 leading-relaxed max-w-3xl">
+            Because this application relies on static JSON files to define dynamic layouts, fetching URLs, and tenant limits, we employ a strict <strong>Mustache-style templating convention</strong> inside our schemas. Strings wrapping <code>&#123;&#123;variables&#125;&#125;</code> signal to the React engine that it must hydrate the value with live Session data before executing the code.
+          </p>
+
+          <div className="bg-slate-900 rounded-xl border border-slate-700 shadow-sm overflow-hidden mt-6">
+            <div className="px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+              <span className="text-sm font-semibold tracking-wide text-pink-400">system-configuration/api/endpoints.json</span>
+              <span className="text-xs text-slate-500 font-mono">Example Interpolation</span>
+            </div>
+            <div className="p-6">
+              <pre className="text-slate-300 text-sm overflow-x-auto font-mono leading-relaxed">
+{`{
+  "fetchResume": "/api/v1/tenant/{{tenant_id}}/profiles/{{user_id}}",
+  "auditLog": "/api/v1/users/{{active_session_id}}/activity"
+}`}
+              </pre>
+            </div>
+          </div>
+
+          <div className="bg-pink-50 rounded-xl border border-pink-100 p-6 space-y-3 mt-6">
+            <h4 className="font-bold text-pink-800">Dynamic Variable Glossary</h4>
+            <p className="text-sm text-pink-700 leading-relaxed font-medium">
+              When encountering a template in a JSON file, the Context Provider (or backend middleware) runs a fast regex replace. The following global variables are guaranteed to be in scope on every render cycle:
+            </p>
+            <ul className="list-inside list-disc text-sm text-pink-700 space-y-2 font-medium mt-3">
+              <li><code>&#123;&#123;user_id&#125;&#125;</code>: Resolves to the specific UUID of the Resume being viewed (e.g. the <em>Workspace</em>).</li>
+              <li><code>&#123;&#123;active_session_id&#125;&#125;</code>: Resolves to the ID of the person <em>looking</em> at the screen (e.g. the Impersonated User).</li>
+              <li><code>&#123;&#123;tenant_id&#125;&#125;</code>: Resolves to the Active Client (e.g. <code>vighneshwaraya</code>).</li>
+              <li><code>&#123;&#123;language_code&#125;&#125;</code>: Resolves to the active localization code (e.g. <code>es</code>).</li>
+            </ul>
+          </div>
+        </section>
+
       </main>
     </div>
   );
