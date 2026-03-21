@@ -1,6 +1,6 @@
-import { ResumeProvider } from '../context/ResumeContext';
-import TopBar from '../components/TopBar';
-import ResumeViewer from '../components/ResumeViewer';
+import { ResumeProvider } from '../context/resumeBuilder/ResumeContext';
+import TopBar from '../components/resumeBuilder/TopBar';
+import ResumeViewer from '../components/resumeBuilder/ResumeViewer';
 
 export default function ResumeBuilderPage() {
   return (
