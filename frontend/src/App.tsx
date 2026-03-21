@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalAppShell from './components/GlobalAppShell';
 
+import LoginPage from './pages/LoginPage';
 import ResumeBuilderPage from './pages/ResumeBuilderPage';
 import JobDescriptionsPage from './pages/JobDescriptionsPage';
 import InterviewPrepPage from './pages/InterviewPrepPage';
@@ -12,18 +13,24 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Core Application Frame */}
-        <Route path="/" element={<GlobalAppShell />}>
+        
+        {/* Unauthenticated Full-Screen Gateway */}
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Authenticated Dashboard Shell (Left Sidebar Menu) */}
+        <Route element={<GlobalAppShell />}>
           
           {/* Default Resume Engine View */}
-          <Route index element={<ResumeBuilderPage />} />
+          <Route path="/resume" element={<ResumeBuilderPage />} />
 
           {/* JD Tracker View */}
-          <Route path="jds" element={<JobDescriptionsPage />} />
+          <Route path="/jds" element={<JobDescriptionsPage />} />
 
-          {/* Skillon Preparation CMS View */}
-          <Route path="courses" element={<CoursesDashboardPage />} />
-          <Route path="courses/:courseId" element={<InterviewPrepPage />} />
+          {/* Skillon Preparation Modules */}
+          <Route path="/courses" element={<CoursesDashboardPage />} />
+          <Route path="/courses/:courseId" element={<InterviewPrepPage />} />
+          
         </Route>
 
         {/* Global Standalone Documentation Links */}
