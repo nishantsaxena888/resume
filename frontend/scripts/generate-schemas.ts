@@ -1,20 +1,40 @@
 import fs from 'fs';
 import path from 'path';
 import { parseSchema } from 'json-schema-to-zod';
+import merge from 'lodash.merge';
 
-const SYSTEM_CONFIG_DIR = path.resolve(process.cwd(), '../system-configuration');
+const LANGUAGE = process.env.VITE_APP_LANGUAGE || 'en';
+const CLIENT = process.env.VITE_APP_CLIENT || 'default';
+
+const BASE_DIR = path.resolve(process.cwd(), `../system-configuration/base/${LANGUAGE}`);
+const CLIENT_DIR = path.resolve(process.cwd(), `../system-configuration/client_specific/${CLIENT}/${LANGUAGE}`);
 const OUTPUT_FILE = path.resolve(process.cwd(), 'src/types/resumeBuilder/resume.ts');
 
-function readJsonSchema(filePath: string) {
-  const content = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(content);
+function readJsonSchema(relativePath: string) {
+  const baseFile = path.join(BASE_DIR, relativePath);
+  const clientFile = path.join(CLIENT_DIR, relativePath);
+  
+  let baseSchema = {};
+  let clientSchema = {};
+
+  if (fs.existsSync(baseFile)) {
+    baseSchema = JSON.parse(fs.readFileSync(baseFile, 'utf-8'));
+  }
+  
+  if (CLIENT !== 'default' && fs.existsSync(clientFile)) {
+    clientSchema = JSON.parse(fs.readFileSync(clientFile, 'utf-8'));
+    console.log(`[SaaS Provider] Applying '${CLIENT}' override logic to ${relativePath}`);
+  }
+
+  // Deep merge: Client Schema aggressively overrides Base Schema
+  return merge({}, baseSchema, clientSchema);
 }
 
-// 1. Read all the atomic schemas
-const profileSchema = readJsonSchema(path.join(SYSTEM_CONFIG_DIR, 'common/profile.schema.json'));
-const metadataSchema = readJsonSchema(path.join(SYSTEM_CONFIG_DIR, 'resumeBuilder/metadata.schema.json'));
-const softwareSchema = readJsonSchema(path.join(SYSTEM_CONFIG_DIR, 'industry/software.schema.json'));
-const salesSchema = readJsonSchema(path.join(SYSTEM_CONFIG_DIR, 'industry/sales.schema.json'));
+// 1. Read all atomic schemas (merging any client/language overrides dynamically)
+const profileSchema = readJsonSchema('common/profile.schema.json');
+const metadataSchema = readJsonSchema('resumeBuilder/metadata.schema.json');
+const softwareSchema = readJsonSchema('industry/software.schema.json');
+const salesSchema = readJsonSchema('industry/sales.schema.json');
 
 // 2. Dynamically construct the "Super Schema"
 // This object represents the absolute flattened state that React will use 

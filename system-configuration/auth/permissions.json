@@ -1,0 +1,42 @@
+{
+  "admin": {
+    "personalInfo": {
+       "fullName": ["read", "update"],
+       "title": ["read", "update"],
+       "phone": ["read", "update"],
+       "email": ["read", "update"],
+       "linkedin": ["read", "update"],
+       "location": ["read", "update"]
+    }
+  },
+  "owner": {
+    "personalInfo": {
+       "fullName": ["read", "update"],
+       "title": ["read", "update"],
+       "phone": ["read", "update"],
+       "email": ["read", "update"],
+       "linkedin": ["read", "update"],
+       "location": ["read", "update"]
+    }
+  },
+  "recruiter": {
+    "personalInfo": {
+       "fullName": ["read", "update"],
+       "title": ["read", "update"],
+       "phone": ["read"],
+       "email": ["read"],
+       "linkedin": ["read", "update"],
+       "location": ["read", "update"]
+    }
+  },
+  "guest": {
+    "personalInfo": {
+       "fullName": ["read"],
+       "title": ["read"],
+       "phone": [],
+       "email": [],
+       "linkedin": ["read"],
+       "location": ["read"]
+    }
+  }
+}

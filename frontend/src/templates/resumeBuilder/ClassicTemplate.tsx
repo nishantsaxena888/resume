@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin, Plus, Trash2 } from 'lucide-react';
+import { Mail, Phone, Linkedin, Plus, Trash2, MapPin } from 'lucide-react';
 import type { ResumeModel } from '../../types/resumeBuilder/resume';
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
 import { EditableField } from '../../components/EditableField';
@@ -18,36 +18,43 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       <header className="text-center mb-8 border-b-2 border-gray-800 pb-6 relative group/header">
         <h1 className="text-3xl sm:text-4xl font-bold text-black tracking-tight uppercase">
           <EditableField 
-            value={info.fullName} 
-            onChange={(val: string) => updatePersonalInfo({ fullName: val })} 
-            className="text-center"
-            placeholder="Your Name"
-          />
+          entity="personalInfo" field="fullName"
+          value={info.fullName} 
+          onChange={(val: string) => updatePersonalInfo({ fullName: val })} 
+          className="text-4xl font-light text-slate-800 tracking-tight text-center"
+          placeholder="First Last"
+        />
         </h1>
         
         <h2 className="text-xl text-gray-700 font-medium mb-3">
           <EditableField 
-            value={info.title || ''} 
-            onChange={(val: string) => updatePersonalInfo({ title: val })} 
-            className="text-center"
-            placeholder="Professional Title"
-          />
+          entity="personalInfo" field="title"
+          value={info.title || ''} 
+          onChange={(val: string) => updatePersonalInfo({ title: val })} 
+          className="text-xl text-slate-500 font-medium text-center mt-2"
+          placeholder="Professional Title"
+        />
         </h2>
         
         <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-sm text-gray-600">
           <span className="flex items-center">
             <Mail className="w-3.5 h-3.5 mr-1.5"/> 
-            <EditableField value={info.email} onChange={(val: string) => updatePersonalInfo({ email: val })} placeholder="Email" />
+            <EditableField entity="personalInfo" field="email" value={info.email} onChange={(val: string) => updatePersonalInfo({ email: val })} placeholder="Email" />
+          </span>
+          <span>|</span>
+          <span className="flex items-center">
+            <MapPin className="w-3.5 h-3.5 mr-1.5"/> 
+            <EditableField entity="personalInfo" field="location" value={info.location || ''} onChange={(val: string) => updatePersonalInfo({ location: val })} placeholder="Location" />
           </span>
           <span>|</span>
           <span className="flex items-center">
             <Phone className="w-3.5 h-3.5 mr-1.5"/> 
-            <EditableField value={info.phone || ''} onChange={(val: string) => updatePersonalInfo({ phone: val })} placeholder="Phone" />
+            <EditableField entity="personalInfo" field="phone" value={info.phone || ''} onChange={(val: string) => updatePersonalInfo({ phone: val })} placeholder="Phone" />
           </span>
           <span>|</span>
           <span className="flex items-center">
             <Linkedin className="w-3.5 h-3.5 mr-1.5 text-blue-600"/> 
-            <EditableField value={info.linkedin || ''} onChange={(val: string) => updatePersonalInfo({ linkedin: val })} className="text-blue-600" placeholder="LinkedIn URL" />
+            <EditableField entity="personalInfo" field="linkedin" value={info.linkedin || ''} onChange={(val: string) => updatePersonalInfo({ linkedin: val })} className="text-blue-600" placeholder="LinkedIn URL" />
           </span>
         </div>
       </header>

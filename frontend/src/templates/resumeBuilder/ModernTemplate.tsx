@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, Linkedin, Plus, Trash2 } from 'lucide-react';
+import { Mail, Phone, Linkedin, Plus, Trash2, MapPin } from 'lucide-react';
 import type { ResumeModel } from '../../types/resumeBuilder/resume';
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
 import { EditableField } from '../../components/EditableField';
@@ -25,21 +25,28 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <div className="flex items-center gap-3 text-sm">
             <Mail className="w-4 h-4 text-slate-400" />
             <div className="flex-1">
-              <EditableField value={info.email} onChange={(val: string) => updatePersonalInfo({ email: val })} placeholder="Email" />
+              <EditableField entity="personalInfo" field="email" value={info.email} onChange={(val: string) => updatePersonalInfo({ email: val })} placeholder="Email" />
             </div>
           </div>
           
           <div className="flex items-center gap-3 text-sm">
             <Phone className="w-4 h-4 text-slate-400" />
             <div className="flex-1">
-              <EditableField value={info.phone || ''} onChange={(val: string) => updatePersonalInfo({ phone: val })} placeholder="Phone" />
+              <EditableField entity="personalInfo" field="phone" value={info.phone || ''} onChange={(val: string) => updatePersonalInfo({ phone: val })} placeholder="Phone" />
             </div>
           </div>
           
           <div className="flex items-center gap-3 text-sm">
             <Linkedin className="w-4 h-4 text-slate-400" />
             <div className="flex-1">
-               <EditableField value={info.linkedin || ''} onChange={(val: string) => updatePersonalInfo({ linkedin: val })} placeholder="LinkedIn URL" />
+               <EditableField entity="personalInfo" field="linkedin" value={info.linkedin || ''} onChange={(val: string) => updatePersonalInfo({ linkedin: val })} className="text-blue-600" placeholder="LinkedIn URL" />
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3 text-sm">
+            <MapPin className="w-4 h-4 text-slate-400" />
+            <div className="flex-1">
+              <EditableField entity="personalInfo" field="location" value={info.location || ''} onChange={(val: string) => updatePersonalInfo({ location: val })} placeholder="Location" />
             </div>
           </div>
         </div>
@@ -108,12 +115,10 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
         
         {/* Header Title */}
         <div className="mb-10 group/header relative">
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-none mb-3 uppercase">
-            <EditableField value={info.fullName} onChange={(val: string) => updatePersonalInfo({ fullName: val })} placeholder="Your Name" />
-          </h1>
-          <h2 className="text-xl text-indigo-600 font-bold uppercase tracking-widest">
-            <EditableField value={info.title || ''} onChange={(val: string) => updatePersonalInfo({ title: val })} placeholder="Professional Title" />
-          </h2>
+          <div className="flex flex-col text-left">
+            <EditableField entity="personalInfo" field="fullName" value={info.fullName} onChange={(val: string) => updatePersonalInfo({ fullName: val })} className="text-4xl font-bold text-slate-800 tracking-tight" placeholder="First Last" />
+            <EditableField entity="personalInfo" field="title" value={info.title || ''} onChange={(val: string) => updatePersonalInfo({ title: val })} className="text-xl text-indigo-600 font-medium mt-2" placeholder="Professional Title" />
+          </div>
         </div>
 
         {/* Profile Summary */}
