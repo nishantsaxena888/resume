@@ -60,7 +60,7 @@ export default function LoginPage() {
                   defaultValue=""
                   autoComplete="username"
                   placeholder="e.g. nishant"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
               </div>
@@ -77,7 +77,7 @@ export default function LoginPage() {
                   defaultValue=""
                   autoComplete="off"
                   placeholder="Enter 'nishu'"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
               </div>
