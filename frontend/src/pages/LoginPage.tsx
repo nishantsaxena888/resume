@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (username === 'nishant' && password === 'nishu') {
+    const formData = new FormData(e.currentTarget);
+    const u = formData.get('username');
+    const p = formData.get('password');
+    
+    if (u === 'nishant' && p === 'nishu') {
       setError('');
       navigate('/courses');
     } else {
@@ -57,7 +59,6 @@ export default function LoginPage() {
                   type="text" 
                   defaultValue=""
                   autoComplete="username"
-                  onChange={e => setUsername(e.target.value)}
                   placeholder="e.g. nishant"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
@@ -75,7 +76,6 @@ export default function LoginPage() {
                   type="text" 
                   defaultValue=""
                   autoComplete="off"
-                  onChange={e => setPassword(e.target.value)}
                   placeholder="Enter 'nishu'"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
