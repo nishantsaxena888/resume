@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { BriefcaseBusiness, FileText, Search, Plus, Calendar } from 'lucide-react';
+import { BriefcaseBusiness, FileText, Search, Plus, Calendar, X, Building2 } from 'lucide-react';
 import JdSplitView from '../components/jdTracker/JdSplitView';
 
 export default function JobDescriptionsPage() {
-  // Mock Data until FastAPI is hooked up
-  const [jds] = useState([
+  const [jds, setJds] = useState([
     {
       id: '1',
       company: 'TechCorp Global',
@@ -21,8 +20,90 @@ export default function JobDescriptionsPage() {
     }
   ]);
 
+  const [isCreating, setIsCreating] = useState(false);
+  const [newJd, setNewJd] = useState({ company: '', role: '', rawText: '' });
+
+  const handleCreateJd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newJd.company || !newJd.role) return;
+
+    setJds([
+      {
+        id: Math.random().toString(),
+        company: newJd.company,
+        role: newJd.role,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        resumeTailored: 'Default Resume'
+      },
+      ...jds
+    ]);
+    setIsCreating(false);
+    setNewJd({ company: '', role: '', rawText: '' });
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col relative">
+      
+      {/* --- CREATION MODAL OVERLAY --- */}
+      {isCreating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+              <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-indigo-500" /> Track New Target Role
+              </h2>
+              <button onClick={() => setIsCreating(false)} className="p-1 hover:bg-slate-200 rounded-lg text-slate-400 hover:text-slate-600 transition">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleCreateJd} className="p-6 flex flex-col gap-5 bg-white">
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Company Name</label>
+                  <input 
+                    required autoFocus
+                    type="text" 
+                    placeholder="e.g. OpenAI" 
+                    value={newJd.company}
+                    onChange={e => setNewJd({...newJd, company: e.target.value})}
+                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Role / Title</label>
+                  <input 
+                    required
+                    type="text" 
+                    placeholder="e.g. Senior Software Engineer" 
+                    value={newJd.role}
+                    onChange={e => setNewJd({...newJd, role: e.target.value})}
+                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5 flex-1">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Raw Job Description</label>
+                <textarea 
+                  required
+                  placeholder="Paste the entire raw text of the job description here so the scanner can map your resume deltas..." 
+                  value={newJd.rawText}
+                  onChange={e => setNewJd({...newJd, rawText: e.target.value})}
+                  className="w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <button type="submit" className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold text-sm shadow-sm flex items-center gap-2">
+                  <Plus className="w-4 h-4"/> Save Target JD
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -34,7 +115,10 @@ export default function JobDescriptionsPage() {
             <p className="text-sm text-slate-500">Map your tailored resumes to specific roles</p>
           </div>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium text-sm shadow-sm">
+        <button 
+          onClick={() => setIsCreating(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium text-sm shadow-sm"
+        >
           <Plus className="w-4 h-4" /> New JD Target
         </button>
       </header>
