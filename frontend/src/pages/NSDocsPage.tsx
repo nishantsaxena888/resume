@@ -199,6 +199,18 @@ export default function NSDocsPage() {
                 The NS Backend currently utilizes a basic role-checker. We need to physically port the advanced, 3-Dimensional JSON Field-Level Security matrix (<code>permissions.json</code>) from the React Frontend directly into the Python FastAPI middleware. This will ensure that if a <code>guest</code> tries to illegally <code>PATCH</code> a <code>fullName</code> field via API, the backend mathematically drops the request using the exact same logic the frontend utilizes to hide the DOM element.
               </p>
             </div>
+
+            <hr className="border-amber-200/50" />
+
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                Native Multi-Lingual (i18n) Support
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                The Frontend currently fakes multi-lingual support by hot-swapping hardcoded mock data arrays when the language dropdown changes. The Backend must formally implement a localized <code>Translations</code> indexing table in PostgreSQL, binding every Resume Entity to a specific <code>language_code</code> (like <code>en</code>, <code>es</code>, or <code>hi</code>) so that <code>/entities/resumes/{"{profile_id}"}?lang=es</code> fetches the correct localized dialect perfectly.
+              </p>
+            </div>
           </div>
         </section>
 
