@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Layers, ChevronRight } from 'lucide-react';
+import { BookOpen, Layers, ChevronRight, BriefcaseBusiness } from 'lucide-react';
 import { PrepNoteWidget, PrepFlashcardWidget, PrepCodeWidget, PrepVideoWidget } from '../components/preparation/PrepWidgets';
 import type { CourseModel } from '../types/resumeBuilder/resume';
 
@@ -62,6 +62,21 @@ export default function InterviewPrepPage() {
             <h1 className="text-xl font-bold text-slate-900">{mockCoursePayload.title}</h1>
             <p className="text-sm text-slate-500">JSON Schema Extensible CMS Board</p>
           </div>
+        </div>
+        
+        {/* User request: If attached having a tool tip on top right */}
+        <div className="flex items-center gap-3 hidden md:flex">
+           <div className="group relative">
+             <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-lg text-sm font-medium cursor-help">
+               <BriefcaseBusiness className="w-4 h-4" />
+               <span className="truncate max-w-[200px]">Attached: OpenAI Sr. Eng</span>
+             </div>
+             {/* Hover Tooltip */}
+             <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+               <div className="font-bold mb-1">Target Job Description</div>
+               <p className="text-slate-300">This generic course structure is currently constrained against "Senior Frontend Engineer @ OpenAI". All generated notes and code snippets reflect this contextual boundary.</p>
+             </div>
+           </div>
         </div>
       </header>
 
