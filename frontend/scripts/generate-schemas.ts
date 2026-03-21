@@ -63,6 +63,11 @@ const superSchema = {
 // 3. Compile the JSON standard Super Schema into runtime Zod
 const zodCode = parseSchema(superSchema);
 
+// SKILLON PLATFORM SCHEMAS
+const courseSchemaStr = fs.readFileSync(path.resolve(process.cwd(), '../system-configuration/preparation/course.schema.json'), 'utf-8');
+const courseSchemaObj = JSON.parse(courseSchemaStr);
+const courseZodCode = parseSchema(courseSchemaObj);
+
 const finalFileContent = `import { z } from 'zod';
 
 /**
@@ -72,8 +77,10 @@ const finalFileContent = `import { z } from 'zod';
  */
 
 export const ResumeModelSchema = ${zodCode};
-
 export type ResumeModel = z.infer<typeof ResumeModelSchema>;
+
+export const CourseModelSchema = ${courseZodCode};
+export type CourseModel = z.infer<typeof CourseModelSchema>;
 `;
 
 // 4. Write back into the React App architecture

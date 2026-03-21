@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nishify.studio/schemas/preparation/course.schema.json",
+  "title": "Interview Prep Course Schema",
+  "description": "Defines the entire Skillon Preparation curriculum structure: the LHS Menu items and their RHS polymorphic Course Widget payloads",
+  "type": "object",
+  "required": ["id", "title", "modules"],
+  "properties": {
+    "id": { "type": "string", "description": "Unique UUID for the course instance" },
+    "title": { "type": "string", "description": "e.g., 'Google Staff React Prep'" },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "modules": {
+      "type": "array",
+      "description": "The Left Hand Side (LHS) Menu Tree Nodes",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "widgets"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string", "description": "LHS Menu Item Name. e.g., 'System Design'" },
+          "icon": { "type": "string", "description": "Lucide icon name identifier for the LHS Menu" },
+          "widgets": {
+            "type": "array",
+            "description": "The Right Hand Side (RHS) dynamic content blocks for this module",
+            "items": {
+              "type": "object",
+              "required": ["id", "widgetType", "payload"],
+              "properties": {
+                "id": { "type": "string" },
+                "widgetType": {
+                  "type": "string",
+                  "enum": ["markdown", "flashcard", "code_snippet", "video_embed"],
+                  "description": "The exact React Component renderer to invoke dynamically"
+                },
+                "payload": {
+                  "type": "object",
+                  "description": "Polymorphic payload block containing the raw string/content data for the specific widget renderer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
