@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResumeMetadata",
+  "type": "object",
+  "properties": {
+    "template": { "type": "string" },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "primaryColor": { "type": "string" },
+        "secondaryColor": { "type": "string" },
+        "fontFamily": { "type": "string" }
+      }
+    }
+  },
+  "required": ["template"]
+}

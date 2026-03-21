@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-primary: #3b82f6;
+  --color-accent: #8b5cf6;
+  --color-textPrimary: #f8fafc;
+  --color-textSecondary: #94a3b8;
+}
 
 @layer base {
   body {
@@ -8,7 +15,8 @@
   }
 }
 
-/* Glassmorphism utility */
-.glass {
-  @apply bg-surface/70 backdrop-blur-md border border-white/10 shadow-xl;
+@layer utilities {
+  .glass {
+    @apply bg-surface/70 backdrop-blur-md border border-white/10 shadow-xl;
+  }
 }
