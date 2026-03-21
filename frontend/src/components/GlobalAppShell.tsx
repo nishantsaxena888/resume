@@ -50,12 +50,12 @@ export default function GlobalAppShell({ children }: { children: React.ReactNode
         </div>
 
         <div className="mt-auto w-full flex flex-col items-center pb-4 gap-4">
-           <button title="Settings" className="p-3 text-slate-500 hover:text-white transition-colors rounded-xl hover:bg-slate-800 group relative">
+           <button title="Settings" className="p-3 cursor-pointer text-slate-500 hover:text-white transition-colors rounded-xl hover:bg-slate-800 group relative">
              <Settings className="w-5 h-5" />
              <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity z-50">Platform Config</span>
            </button>
 
-           <button onClick={() => navigate('/')} title="Logout" className="p-3 text-rose-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors rounded-xl group relative">
+           <button onClick={() => navigate('/')} title="Logout" className="p-3 cursor-pointer text-rose-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors rounded-xl group relative">
              <LogOut className="w-5 h-5" />
              <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity z-50">Secure Logout</span>
            </button>
