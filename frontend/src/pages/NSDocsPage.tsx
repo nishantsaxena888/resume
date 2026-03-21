@@ -181,10 +181,10 @@ export default function NSDocsPage() {
             <div>
               <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
                 <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
-                TDD Multi-Source Architecture
+                TDD Multi-Source, Multi-Cloud Architecture
               </h3>
               <p className="text-amber-800 leading-relaxed text-sm mt-2">
-                We must implement strict Test-Driven Development (TDD) suites to rigorously validate the <code>SourceRouter</code>. The tests need to explicitly guarantee that Entity payloads interact identically whether they are routed through the <code>Memory</code>, <code>Postgres</code>, or <code>Elasticsearch</code> source adapters, catching schema mismatches before deployment.
+                We must implement strict Test-Driven Development (TDD) suites to rigorously validate the <code>SourceRouter</code>. The tests need to explicitly guarantee that Entity payloads interact identically whether they are routed through local <code>Memory</code>, bare-metal <code>Postgres</code>, or managed <code>Multi-Cloud</code> clusters across AWS/GCP, catching schema mismatches across varied infrastructures before deployment.
               </p>
             </div>
             
