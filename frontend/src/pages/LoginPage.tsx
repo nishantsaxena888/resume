@@ -25,10 +25,8 @@ export default function LoginPage() {
         {/* Left Side: Branding Plaque */}
         <div className="md:w-5/12 bg-slate-900 p-12 text-white flex flex-col justify-center relative overflow-hidden">
           <div className="relative z-10">
-            <div className="w-12 h-12 bg-rose-500 rounded-xl flex items-center justify-center mb-8 shadow-lg shadow-rose-500/30">
-              <Layers className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold mb-4 leading-tight">The Next Generation<br/>Skillon Engine</h1>
+            <img src="/skillom-logo.png" alt="Skillom Ai" className="w-16 h-16 mb-8 drop-shadow-2xl" />
+            <h1 className="text-3xl font-bold mb-4 leading-tight">The Next Generation<br/>Skillom Ai Engine</h1>
           </div>
           
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -39,7 +37,7 @@ export default function LoginPage() {
         <div className="md:w-7/12 p-12 md:p-16 flex items-center justify-center bg-white">
           <div className="w-full max-w-sm">
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h2>
-            <p className="text-sm text-slate-500 mb-6">Enter your credentials to access the Skillon Gateway.</p>
+            <p className="text-sm text-slate-500 mb-6">Enter your credentials to access the Skillom Ai Gateway.</p>
 
             {error && (
               <div className="mb-6 p-3 bg-rose-50 border border-rose-200 text-rose-600 text-sm font-medium rounded-xl">

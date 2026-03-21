@@ -49,8 +49,8 @@ export default function CoursesDashboardPage() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-8 py-5 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-            <BookOpen className="w-6 h-6 text-rose-600" />
-            My Skillon Courses
+            <img src="/skillom-logo.png" alt="Skillom Ai" className="w-8 h-8 drop-shadow-sm" />
+            My Skillom Ai Courses
           </h1>
           <p className="text-sm text-slate-500 mt-1">Select a curriculum to launch the Preparation CMS</p>
         </div>
