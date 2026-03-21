@@ -1,4 +1,4 @@
-import { Book, Shield, Code, Blocks, Network, FileJson, ArrowLeft, FolderTree, Key, Layers, Puzzle } from 'lucide-react';
+import { Book, Shield, Code, Blocks, Network, FileJson, ArrowLeft, FolderTree, Key, Layers, Puzzle, Database } from 'lucide-react';
 
 export default function DocsPage() {
   return (
@@ -280,6 +280,51 @@ export default function DocsPage() {
               <li><code>&#123;&#123;tenant_id&#125;&#125;</code>: Resolves to the Active Client (e.g. <code>vighneshwaraya</code>).</li>
               <li><code>&#123;&#123;language_code&#125;&#125;</code>: Resolves to the active localization code (e.g. <code>es</code>).</li>
             </ul>
+          </div>
+        </section>
+
+        {/* 6. Zod Code Generation Pipeline */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3 border-b border-gray-200 pb-3">
+            <Database className="w-6 h-6 text-fuchsia-500" />
+            <h3 className="text-2xl font-bold text-slate-800 tracking-tight">6. Zod Validation Generation</h3>
+          </div>
+          <p className="text-slate-600 leading-relaxed max-w-3xl mb-4">
+            The frontend does <strong>not</strong> write arbitrary Zod types. Every single validator in this application is mathematically compiled from the external <code>system-configuration</code> static JSON schemas. Here is how the pipeline works:
+          </p>
+          
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden p-6 space-y-6">
+            
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold font-mono text-sm">1</div>
+              <div>
+                <h4 className="font-bold text-slate-800 mb-2">Tenant Deep-Merge</h4>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  The generation script (<code>scripts/generate-schemas.ts</code>) opens both the <code>base</code> Tenant JSON files and the <code>client_specific</code> JSON files. It uses a deep-merge overriding utility to automatically inject white-labeled fields directly over the master Base schemas.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold font-mono text-sm">2</div>
+              <div>
+                <h4 className="font-bold text-slate-800 mb-2">Super-Schema Construction</h4>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  The script then iteratively reads all atomic pieces of the Resume schema (<code>profile.schema.json</code>, <code>software.schema.json</code>, etc) and manually flattens them into a single massively nested <em>Super Schema</em> object. This object represents the absolute maximum possible state tree the React Context could ever require.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold font-mono text-sm">3</div>
+              <div>
+                <h4 className="font-bold text-slate-800 mb-2">TypeScript (Zod) Compilation</h4>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Finally, the <code>json-schema-to-zod</code> parsing library processes this massive JSON object and generates native raw TypeScript code containing the exact <code>z.object()</code> derivations required. The generated file is physically written to <code>types/resumeBuilder/resume.ts</code>, guaranteeing the UI state strictly maps to the exact same limitations standard database pipelines endure.
+                </p>
+              </div>
+            </div>
+
           </div>
         </section>
 
