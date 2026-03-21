@@ -4,6 +4,9 @@ import ResumeViewer from './components/resumeBuilder/ResumeViewer';
 import DocsPage from './pages/DocsPage';
 import NSDocsPage from './pages/NSDocsPage';
 
+import JobDescriptionsPage from './pages/JobDescriptionsPage';
+import InterviewPrepPage from './pages/InterviewPrepPage';
+
 function App() {
   const path = window.location.pathname;
   if (path === '/docs' || path === '/docs/') {
@@ -11,6 +14,12 @@ function App() {
   }
   if (path === '/ns-docs' || path === '/ns-docs/') {
     return <NSDocsPage />;
+  }
+  if (path === '/jds' || path === '/jds/') {
+    return <JobDescriptionsPage />;
+  }
+  if (path === '/prep' || path === '/prep/') {
+    return <InterviewPrepPage />;
   }
   return (
     <ResumeProvider>
