@@ -211,6 +211,30 @@ export default function NSDocsPage() {
                 The Frontend currently fakes multi-lingual support by hot-swapping hardcoded mock data arrays when the language dropdown changes. The Backend must formally implement a localized <code>Translations</code> indexing table in PostgreSQL, binding every Resume Entity to a specific <code>language_code</code> (like <code>en</code>, <code>es</code>, or <code>hi</code>) so that <code>/entities/resumes/{"{profile_id}"}?lang=es</code> fetches the correct localized dialect perfectly.
               </p>
             </div>
+
+            <hr className="border-amber-200/50" />
+
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                Strict Multi-Tenant (White-Label) Scoping
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                The NS API essentially runs as a global monolithic router right now. We must implement strict Multi-Tenant scoping that precisely mimics the Resume Engine's <code>client_specific/</code> overriding architecture. The backend needs to intelligently identify the <code>{"{tenant_id}"}</code> from API headers, dynamically deep-merge custom Tenant JSON schemas with Base schemas on the fly, and securely isolate Elasticsearch indicies by Tenant bounds so different corporate silos never bleed into one another.
+              </p>
+            </div>
+
+            <hr className="border-amber-200/50" />
+
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                Core as Accounting of Everything
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                The system must move away from standard CRUD operations that permanently overwrite state. Instead, the NS Core must implement an append-only, Double-Entry Ledger architecture. Every single mutation to a Resume or User Profile must be recorded as an immutable transaction log. This guarantees absolute compliance, infinite rewind capabilities, and mathematically un-cheatable enterprise SaaS billing metrics.
+              </p>
+            </div>
           </div>
         </section>
 
