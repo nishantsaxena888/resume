@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalAppShell from './components/GlobalAppShell';
 
-import AppBuilder from './components/resumeBuilder/App';
+import ResumeBuilderPage from './pages/ResumeBuilderPage';
 import JobDescriptionsPage from './pages/JobDescriptionsPage';
 import InterviewPrepPage from './pages/InterviewPrepPage';
 import CoursesDashboardPage from './pages/CoursesDashboardPage';
+import DocsPage from './pages/DocsPage';
+import NSDocsPage from './pages/NSDocsPage';
 
 export default function App() {
   return (
@@ -14,7 +16,7 @@ export default function App() {
         <Route path="/" element={<GlobalAppShell />}>
           
           {/* Default Resume Engine View */}
-          <Route index element={<AppBuilder />} />
+          <Route index element={<ResumeBuilderPage />} />
 
           {/* JD Tracker View */}
           <Route path="jds" element={<JobDescriptionsPage />} />
@@ -22,8 +24,11 @@ export default function App() {
           {/* Skillon Preparation CMS View */}
           <Route path="courses" element={<CoursesDashboardPage />} />
           <Route path="courses/:courseId" element={<InterviewPrepPage />} />
-          
         </Route>
+
+        {/* Global Standalone Documentation Links */}
+        <Route path="/docs" element={<DocsPage />} />
+        <Route path="/ns-docs" element={<NSDocsPage />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
