@@ -4,14 +4,18 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // In actual implementation, perform Auth and set contextual JWT.
-    // For now, route directly into the Skillon Gateway Dashboard.
-    navigate('/courses');
+    if (username === 'nishant' && password === 'nishu123') {
+      setError('');
+      navigate('/courses');
+    } else {
+      setError('Invalid username or password. Access Denied.');
+    }
   };
 
   return (
@@ -47,16 +51,22 @@ export default function LoginPage() {
         <div className="md:w-7/12 p-12 md:p-16 flex items-center justify-center bg-white">
           <div className="w-full max-w-sm">
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h2>
-            <p className="text-sm text-slate-500 mb-8">Enter your credentials to access the Skillon Gateway.</p>
+            <p className="text-sm text-slate-500 mb-6">Enter your credentials to access the Skillon Gateway.</p>
+
+            {error && (
+              <div className="mb-6 p-3 bg-rose-50 border border-rose-200 text-rose-600 text-sm font-medium rounded-xl">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleLogin} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-widest">Email Address</label>
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-widest">Username</label>
                 <input 
-                  type="email" 
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="name@company.com"
+                  type="text" 
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                  placeholder="e.g. nishant"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
