@@ -50,10 +50,13 @@ export default function LoginPage() {
 
             <form onSubmit={handleLogin} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-widest">Username</label>
+                <label htmlFor="username" className="text-xs font-bold text-slate-700 uppercase tracking-widest">Username</label>
                 <input 
+                  id="username"
+                  name="username"
                   type="text" 
                   value={username}
+                  autoComplete="username"
                   onChange={e => setUsername(e.target.value)}
                   placeholder="e.g. nishant"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
@@ -63,12 +66,15 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-widest">Password</label>
+                  <label htmlFor="password" className="text-xs font-bold text-slate-700 uppercase tracking-widest">Password</label>
                   <a href="#" className="text-xs font-medium text-rose-600 hover:text-rose-700">Forgot password?</a>
                 </div>
                 <input 
+                  id="password"
+                  name="password"
                   type="password" 
                   value={password}
+                  autoComplete="current-password"
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
@@ -82,7 +88,7 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-8 pt-8 border-t border-slate-100">
-              <button onClick={() => navigate('/courses')} className="w-full py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
+              <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
                 <Github className="w-5 h-5" /> Continue with GitHub
               </button>
             </div>
