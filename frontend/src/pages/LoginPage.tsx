@@ -60,7 +60,7 @@ export default function LoginPage() {
                   defaultValue=""
                   autoComplete="username"
                   onChange={() => setError('')}
-                  placeholder="e.g. nishant"
+                  placeholder="Enter Username"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
@@ -78,7 +78,7 @@ export default function LoginPage() {
                   defaultValue=""
                   autoComplete="current-password"
                   onChange={() => setError('')}
-                  placeholder="••••••••"
+                  placeholder="Enter Password"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
