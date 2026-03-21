@@ -72,11 +72,11 @@ export default function LoginPage() {
                 <input 
                   id="password"
                   name="password"
-                  type="password" 
+                  type="text" 
                   value={password}
-                  autoComplete="current-password"
+                  autoComplete="off"
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter 'nishu'"
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                   required
                 />
