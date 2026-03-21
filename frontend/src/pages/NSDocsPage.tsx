@@ -235,6 +235,18 @@ export default function NSDocsPage() {
                 The system must move away from standard CRUD operations that permanently overwrite state. Instead, the NS Core must implement an append-only, Double-Entry Ledger architecture. Every single mutation to a Resume or User Profile must be recorded as an immutable transaction log. This guarantees absolute compliance, infinite rewind capabilities, and mathematically un-cheatable enterprise SaaS billing metrics.
               </p>
             </div>
+
+            <hr className="border-amber-200/50" />
+
+            <div>
+              <h3 className="text-lg font-bold text-amber-900 flex items-center gap-2">
+                <span className="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded font-bold uppercase tracking-widest">TODO</span>
+                Rule-Driven Business Logic & In-Memory Extensibility
+              </h3>
+              <p className="text-amber-800 leading-relaxed text-sm mt-2">
+                The NS API avoids hardcoded Python <code>if/else</code> statements for custom client rules. Instead, the infrastructure must load a Rule-Driven Logic Engine into cache. This allows tenant-specific business rules (e.g., custom form validation bounds, calculation modifiers) to be universally defined via configurations and safely extended in-memory at execution time, decoupling business rules from bare deployments.
+              </p>
+            </div>
           </div>
         </section>
 
