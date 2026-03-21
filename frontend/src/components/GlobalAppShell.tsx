@@ -1,14 +1,14 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FileText, BriefcaseBusiness, BookOpen, Settings, LogOut } from 'lucide-react';
 
-export default function GlobalAppShell({ children }: { children: React.ReactNode }) {
+export default function GlobalAppShell() {
   const location = useLocation();
   const path = location.pathname;
   const navigate = useNavigate();
 
   // Do not wrap Developer/NS docs in the app shell
   if (path.includes('/docs') || path.includes('/ns-docs')) {
-    return <>{children}</>;
+    return <Outlet />;
   }
 
   return (
@@ -22,9 +22,9 @@ export default function GlobalAppShell({ children }: { children: React.ReactNode
 
         <div className="flex-1 w-full flex flex-col items-center gap-6">
           <Link 
-            to="/" 
+            to="/resume" 
             title="Resume Engine"
-            className={`p-3 rounded-xl transition-all duration-200 group relative ${path === '/' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+            className={`p-3 rounded-xl transition-all duration-200 group relative ${path.includes('/resume') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
           >
             <FileText className="w-5 h-5" />
             <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Resume Engine</span>
@@ -40,9 +40,9 @@ export default function GlobalAppShell({ children }: { children: React.ReactNode
           </Link>
 
           <Link 
-            to="/prep" 
+            to="/courses" 
             title="Interview Prep Base"
-            className={`p-3 rounded-xl transition-all duration-200 group relative ${path.includes('/prep') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+            className={`p-3 rounded-xl transition-all duration-200 group relative ${path.includes('/courses') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
           >
             <BookOpen className="w-5 h-5" />
             <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Prep Base</span>
@@ -64,7 +64,7 @@ export default function GlobalAppShell({ children }: { children: React.ReactNode
 
       {/* 2. Main Content Container (Pillars mount here) */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {children}
+        <Outlet />
       </main>
 
     </div>
