@@ -11,3 +11,6 @@ export type ResumeModel = z.infer<typeof ResumeModelSchema>;
 
 export const CourseModelSchema = z.object({ "id": z.string().describe("Unique UUID for the course instance"), "title": z.string().describe("e.g., 'Google Staff React Prep'"), "tags": z.array(z.string()).optional(), "modules": z.array(z.object({ "id": z.string(), "title": z.string().describe("LHS Menu Item Name. e.g., 'System Design'"), "icon": z.string().describe("Lucide icon name identifier for the LHS Menu").optional(), "widgets": z.array(z.object({ "id": z.string(), "widgetType": z.enum(["markdown","flashcard","code_snippet","video_embed"]).describe("The exact React Component renderer to invoke dynamically"), "payload": z.record(z.any()).describe("Polymorphic payload block containing the raw string/content data for the specific widget renderer") })).describe("The Right Hand Side (RHS) dynamic content blocks for this module") })).describe("The Left Hand Side (LHS) Menu Tree Nodes") }).describe("Defines the entire Skillon Preparation curriculum structure: the LHS Menu items and their RHS polymorphic Course Widget payloads");
 export type CourseModel = z.infer<typeof CourseModelSchema>;
+
+export const AuthLoginSchema = z.object({ "username": z.string().describe("Enter Username"), "password": z.string().describe("Enter Password") });
+export type AuthLoginModel = z.infer<typeof AuthLoginSchema>;
