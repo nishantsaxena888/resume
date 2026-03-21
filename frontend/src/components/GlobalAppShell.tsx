@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { FileText, BriefcaseBusiness, BookOpen, Settings, LogOut } from 'lucide-react';
 
 export default function GlobalAppShell() {
