@@ -1,5 +1,5 @@
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
-import { Download, Globe, Building, Shield, User, LayoutTemplate } from 'lucide-react';
+import { Download, Globe, Building, Shield, User, LayoutTemplate, Book } from 'lucide-react';
 import { tenantConfigs } from '../../config/tenantConfig';
 import usersConfig from '../../../../system-configuration/auth/users.json';
 
@@ -100,12 +100,21 @@ export default function TopBar() {
           </div>
         </div>
 
-        <button 
-          onClick={() => window.print()}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 hover:shadow-md transition-all active:scale-95"
-        >
-          <Download className="w-4 h-4" /> Export
-        </button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => window.location.href = '/docs'}
+            className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 text-sm font-medium rounded-lg transition-colors"
+          >
+            <Book className="w-4 h-4" /> Docs
+          </button>
+
+          <button 
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 hover:shadow-md transition-all active:scale-95"
+          >
+            <Download className="w-4 h-4" /> Export
+          </button>
+        </div>
       </div>
     </div>
   );
