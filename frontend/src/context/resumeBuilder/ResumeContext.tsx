@@ -23,6 +23,7 @@ interface ResumeContextType {
   role: string;
   user: string;
   profileId: string;
+  isConfigOpen: boolean;
   updateData: (newData: Partial<ResumeModel>) => void;
   updateMetadata: (newMetadata: Partial<ResumeModel['metadata']>) => void;
   updatePersonalInfo: (newPersonalInfo: Partial<ResumeModel['personalInfo']>) => void;
@@ -31,6 +32,7 @@ interface ResumeContextType {
   setRole: (role: string) => void;
   setUser: (user: string) => void;
   setProfileId: (profileId: string) => void;
+  setIsConfigOpen: (isOpen: boolean) => void;
   getPermissions: (entity: string, field: string) => string[];
 }
 
@@ -43,6 +45,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [role, setRole] = useState('admin');
   const [user, setUser] = useState('u_ceo'); // Logged in as Alice
   const [profileId, setProfileId] = useState('u_ceo'); // Viewing Alice's Resume
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
 
   // 0. Auto-Resolve Role when standard User impersonation changes
   // Escalates to 'owner' if the Active User matches the Viewing Profile Workspace
@@ -132,7 +135,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   return (
-    <ResumeContext.Provider value={{ data, client, language, role, user, profileId, updateData, updateMetadata, updatePersonalInfo, setClient, setLanguage, setRole, setUser, setProfileId, getPermissions }}>
+    <ResumeContext.Provider value={{ data, client, language, role, user, profileId, isConfigOpen, updateData, updateMetadata, updatePersonalInfo, setClient, setLanguage, setRole, setUser, setProfileId, setIsConfigOpen, getPermissions }}>
       {children}
     </ResumeContext.Provider>
   );
