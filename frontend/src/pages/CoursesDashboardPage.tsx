@@ -12,34 +12,34 @@ export default function CoursesDashboardPage() {
   // Mock Skillon Courses List
   const courses = [
     {
-      id: 'course-123',
-      title: 'React & Architecture Skillon Engine',
-      description: 'Master the deepest levels of System Design, React render performance, and Next.js scale.',
-      tags: ['Frontend', 'System Design'],
+      id: 'course-aws-python',
+      title: 'AWS Serverless Pipeline Architecture',
+      description: 'Master Step Functions workflows, Lambda execution environments, Terraform structures, and Cognito IAM.',
+      tags: ['AWS', 'Distributed Systems'],
       progress: 65,
       icon: Layers,
       color: 'bg-emerald-500',
-      attachedJd: 'Senior Frontend Engineer @ OpenAI'
+      attachedJd: 'Python/AWS Lead @ Charlotte Client'
     },
     {
-      id: 'course-456',
-      title: 'PostgreSQL & Distributed DBs',
-      description: 'JSONB indexing patterns, read/write replication clustering, and data partitioning strategies.',
-      tags: ['Backend', 'Database Architecture'],
+      id: 'course-python-sys',
+      title: 'Scenario-Based Python System Design',
+      description: 'Rational architectural thinking, scalable API deployments, and deep backend refactoring patterns.',
+      tags: ['Backend', 'Interview Prep'],
       progress: 12,
       icon: Orbit,
       color: 'bg-blue-500',
       attachedJd: null
     },
     {
-      id: 'course-789',
-      title: 'Leadership & Behavioral Core',
-      description: 'The Amazon Leadership Principles mapped against behavioral competency frameworks.',
-      tags: ['Soft Skills', 'Management'],
+      id: 'course-leadership',
+      title: 'Offshore Team Leadership & FTE Ownership',
+      description: 'Managing hybrid distributed teams of 3-4 engineers, executing agile communication, and establishing technical authority.',
+      tags: ['Leadership', 'Management'],
       progress: 100,
       icon: Award,
       color: 'bg-rose-500',
-      attachedJd: 'Engineering Manager @ Stripe'
+      attachedJd: 'Python/AWS Lead @ Charlotte Client'
     }
   ];
 
@@ -66,8 +66,7 @@ export default function CoursesDashboardPage() {
               className="bg-transparent text-sm font-medium text-slate-700 focus:outline-none w-48 truncate cursor-pointer"
             >
               <option value="all">Any Target JD...</option>
-              <option value="openai">Senior Frontend Engineer @ OpenAI</option>
-              <option value="stripe">Engineering Manager @ Stripe</option>
+              <option value="charlotte">Python/AWS Lead @ Charlotte Client</option>
             </select>
           </div>
 

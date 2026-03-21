@@ -5,41 +5,41 @@ import type { CourseModel } from '../types/resumeBuilder/resume';
 
 // Temporary mock data simulating the FastAPI payload strictly adhering to our new Zod CourseModelSchema
 const mockCoursePayload: CourseModel = {
-  id: "course-123",
-  title: "React & Architecture Skillon Engine",
-  tags: ["Frontend", "System Design"],
+  id: "course-aws-python",
+  title: "AWS Serverless Pipeline Architecture",
+  tags: ["AWS", "Distributed Systems"],
   modules: [
     {
       id: "mod-1",
-      title: "System Design",
+      title: "Step Functions & Lambda",
       icon: "Orbit",
       widgets: [
         {
           id: "wid-1-1",
           widgetType: "markdown",
-          payload: { title: "Scaling Fast", content: "Use Postgres JSONB to store polymorphic payloads instantly without gigantic joins." }
+          payload: { title: "Step Function States", content: "AWS Step Functions map states, parallel executions, and error catchers are crucial. Be prepared to explain how you orchestrated the CapitalOne transaction pipeline using state transitions and DynamoDB metadata logs." }
         },
         {
           id: "wid-1-2",
           widgetType: "flashcard",
-          payload: { question: "What is the Big-O of Redis GET?", answer: "O(1) Time Complexity" }
+          payload: { question: "How do you handle Lambda timeouts inside a Step Function?", answer: "Implement a 'Catch' block in the Step Function state definition spanning 'States.Timeout' and route it to an error-handling or retry node." }
         }
       ]
     },
     {
       id: "mod-2",
-      title: "React Deep Dives",
+      title: "Cognito & IAM Basics",
       icon: "Layers",
       widgets: [
         {
           id: "wid-2-1",
-          widgetType: "code_snippet",
-          payload: { language: "typescript", snippet: "function App() {\n  return <Providers />;\n}" }
+          widgetType: "flashcard",
+          payload: { question: "What is the diff between IAM User vs Cognito User Pool?", answer: "IAM Users are intended for AWS console/API access by developers/services. Cognito User Pools provide authentication (sign-up/sign-in) for the actual end-users of your web apps." }
         },
         {
           id: "wid-2-2",
-          widgetType: "video_embed",
-          payload: { videoUrl: "https://youtube.com/watch?v=12345" }
+          widgetType: "code_snippet",
+          payload: { language: "hcl", snippet: "resource \"aws_iam_role\" \"lambda_exec\" {\n  name = \"serverless_lambda_role\"\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [{\n      Action = \"sts:AssumeRole\"\n      Effect = \"Allow\"\n      Principal = {\n        Service = \"lambda.amazonaws.com\"\n      }\n    }]\n  })\n}" }
         }
       ]
     }
@@ -69,12 +69,12 @@ export default function InterviewPrepPage() {
            <div className="group relative">
              <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-lg text-sm font-medium cursor-help">
                <BriefcaseBusiness className="w-4 h-4" />
-               <span className="truncate max-w-[200px]">Attached: OpenAI Sr. Eng</span>
+               <span className="truncate max-w-[200px]">Attached: Charlotte AWS Lead</span>
              </div>
              {/* Hover Tooltip */}
              <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                <div className="font-bold mb-1">Target Job Description</div>
-               <p className="text-slate-300">This generic course structure is currently constrained against "Senior Frontend Engineer @ OpenAI". All generated notes and code snippets reflect this contextual boundary.</p>
+               <p className="text-slate-300">This generic course structure is currently constrained against "Python/AWS Lead @ Charlotte Client". All generated notes and code snippets reflect this contextual boundary.</p>
              </div>
            </div>
         </div>
