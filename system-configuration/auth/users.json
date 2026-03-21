@@ -1,6 +1,6 @@
 {
   "users": [
-    { "id": "u_ceo", "name": "Alice (CEO)", "role": "admin" },
+    { "id": "u_ceo", "name": "Nishant (Founder)", "role": "admin" },
     { "id": "u_hr", "name": "Bob (HR)", "role": "recruiter" },
     { "id": "u_visitor", "name": "Charlie (Public)", "role": "guest" }
   ]

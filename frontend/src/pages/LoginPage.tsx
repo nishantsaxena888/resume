@@ -13,7 +13,7 @@ export default function LoginPage() {
     
     if (username === 'nishant' && password === 'nishu') {
       setError('');
-      navigate('/courses');
+      navigate('/resume');
     } else {
       setError('Invalid username or password. Access Denied.');
     }

@@ -1,10 +1,8 @@
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
-import { Download, Book, SlidersHorizontal } from 'lucide-react';
+import { Download, Book } from 'lucide-react';
 import ConfigSidebar from './ConfigSidebar';
 
 export default function TopBar() {
-  const { setIsConfigOpen } = useResume();
-
   return (
     <>
       <div className="bg-white border-b sticky top-0 z-40 shadow-sm print:hidden">
@@ -19,14 +17,6 @@ export default function TopBar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setIsConfigOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 text-slate-700 bg-slate-50 border border-slate-200 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 text-sm font-semibold rounded-lg transition-all"
-            >
-              <SlidersHorizontal className="w-4 h-4" /> System Config
-            </button>
-
-            <div className="h-6 w-px bg-slate-200 mx-1"></div>
 
             <button 
               onClick={() => window.location.href = '/docs'}
