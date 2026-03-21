@@ -32,7 +32,14 @@ export default function TopBar() {
               onClick={() => window.location.href = '/docs'}
               className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 text-sm font-medium rounded-lg transition-colors"
             >
-              <Book className="w-4 h-4" /> Syllabus
+              <Book className="w-4 h-4" /> Developer Docs
+            </button>
+
+            <button 
+              onClick={() => window.location.href = '/ns-docs'}
+              className="flex items-center gap-2 px-3 py-2 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 text-sm font-bold rounded-lg transition-colors shadow-sm"
+            >
+              NS-Docs
             </button>
 
             <button 

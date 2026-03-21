@@ -30,11 +30,23 @@ export default function DocsPage() {
         {/* Introduction */}
         <section className="space-y-4 max-w-3xl">
           <h2 className="text-4xl text-slate-900 tracking-tight leading-tight">
-            Developer <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Syllabus</span>
+            Developer <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600">Docs</span>
           </h2>
           <p className="text-lg text-slate-600 leading-relaxed font-light">
             Welcome to the configuration-driven Resume Engine. This application relies heavily on strict JSON-Schema validations, monolithic React Context state generation, and dynamic Field-Level Security matrices. Read this documentation thoroughly before contributing.
           </p>
+          <div 
+            onClick={() => window.location.href = '/ns-docs'}
+            className="mt-6 p-4 bg-indigo-50 border border-indigo-100 rounded-xl inline-flex items-center gap-4 cursor-pointer hover:bg-indigo-100 transition-colors shadow-sm"
+          >
+            <div className="p-2 bg-indigo-600 rounded-lg shadow-inner">
+              <Blocks className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h4 className="font-bold text-indigo-900 leading-tight">NS Backend Convergence Plan</h4>
+              <p className="text-sm text-indigo-700 font-medium mt-0.5">Read the roadmap for merging this Engine into the Python FastAPI backend &rarr;</p>
+            </div>
+          </div>
         </section>
 
         {/* 1. Directory Structure */}
