@@ -126,6 +126,50 @@ export default function NSDocsPage() {
           </div>
         </section>
 
+        {/* Section 4: Advanced Architectural Mechanics */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-rose-100 text-rose-600 rounded-lg"><Server className="w-5 h-5" /></div>
+            <h2 className="text-2xl font-bold text-slate-900">4. Advanced Backend Mechanics</h2>
+          </div>
+          
+          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm space-y-8">
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Schema Dynamic Caching & Cache-Poisoning Defenses</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                The NS API explicitly defends against SSR Cache Poisoning where the <code>/options</code> definition APIs would accidentally memoize empty array <code>404s</code> during edge-network deployments. The endpoints enforce strict <code>no-store</code> HTTP cache policies, guaranteeing the React frontend always pulls the absolute latest JSON schema natively from Python on every load.
+              </p>
+            </div>
+            
+            <hr className="border-slate-100" />
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">The Event Bus & Full-Text Search Sync</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                Because resumes behave like high-density query documents, the NS architecture does not rely solely on PostgreSQL `LIKE` queries. It utilizes an internal <code>event_bus.py</code> module with a <code>publish()</code> hook. This mechanism intercepts massive resume payload updates and silently acts as a write-through cache to the internal Elasticsearch cluster, guaranteeing lightning-fast keyword traversal without choking the primary RDBMS.
+              </p>
+            </div>
+
+            <hr className="border-slate-100" />
+            
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Pluggable Orchestrator Pipeline</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                The core <code>core/sources/router.py</code> does not simply save data. Before execution reaches <code>SourceRouter.create()</code>, it must clear the <code>_enforce_tenant_authorization()</code> hooks locally in memory, ensuring that a user trying to impersonate another Tenant mathematically fails before a database lock is even established.
+              </p>
+            </div>
+
+            <hr className="border-slate-100" />
+            
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Double-Entry Ledger Tracking</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                A massive concept in NS is un-cheatable accounting limits. As profiles are created or APIs are consumed, the underlying PostgreSQL database doesn't just bump a counter—it uses native ledger double-entry tables ensuring point-in-time recovery and perfect audit trailing for enterprise SaaS billing limits.
+              </p>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   );
