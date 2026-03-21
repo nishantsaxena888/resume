@@ -84,13 +84,13 @@ export default function LoginPage() {
                 />
               </div>
 
-              <button type="submit" className="w-full py-3.5 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 active:shadow-sm transition-all duration-200 flex items-center justify-center gap-2 group mt-8">
+              <button type="submit" className="w-full py-3.5 cursor-pointer bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] active:translate-y-0 active:shadow-sm transition-all duration-200 flex items-center justify-center gap-2 group mt-8">
                 Enter Dashboard <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
 
             <div className="mt-8 pt-8 border-t border-slate-100">
-              <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
+              <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 cursor-pointer bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
                 <Github className="w-5 h-5" /> Continue with GitHub
               </button>
             </div>
