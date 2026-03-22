@@ -10,7 +10,7 @@ interface TemplateProps {
 
 export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { updateData, updatePersonalInfo } = useResume();
-  const info = data.personalInfo;
+  const info = data?.personalInfo || {} as any;
 
   return (
     <div className="w-full max-w-[850px] bg-white text-gray-900 shadow-xl print:shadow-none print:w-full print:max-w-none font-sans relative flex min-h-[1100px]">
@@ -58,25 +58,32 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           </h2>
 
           <div className="space-y-5">
-            {data.skills?.map((skillGroup, idx) => (
-              <div key={idx} className="group/item relative">
-                <div className="font-bold text-slate-200 mb-1">{skillGroup.category}</div>
-                <div className="text-sm text-slate-300 leading-relaxed flex flex-wrap gap-1">
-                  {skillGroup.items.map((item, itemIdx) => (
-                    <span 
-                      key={itemIdx} 
-                      className={`px-2 py-0.5 rounded text-xs ${
-                        idx % 3 === 0 ? 'bg-slate-700 text-slate-200' : 
-                        idx % 3 === 1 ? 'bg-indigo-900/50 text-indigo-200' : 
-                        'bg-rose-900/50 text-rose-200'
-                      }`}
-                    >
-                      {item}
-                    </span>
-                  ))}
+            {(() => {
+              const rawSkills = data?.skills || [];
+              const safeSkills = Array.isArray(rawSkills) 
+                ? rawSkills 
+                : Object.entries(rawSkills).map(([k, v]) => ({ category: k, items: Array.isArray(v) ? v : [] }));
+              
+              return safeSkills.map((skillGroup, idx) => (
+                <div key={idx} className="group/item relative">
+                  <div className="font-bold text-slate-200 mb-1 capitalize">{skillGroup.category}</div>
+                  <div className="text-sm text-slate-300 leading-relaxed flex flex-wrap gap-1">
+                    {skillGroup.items?.map((item, itemIdx) => (
+                      <span 
+                        key={itemIdx} 
+                        className={`px-2 py-0.5 rounded text-xs ${
+                          idx % 3 === 0 ? 'bg-slate-700 text-slate-200' : 
+                          idx % 3 === 1 ? 'bg-indigo-900/50 text-indigo-200' : 
+                          'bg-rose-900/50 text-rose-200'
+                        }`}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
 
@@ -87,7 +94,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           </h2>
 
           <div className="space-y-4">
-             {data.education.map((edu, idx) => (
+             {(Array.isArray(data?.education) ? data.education : []).map((edu, idx) => (
               <div key={idx} className="group/item relative">
                 <button onClick={() => updateData({ education: data.education.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-300"><Trash2 size={14}/></button>
                 <div className="font-bold text-slate-200">
@@ -144,7 +151,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           </h3>
           
           <div className="space-y-8">
-            {data.experience.map((job, idx) => (
+            {(Array.isArray(data?.experience) ? data.experience : []).map((job, idx) => (
               <div key={idx} className="group/job relative">
                 <button onClick={() => updateData({ experience: data.experience.filter((_, i) => i !== idx) })} className="absolute -left-10 top-1 print:hidden opacity-0 group-hover/job:opacity-100 text-red-500 hover:text-red-700 bg-red-50 p-2 rounded-full"><Trash2 size={14}/></button>
                 

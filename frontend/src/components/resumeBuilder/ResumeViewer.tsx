@@ -6,7 +6,7 @@ export default function ResumeViewer() {
   const { data } = useResume();
 
   const renderTemplate = () => {
-    switch (data.metadata.template) {
+    switch (data?.metadata?.template || 'classic') {
       case 'modern':
         return <ModernTemplate data={data} />;
       case 'classic':

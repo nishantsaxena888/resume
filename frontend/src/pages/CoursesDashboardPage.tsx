@@ -1,94 +1,61 @@
-import React, { useState } from 'react';
-import { BookOpen, Search, BriefcaseBusiness, FileText, Server, Terminal, Code, Brain, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Search, BriefcaseBusiness, FileText, Server, Terminal, Code, Brain, ChevronRight, Loader2 } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function CoursesDashboardPage() {
   const navigate = useNavigate();
+  const { prepId } = useParams();
 
-  // Mock global filters
-  const [selectedJd, setSelectedJd] = useState('all');
-  const [selectedResume, setSelectedResume] = useState('all');
+  const [courses, setCourses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Hardcoded prep targets matching the user's Charlotte JD configuration
-  const courses = [
-    {
-      id: 'aws-architecture-01',
-      title: 'AWS Serverless Architecture Mastery',
-      description: 'Deep dive into Step Functions, Lambda, API Gateway, and Terraform deployments for large-scale migrations.',
-      progress: 85,
-      icon: <Server className="w-6 h-6 text-indigo-500" />,
-      color: 'bg-indigo-500',
-      attachedJd: 'Python/AWS Lead (Charlotte)'
-    },
-    {
-      id: 'python-advanced-01',
-      title: 'Advanced Python System Design',
-      description: 'Master FastAPI, Django, Celery, and asynchronous pipeline processors. Heavily requested in Charlotte interview loops.',
-      progress: 42,
-      icon: <Terminal className="w-6 h-6 text-emerald-500" />,
-      color: 'bg-emerald-500',
-      attachedJd: 'Python/AWS Lead (Charlotte)'
-    },
-    {
-      id: 'tdd-engineering-01',
-      title: 'Test-Driven Development (TDD) Fundamentals',
-      description: 'Learn how to write resilient Python code by constructing tests first. A core requirement for CapitalOne/Centene profiles.',
-      progress: 10,
-      icon: <Code className="w-6 h-6 text-rose-500" />,
-      color: 'bg-rose-500',
-      attachedJd: null
-    },
-    {
-      id: 'ai-doc-extraction-01',
-      title: 'Document AI & OCR Strategies',
-      description: 'Architecting extraction systems using AWS Textract, Azure Document Intelligence, and GenAI models.',
-      progress: 60,
-      icon: <Brain className="w-6 h-6 text-amber-500" />,
-      color: 'bg-amber-500',
-      attachedJd: null
+  useEffect(() => {
+    if (prepId) {
+      fetch(`http://localhost:9999/api/v1/preparations/${prepId}`)
+        .then(res => res.json())
+        .then(data => {
+          setCourses(data.courses || []);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setLoading(false);
+        });
+    } else {
+      fetch(`http://localhost:9999/api/v1/courses`)
+        .then(res => res.json())
+        .then(data => {
+          setCourses(data || []);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setLoading(false);
+        });
     }
-  ];
+  }, [prepId]);
+  
+  const getIcon = (title: string) => {
+    if (title.toLowerCase().includes('aws')) return <Server className="w-6 h-6 text-indigo-500" />;
+    if (title.toLowerCase().includes('python')) return <Terminal className="w-6 h-6 text-emerald-500" />;
+    return <BookOpen className="w-6 h-6 text-slate-500" />;
+  };
+  
+  const getColor = (title: string) => {
+    if (title.toLowerCase().includes('aws')) return 'bg-indigo-500';
+    if (title.toLowerCase().includes('python')) return 'bg-emerald-500';
+    return 'bg-slate-500';
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Global Filter Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-8 py-5 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-            <img src="/skillom-logo.png" alt="Skillom Ai" className="w-8 h-8 drop-shadow-sm" />
-            Interview Preparation Modules
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">Select a curriculum engineered to secure your target role</p>
-        </div>
-
-        {/* The required Global Filters for JD/Resume */}
-        <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-xl border border-slate-200 shadow-sm">
-          
-          <div className="flex items-center gap-2 px-3 border-r border-slate-200">
-            <BriefcaseBusiness className="w-4 h-4 text-slate-400" />
-            <select 
-              value={selectedJd}
-              onChange={e => setSelectedJd(e.target.value)}
-              className="bg-transparent text-sm font-medium text-slate-700 focus:outline-none w-48 truncate cursor-pointer"
-            >
-              <option value="all">Any Target JD...</option>
-              <option value="charlotte">Python/AWS Lead (Charlotte)</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2 pl-1 pr-3">
-            <FileText className="w-4 h-4 text-slate-400" />
-            <select 
-              value={selectedResume}
-              onChange={e => setSelectedResume(e.target.value)}
-              className="bg-transparent text-sm font-medium text-slate-700 focus:outline-none w-48 truncate cursor-pointer"
-            >
-              <option value="all">Any Tailored Resume...</option>
-              <option value="default">Nishant Saxena (Default)</option>
-            </select>
-          </div>
-
-        </div>
+      {/* Workspace Scoped Header */}
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-8 py-5">
+        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+          <BookOpen className="w-8 h-8 text-indigo-600 drop-shadow-sm" />
+          Targeted Prep Curriculum
+        </h1>
+        <p className="text-sm font-medium text-slate-500 mt-1">Modules strictly curated for Python & AWS architectural readiness.</p>
       </header>
 
       {/* Main Grid */}
@@ -124,10 +91,10 @@ export default function CoursesDashboardPage() {
                  </div>
               )}
 
-              <div className={`h-2 w-full ${course.color}`} />
+              <div className={`h-2 w-full ${getColor(course.title)}`} />
               <div className="p-6 flex-1 flex flex-col">
                 <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm">
-                  {course.icon}
+                  {getIcon(course.title)}
                 </div>
                 
                 <h3 className="font-bold text-slate-900 text-lg mb-2 line-clamp-2 leading-tight group-hover:text-indigo-600 transition-colors">
@@ -135,16 +102,16 @@ export default function CoursesDashboardPage() {
                 </h3>
                 
                 <p className="text-slate-500 text-sm line-clamp-3 mb-4 flex-1">
-                  {course.description}
+                  A foundational curriculum block aligned with your target context mapping.
                 </p>
                 
                 <div className="mt-auto">
                   <div className="flex justify-between items-end mb-2">
                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Progress</span>
-                       <span className="text-xs font-bold text-slate-700">{course.progress}%</span>
+                       <span className="text-xs font-bold text-slate-700">0%</span>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                      <div className={`${course.color} h-1.5 rounded-full transition-all`} style={{ width: `${course.progress}%` }}></div>
+                      <div className={`${getColor(course.title)} h-1.5 rounded-full transition-all`} style={{ width: `0%` }}></div>
                     </div>
                   </div>
                 </div>

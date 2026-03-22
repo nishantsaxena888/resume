@@ -9,6 +9,7 @@ interface EditableFieldProps {
   placeholder?: string;
   entity?: string;
   field?: string;
+  onTab?: () => void;
 }
 
 export const EditableField: React.FC<EditableFieldProps> = ({ 
@@ -18,7 +19,8 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   multiline = false,
   placeholder = '',
   entity,
-  field
+  field,
+  onTab
 }) => {
   const ref = useRef<HTMLTextAreaElement & HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -62,6 +64,10 @@ export const EditableField: React.FC<EditableFieldProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Tab' && onTab) {
+      // Execute the custom tab action (e.g. adding a new row to an array)
+      onTab();
+    }
     if (e.key === 'Enter' && !multiline) {
       e.preventDefault();
       ref.current?.blur();

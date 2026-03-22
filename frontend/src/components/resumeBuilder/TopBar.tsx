@@ -1,9 +1,10 @@
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
-import { Download, Book, Save, Loader2 } from 'lucide-react';
+import { Download, Book, Save, Loader2, ArrowLeft } from 'lucide-react';
 import ConfigSidebar from './ConfigSidebar';
 
 export default function TopBar() {
   const { isSaving, isSaved, hasChanges, saveToDatabase } = useResume();
+  const hash = window.location.hash.replace('#', '');
 
   return (
     <>
@@ -19,6 +20,15 @@ export default function TopBar() {
           </div>
 
           <div className="flex items-center gap-3">
+          
+            {hash && hash.startsWith('prep-') && (
+              <button 
+                onClick={() => window.location.href = `/prep/${hash}/courses`}
+                className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors mr-2 border border-slate-200"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Workspace
+              </button>
+            )}
 
             <button 
               onClick={saveToDatabase}

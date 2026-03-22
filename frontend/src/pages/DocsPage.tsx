@@ -1,6 +1,8 @@
 import { Book, Shield, Code, Blocks, Network, FileJson, ArrowLeft, FolderTree, Key, Layers, Puzzle, Database } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function DocsPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-20">
       
@@ -17,7 +19,7 @@ export default function DocsPage() {
             </div>
           </div>
           <button 
-            onClick={() => window.location.href = '/'} 
+            onClick={() => navigate(-1)} 
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to App
@@ -36,7 +38,7 @@ export default function DocsPage() {
             Welcome to the configuration-driven Resume Engine. This application relies heavily on strict JSON-Schema validations, monolithic React Context state generation, and dynamic Field-Level Security matrices. Read this documentation thoroughly before contributing.
           </p>
           <div 
-            onClick={() => window.location.href = '/ns-docs'}
+            onClick={() => navigate('/ns-docs')}
             className="mt-6 p-4 bg-indigo-50 border border-indigo-100 rounded-xl inline-flex items-center gap-4 cursor-pointer hover:bg-indigo-100 transition-colors shadow-sm"
           >
             <div className="p-2 bg-indigo-600 rounded-lg shadow-inner">
@@ -45,6 +47,54 @@ export default function DocsPage() {
             <div>
               <h4 className="font-bold text-indigo-900 leading-tight">NS Backend Convergence Plan</h4>
               <p className="text-sm text-indigo-700 font-medium mt-0.5">Read the roadmap for merging this Engine into the Python FastAPI backend &rarr;</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 0. The Vision */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3 border-b border-gray-200 pb-3">
+            <Blocks className="w-6 h-6 text-purple-500" />
+            <h3 className="text-2xl font-bold text-slate-800 tracking-tight">0. The Omni-Preparation Platform Vision</h3>
+          </div>
+          
+          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl p-8 shadow-sm leading-relaxed text-slate-800">
+            <h3 className="font-bold text-lg mb-3">Skillom AI is an Omni-Preparation OS.</h3>
+            <p className="mb-4 text-sm">
+              A <strong>Preparation</strong> is fundamentally a massive Study/Upskilling container. It natively houses <strong>Courses</strong> (the Table of Contents) and <strong>Extensive Knowledge Base Notes</strong>. 
+            </p>
+            <p className="mb-6 text-sm">
+              <strong>Target JDs</strong> and <strong>Tailored Resumes</strong> are <em>optional</em> attachments. The Context Engine natively maps Course TOC elements against these optional profiles, scaling to any industry instantly without logic rewrites:
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-5 rounded-xl border border-purple-100 shadow-sm">
+                <h4 className="font-bold text-slate-900 text-sm mb-2">K-12 Students</h4>
+                <p className="text-xs text-slate-600 line-clamp-4">
+                  <strong>Prep:</strong> Passing 8th Grade Science.<br/>
+                  <strong>Courses:</strong> Textbook Chapters.<br/>
+                  <strong>JD:</strong> The Exam Syllabus.<br/>
+                  Their Study Notes cross-reference the required syllabus!
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-indigo-100 shadow-sm">
+                <h4 className="font-bold text-slate-900 text-sm mb-2">Manufacturing / Trades</h4>
+                <p className="text-xs text-slate-600 line-clamp-4">
+                  <strong>Prep:</strong> Advanced Welding Cert.<br/>
+                  <strong>Courses:</strong> Safety Modules.<br/>
+                  <strong>JD:</strong> OSHA Requirements.<br/>
+                  Calculating shop skills against cert parameters.
+                </p>
+              </div>
+              <div className="bg-white p-5 rounded-xl border border-blue-100 shadow-sm">
+                <h4 className="font-bold text-slate-900 text-sm mb-2">Tech Professionals</h4>
+                <p className="text-xs text-slate-600 line-clamp-4">
+                  <strong>Prep:</strong> Principal Architect Loop.<br/>
+                  <strong>Courses:</strong> Python & AWS Mastery.<br/>
+                  <strong>JD:</strong> Top-Tier Tech Posting.<br/>
+                  Weaving past architectures into interview notes.
+                </p>
+              </div>
             </div>
           </div>
         </section>

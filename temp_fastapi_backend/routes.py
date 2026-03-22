@@ -2,8 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
+import uuid
+
 from database import get_db
-from models import User, Course, CourseModule, CourseWidget, Resume
+from models import User, Course, CourseModule, CourseWidget, Resume, JobDescription, Preparation, PreparationNote
+from schemas import (
+    PreparationCreate, PreparationResponse, PreparationNoteCreate, PreparationNoteResponse
+)
 
 router = APIRouter()
 
@@ -38,8 +43,128 @@ class CourseResponse(BaseModel):
     title: str
     modules: List[ModuleResponse] = []
 
+    class Config:
+        orm_mode = True
+        from_attributes = True
 
 # --- API Endpoints ---
+
+# ==========================================
+# PREPARATIONS (THE ROOTS)
+# ==========================================
+
+@router.get("/preparations", response_model=List[PreparationResponse])
+def get_all_preparations(db: Session = Depends(get_db)):
+    """Powers the PreparationsDashboardPage.tsx"""
+    preps = db.query(Preparation).order_by(Preparation.created_at.desc()).all()
+    return preps
+
+@router.post("/preparations", response_model=PreparationResponse)
+def create_preparation(prep_in: PreparationCreate, db: Session = Depends(get_db)):
+    """Creates a new Preparation Workspace"""
+    active_user = db.query(User).first()
+    if not active_user:
+        active_user = User(email="nishant.ceo@skillom.ai", name="Nishant")
+        db.add(active_user)
+        db.flush()
+
+    new_prep = Preparation(
+        id=f"prep-{uuid.uuid4().hex[:8]}", # e.g. prep-a1b2c3d4
+        user_id=active_user.id,
+        title=prep_in.title,
+        subtitle=prep_in.subtitle,
+        icon=prep_in.icon or "BriefcaseBusiness"
+    )
+    
+    if prep_in.resume_ids:
+        resumes_obj = db.query(Resume).filter(Resume.id.in_(prep_in.resume_ids)).all()
+        new_prep.resumes.extend(resumes_obj)
+        
+    if prep_in.jd_ids:
+        jds_obj = db.query(JobDescription).filter(JobDescription.id.in_(prep_in.jd_ids)).all()
+        new_prep.jds.extend(jds_obj)
+        
+    if prep_in.course_ids:
+        courses_obj = db.query(Course).filter(Course.id.in_(prep_in.course_ids)).all()
+        new_prep.courses.extend(courses_obj)
+        
+    db.add(new_prep)
+    db.commit()
+    db.refresh(new_prep)
+    return new_prep
+
+@router.put("/preparations/{prep_id}", response_model=PreparationResponse)
+def update_preparation(prep_id: str, prep_in: PreparationCreate, db: Session = Depends(get_db)):
+    """Full architectural PUT update for an existing Preparation workspace"""
+    prep = db.query(Preparation).filter(Preparation.id == prep_id).first()
+    if not prep:
+        raise HTTPException(status_code=404, detail="Preparation not found")
+        
+    prep.title = prep_in.title
+    prep.subtitle = prep_in.subtitle
+    if prep_in.icon:
+        prep.icon = prep_in.icon
+        
+    # Re-map associative scopes
+    prep.resumes.clear()
+    if prep_in.resume_ids:
+        resumes_obj = db.query(Resume).filter(Resume.id.in_(prep_in.resume_ids)).all()
+        prep.resumes.extend(resumes_obj)
+        
+    prep.jds.clear()
+    if prep_in.jd_ids:
+        jds_obj = db.query(JobDescription).filter(JobDescription.id.in_(prep_in.jd_ids)).all()
+        prep.jds.extend(jds_obj)
+        
+    prep.courses.clear()
+    if prep_in.course_ids:
+        courses_obj = db.query(Course).filter(Course.id.in_(prep_in.course_ids)).all()
+        prep.courses.extend(courses_obj)
+        
+    db.commit()
+    db.refresh(prep)
+    return prep
+
+@router.delete("/preparations/{prep_id}")
+def delete_preparation(prep_id: str, db: Session = Depends(get_db)):
+    """Physically purges the target Workspace and cascades removal"""
+    prep = db.query(Preparation).filter(Preparation.id == prep_id).first()
+    if not prep:
+        raise HTTPException(status_code=404, detail="Preparation not found")
+        
+    db.delete(prep)
+    db.commit()
+    return {"success": True}
+
+@router.get("/preparations/{prep_id}", response_model=PreparationResponse)
+def get_preparation(prep_id: str, db: Session = Depends(get_db)):
+    """Fetches the Single Workspace and its nested notes/courses"""
+    prep = db.query(Preparation).filter(Preparation.id == prep_id).first()
+    if not prep:
+        raise HTTPException(status_code=404, detail="Preparation not found")
+    return prep
+
+@router.put("/preparations/{prep_id}/notes", response_model=PreparationNoteResponse)
+def save_preparation_notes(prep_id: str, note_in: PreparationNoteCreate, db: Session = Depends(get_db)):
+    """Auto-saves the rich text content from NotesForPrintPage.tsx"""
+    prep = db.query(Preparation).filter(Preparation.id == prep_id).first()
+    if not prep:
+        raise HTTPException(status_code=404, detail="Preparation not found")
+        
+    if prep.notes:
+        prep.notes.content = note_in.content
+    else:
+        new_note = PreparationNote(preparation_id=prep_id, content=note_in.content)
+        db.add(new_note)
+        prep.notes = new_note
+        
+    db.commit()
+    db.refresh(prep.notes)
+    return prep.notes
+
+# ==========================================
+# COURSES & MODULES
+# ==========================================
 
 @router.post("/courses", response_model=CourseResponse)
 def create_course(course: CourseCreate, db: Session = Depends(get_db)):
@@ -85,8 +210,17 @@ def add_widget_to_module(module_id: int, widget: CourseWidgetCreate, db: Session
 @router.get("/resumes")
 def get_all_resumes(db: Session = Depends(get_db)):
     resumes = db.query(Resume).order_by(Resume.id.desc()).all()
-    # SQLAlchemy JSONB natively translates to python dicts and then to FastAPI JSON responses
     return resumes
+
+@router.get("/jds")
+def get_all_jds(db: Session = Depends(get_db)):
+    jds = db.query(JobDescription).order_by(JobDescription.id.desc()).all()
+    return jds
+
+@router.get("/courses")
+def get_all_courses(db: Session = Depends(get_db)):
+    courses = db.query(Course).order_by(Course.id.desc()).all()
+    return courses
 
 @router.post("/resumes")
 def save_resume(resume_in: dict, db: Session = Depends(get_db)):

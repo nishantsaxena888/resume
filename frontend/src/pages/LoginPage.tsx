@@ -7,13 +7,22 @@ import { UniversalSchemaForm } from '../components/common/UniversalSchemaForm';
 export default function LoginPage() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [sessionActive, setSessionActive] = useState(false);
+
+  React.useEffect(() => {
+    if (localStorage.getItem('skillom_auth') === 'true') {
+      setSessionActive(true);
+    }
+  }, []);
 
   const handleLoginSubmit = (data: Record<string, any>) => {
     const { username, password } = data;
     
+    // In future this calls the FastAPI backend to receive a real JWT Token
     if (username === 'nishant' && password === 'nishu') {
       setError('');
-      navigate('/resume');
+      localStorage.setItem('skillom_auth', 'true');
+      navigate('/dashboard');
     } else {
       setError('Invalid username or password. Access Denied.');
     }
@@ -43,19 +52,40 @@ export default function LoginPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h2>
             <p className="text-sm text-slate-500 mb-6">Enter your credentials to access the Skillom Ai Gateway.</p>
 
-            <UniversalSchemaForm 
-              schema={AuthLoginSchema} 
-              onSubmit={handleLoginSubmit} 
-              submitLabel="Enter Dashboard" 
-              error={error}
-              clearError={() => setError('')}
-            />
+            {sessionActive ? (
+              <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 text-center shadow-inner mt-4">
+                <div className="w-16 h-16 rounded-full bg-white shadow-md mx-auto mb-4 overflow-hidden border-4 border-indigo-100">
+                   <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Nishant" alt="Profile" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="font-black text-slate-800 text-lg mb-1">Active Session Detected</h3>
+                <p className="text-xs font-semibold text-slate-500 mb-6">You are already authenticated.</p>
+                <button 
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-md shadow-indigo-200 flex items-center justify-center gap-2"
+                >
+                  Go to Dashboard <ArrowRight className="w-4 h-4" />
+                </button>
+                <button onClick={() => { localStorage.removeItem('skillom_auth'); setSessionActive(false); }} className="w-full py-3 mt-3 text-slate-400 hover:text-rose-500 font-bold text-xs transition-colors underline">
+                  Terminate Session
+                </button>
+              </div>
+            ) : (
+              <>
+                <UniversalSchemaForm 
+                  schema={AuthLoginSchema} 
+                  onSubmit={handleLoginSubmit} 
+                  submitLabel="Enter Dashboard" 
+                  error={error}
+                  clearError={() => setError('')}
+                />
 
-            <div className="mt-8 pt-8 border-t border-slate-100">
-              <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 cursor-pointer bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
-                <Github className="w-5 h-5" /> Continue with GitHub
-              </button>
-            </div>
+                <div className="mt-8 pt-8 border-t border-slate-100">
+                  <button type="button" onClick={() => navigate('/courses')} className="w-full py-3 cursor-pointer bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-3">
+                    <Github className="w-5 h-5" /> Continue with GitHub
+                  </button>
+                </div>
+              </>
+            )}
 
           </div>
         </div>

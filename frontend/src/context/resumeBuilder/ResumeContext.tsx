@@ -68,9 +68,21 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       })
       .then(dbResumes => {
         if (dbResumes && dbResumes.length > 0 && dbResumes[0].payload) {
-          console.log("🔥 Successfully intercepted PostgreSQL Database Payload. Overriding local mocks!");
-          setData(dbResumes[0].payload);
-          setLastSavedDataStr(JSON.stringify(dbResumes[0].payload));
+          console.log("🔥 Successfully intercepted PostgreSQL Database Payload. Deep merging with structural anchors!");
+          const dbPayload = dbResumes[0].payload;
+          
+          const mergedData = {
+            ...initialData,
+            ...dbPayload,
+            personalInfo: { ...initialData.personalInfo, ...(dbPayload.personalInfo || {}) },
+            experience: dbPayload.experience?.length ? dbPayload.experience : initialData.experience,
+            education: dbPayload.education?.length ? dbPayload.education : initialData.education,
+            skills: dbPayload.skills && Object.keys(dbPayload.skills).length ? dbPayload.skills : initialData.skills,
+            metadata: { ...initialData.metadata, ...(dbPayload.metadata || {}) }
+          };
+          
+          setData(mergedData);
+          setLastSavedDataStr(JSON.stringify(mergedData));
         }
       })
       .catch(e => console.error("Database connection failed, falling back to local mocks:", e));

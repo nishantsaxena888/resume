@@ -88,7 +88,7 @@ export default function ConfigSidebar() {
                   <span className="text-sm font-medium text-slate-700">UI Template Layout</span>
                 </div>
                 <select 
-                  value={data.metadata.template}
+                  value={data?.metadata?.template || 'classic'}
                   onChange={(e) => updateMetadata({ template: e.target.value })}
                   className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 font-bold cursor-pointer outline-none shadow-sm"
                 >

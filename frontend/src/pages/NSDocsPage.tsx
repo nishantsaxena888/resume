@@ -1,15 +1,17 @@
 import React from 'react';
 import { Database, Server, GitMerge, ArrowRight, ServerCrash, Blocks, Layers, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NSDocsPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-slate-50 overflow-y-auto pb-32">
       <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 border-b border-indigo-900">
         <div className="max-w-[1000px] mx-auto px-8 py-12">
           <div className="flex items-center gap-3 text-indigo-200 mb-6 text-sm font-semibold tracking-wider">
-            <button onClick={() => window.location.href = '/'} className="hover:text-white transition-colors">HOME</button>
+            <button onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors">HOME</button>
             <span className="opacity-50">/</span>
-            <button onClick={() => window.location.href = '/docs'} className="hover:text-white transition-colors">DOCS</button>
+            <button onClick={() => navigate('/docs')} className="hover:text-white transition-colors">DOCS</button>
             <span className="opacity-50">/</span>
             <span className="text-white">NS BACKEND CONVERGENCE</span>
           </div>
@@ -34,10 +36,10 @@ export default function NSDocsPage() {
           
           <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm leading-relaxed text-slate-700">
             <p className="mb-4">
-              Right now, our <strong>Resume Frontend</strong> is incredibly smart, but it is entirely faking a backend. It loads local JSON files (like <code>users.json</code> and `permissions.json`) to figure out who is logged in and what they are allowed to edit. 
+              Right now, our <strong>Frontend</strong> is incredibly smart, but it is entirely faking a backend. It loads local JSON files (like <code>users.json</code> and `permissions.json`) to figure out who is logged in and what they are allowed to edit. 
             </p>
             <p>
-              Meanwhile, sitting right next to it in the workspace is the <strong>NS Directory (Nishify Studio)</strong>. NS is a fully-built, battle-tested Python FastAPI backend that does exactly this, but for real. It connects to real PostgreSQL databases and Elasticsearch instances. 
+              Meanwhile, sitting right next to it in the workspace is the <strong>NS Directory (Nishify Studio)</strong>. NS is a fully-built, battle-tested Python Backend that does exactly this, but for real. It connects to real PostgreSQL databases and Elasticsearch instances. 
             </p>
           </div>
         </section>

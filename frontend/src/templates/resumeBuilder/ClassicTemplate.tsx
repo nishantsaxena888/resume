@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin, Trash2, MapPin } from 'lucide-react';
+import { Mail, Phone, Linkedin, Trash2, MapPin, Plus } from 'lucide-react';
 import type { ResumeModel } from '../../types/resumeBuilder/resume';
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
 import { EditableField } from '../../components/EditableField';
@@ -9,7 +9,7 @@ interface TemplateProps {
 
 export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { updateData, updatePersonalInfo } = useResume();
-  const info = data.personalInfo;
+  const info = data?.personalInfo || {} as any;
 
   return (
     <div className="w-full max-w-[850px] bg-white text-gray-900 shadow-xl print:shadow-none print:w-full print:max-w-none print:p-0 px-10 sm:px-14 pb-14 pt-8 sm:pt-10 font-sans relative group/template">
@@ -67,7 +67,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
             Professional Summary
           </h3>
-          <div className="text-sm text-gray-800 leading-relaxed">
+          <div className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
              <EditableField 
                 value={data.summary} 
                 multiline
@@ -77,52 +77,74 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         </section>
         
         {/* Skill Specifications */}
-        <section className="relative group/section">
+        <section className="relative group/section pb-4">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
-            Skill Specifications
+            <span>Skill Specifications</span>
           </h3>
-          <div className="space-y-2 text-sm text-gray-800 leading-relaxed">
-            
-            {/* Languages */}
-            <div className="flex gap-2 group/item relative">
-               <div className="font-bold text-black min-w-[150px] whitespace-nowrap">
-                 Languages:
-               </div>
-               <div className="flex-1 w-full text-gray-700">
-                 {data.skills?.languages?.join(", ")}
-               </div>
-            </div>
+          <ul className="list-disc list-outside ml-5 space-y-2 text-sm text-gray-800 leading-relaxed">
+            {(() => {
+              const safeSkills = Array.isArray(data?.skills) 
+                ? data.skills 
+                : Object.entries(data?.skills || {}).map(([k, v]) => ({ category: k, items: Array.isArray(v) ? v : [] }));
 
-            {/* Frameworks */}
-            <div className="flex gap-2 group/item relative">
-               <div className="font-bold text-black min-w-[150px] whitespace-nowrap">
-                 Frameworks:
-               </div>
-               <div className="flex-1 w-full text-gray-700">
-                 {data.skills?.frameworks?.join(", ")}
-               </div>
-            </div>
-
-            {/* Tools */}
-            <div className="flex gap-2 group/item relative">
-               <div className="font-bold text-black min-w-[150px] whitespace-nowrap">
-                 Cloud & Tools:
-               </div>
-               <div className="flex-1 w-full text-gray-700">
-                 {data.skills?.tools?.join(", ")}
-               </div>
-            </div>
-
+              return safeSkills.map((skillGroup, sIdx) => {
+                const isLast = sIdx === safeSkills.length - 1;
+                return (
+                <li key={sIdx} className="group/item relative pl-1">
+                   <button onClick={() => {
+                        const updated = [...data.skills];
+                        updated.splice(sIdx, 1);
+                        updateData({ skills: updated });
+                     }} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-500 hover:text-red-700 bg-red-50 p-1 rounded-full">
+                     <Trash2 size={12}/>
+                   </button>
+                   <div className="flex flex-col sm:flex-row sm:gap-2 items-start">
+                     <div className="font-bold text-black sm:min-w-[220px] flex items-start">
+                       <EditableField 
+                          value={skillGroup.category} 
+                          multiline
+                          onChange={(val: string) => {
+                            const updated = [...data.skills];
+                            updated[sIdx].category = val;
+                            updateData({ skills: updated });
+                          }} 
+                       />
+                       <span className="mt-[2px] pr-2">:</span>
+                     </div>
+                     <div className="flex-1 w-full text-gray-700">
+                       <EditableField 
+                          value={skillGroup.items.join(', ')} 
+                          multiline
+                          onChange={(val: string) => {
+                            const updated = [...data.skills];
+                            updated[sIdx].items = val.split(',').map(s => s.trim()).filter(Boolean);
+                            updateData({ skills: updated });
+                          }} 
+                          onTab={isLast ? () => updateData({ skills: [...(data.skills || []), { category: 'New Category', items: ['New Skill'] }] }) : undefined}
+                       />
+                     </div>
+                   </div>
+                </li>
+              )});
+            })()}
+          </ul>
+          <div className="mt-3 flex justify-start print:hidden opacity-0 group-hover/section:opacity-100 transition-all">
+            <button 
+              onClick={() => updateData({ skills: [...(data.skills || []), { category: 'New Category', items: ['New Skill'] }] })} 
+              className="text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold"
+            >
+              <Plus size={14}/> ADD CATEGORY
+            </button>
           </div>
         </section>
 
         {/* Professional Experience */}
-        <section className="relative group/section">
+        <section className="relative group/section pb-4">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-4 tracking-wider flex items-center justify-between">
-            Professional Experience
+            <span>Professional Experience</span>
           </h3>
           <div className="space-y-6">
-            {data.experience.map((job, idx) => (
+            {(Array.isArray(data?.experience) ? data.experience : []).map((job, idx) => (
               <div key={idx} className="group/job relative">
                 <button onClick={() => updateData({ experience: data.experience.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/job:opacity-100 text-red-500 hover:text-red-700 bg-red-50 p-1 rounded-full"><Trash2 size={14}/></button>
                 
@@ -137,7 +159,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                       }} 
                     />
                   </h4>
-                  <span className="text-sm font-semibold text-gray-700 whitespace-nowrap text-right min-w-[150px]">
+                  <span className="text-sm font-semibold text-gray-700 whitespace-nowrap text-right min-w-[200px]">
                     <EditableField 
                       value={job.duration} 
                       className="text-right"
@@ -159,9 +181,11 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                     }} 
                   />
                 </div>
-                <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed relative group/achievements">
+                <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed relative group/achievements pb-4">
                   
-                  {job.achievements?.map((point, pIdx) => (
+                  {job.achievements?.map((point, pIdx) => {
+                    const isLastTrait = pIdx === job.achievements.length - 1;
+                    return (
                     <li key={pIdx} className="group/point relative">
                       <button onClick={() => {
                         const updated = [...data.experience];
@@ -171,27 +195,51 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                       <EditableField 
                         value={point} 
                         multiline
+                        className="block w-full align-top"
                         onChange={(val: string) => {
                           const updated = [...data.experience];
                           updated[idx].achievements[pIdx] = val;
                           updateData({ experience: updated });
                         }} 
+                        onTab={isLastTrait ? () => {
+                          const updated = [...data.experience];
+                          updated[idx].achievements = [...(updated[idx].achievements || []), "New achievement"];
+                          updateData({ experience: updated });
+                        } : undefined}
                       />
                     </li>
-                  ))}
+                  )})}
+                  
+                  <div className="absolute -left-3 bottom-0 print:hidden opacity-0 group-hover/achievements:opacity-100 flex h-4">
+                     <button onClick={() => {
+                        const updated = [...data.experience];
+                        updated[idx].achievements = [...(updated[idx].achievements || []), "New achievement"];
+                        updateData({ experience: updated });
+                     }} className="text-indigo-500 hover:text-indigo-700 bg-indigo-50 w-[max-content] rounded-sm flex items-center gap-1 px-1 text-[10px] font-bold uppercase"><Plus size={10}/> Add Trait</button>
+                  </div>
                 </ul>
               </div>
             ))}
           </div>
+          <div className="mt-4 flex justify-start print:hidden opacity-0 group-hover/section:opacity-100 transition-all">
+             <button 
+              onClick={() => updateData({ experience: [...(data.experience || []), { company: 'New Company', role: 'Role', duration: 'Duration', location: '', achievements: ['New achievement'] }] })} 
+              className="text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold"
+            >
+              <Plus size={14}/> ADD JOB
+            </button>
+          </div>
         </section>
 
         {/* Education */}
-        <section className="relative group/section">
+        <section className="relative group/section pb-4">
           <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
-            Education
+            <span>Education</span>
           </h3>
           <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed">
-            {data.education.map((edu, idx) => (
+            {(Array.isArray(data?.education) ? data.education : []).map((edu, idx) => {
+              const isLastEdu = idx === (data?.education?.length || 0) - 1;
+              return (
               <li key={idx} className="group/item relative flex gap-1 flex-wrap">
                 <button onClick={() => updateData({ education: data.education.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-600"><Trash2 size={14}/></button>
                 <span className="font-semibold text-black inline-block min-w-[100px]">
@@ -202,7 +250,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                     }} />
                 </span> 
                 <span className="inline-block px-1">in</span>
-                <span className="inline-block min-w-[50px]">
+                <span className="inline-block min-w-[120px]">
                   <EditableField value={edu.year} onChange={(val: string) => {
                       const updated = [...data.education];
                       updated[idx].year = val;
@@ -215,11 +263,21 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                       const updated = [...data.education];
                       updated[idx].institution = val;
                       updateData({ education: updated });
-                    }} />
+                    }} 
+                    onTab={isLastEdu ? () => updateData({ education: [...(data.education || []), { degree: 'New Degree', institution: 'University', year: 'Year' }] }) : undefined}
+                  />
                 </span>
               </li>
-            ))}
+            )})}
           </ul>
+          <div className="mt-3 flex justify-start print:hidden opacity-0 group-hover/section:opacity-100 transition-all">
+             <button 
+              onClick={() => updateData({ education: [...(data.education || []), { degree: 'New Degree', institution: 'University', year: 'Year' }] })} 
+              className="text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-2 py-1.5 rounded-md flex items-center gap-1 text-xs font-bold"
+            >
+              <Plus size={14}/> ADD DEGREE
+            </button>
+          </div>
         </section>
 
       </div>
