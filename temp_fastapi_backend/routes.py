@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from database import get_db
-from models import User, Course, CourseModule, CourseWidget
+from models import User, Course, CourseModule, CourseWidget, Resume
 
 router = APIRouter()
 
@@ -81,3 +81,38 @@ def add_widget_to_module(module_id: int, widget: CourseWidgetCreate, db: Session
     db.commit()
     db.refresh(db_widget)
     return db_widget
+
+@router.get("/resumes")
+def get_all_resumes(db: Session = Depends(get_db)):
+    resumes = db.query(Resume).order_by(Resume.id.desc()).all()
+    # SQLAlchemy JSONB natively translates to python dicts and then to FastAPI JSON responses
+    return resumes
+
+@router.post("/resumes")
+def save_resume(resume_in: dict, db: Session = Depends(get_db)):
+    """Receives the gigantic JSON payload from React and binds it to PostgreSQL"""
+    
+    # Grab or create default user since we disabled authentication placeholders
+    active_user = db.query(User).first()
+    if not active_user:
+        active_user = User(email="nishant.ceo@skillom.ai", name="Nishant")
+        db.add(active_user)
+        db.flush() # get ID without committing 
+        
+    payload = resume_in.get("payload", {})
+    title = resume_in.get("title", "Nishant Primary Resume")
+    
+    # We will just overwrite the first one or create new to simulate a master save hook
+    existing_resume = db.query(Resume).filter(Resume.user_id == active_user.id).first()
+    
+    if existing_resume:
+        existing_resume.payload = payload
+        existing_resume.title = title
+    else:
+        existing_resume = Resume(user_id=active_user.id, title=title, payload=payload)
+        db.add(existing_resume)
+        
+    db.commit()
+    db.refresh(existing_resume)
+    
+    return {"status": "success", "resume_id": existing_resume.id}

@@ -54,22 +54,26 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
         {/* Skills */}
         <div className="space-y-4 group/section relative">
           <h2 className="text-sm tracking-[0.2em] uppercase font-semibold text-slate-400 border-b border-slate-600 pb-2 mb-4 flex justify-between items-center">
-            Skills
+            Skills Core
           </h2>
 
           <div className="space-y-5">
-            {data.skills.map((skillGroup, idx) => (
+            {data.skills?.map((skillGroup, idx) => (
               <div key={idx} className="group/item relative">
-                <button onClick={() => updateData({ skills: data.skills.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-300"><Trash2 size={14}/></button>
-                <div className="font-bold text-slate-200 mb-1">
-                  <EditableField value={skillGroup.category} onChange={(val: string) => {
-                      const updated = [...data.skills]; updated[idx].category = val; updateData({ skills: updated });
-                    }} />
-                </div>
-                <div className="text-sm text-slate-300 leading-relaxed">
-                  <EditableField value={skillGroup.items} multiline onChange={(val: string) => {
-                      const updated = [...data.skills]; updated[idx].items = val; updateData({ skills: updated });
-                    }} />
+                <div className="font-bold text-slate-200 mb-1">{skillGroup.category}</div>
+                <div className="text-sm text-slate-300 leading-relaxed flex flex-wrap gap-1">
+                  {skillGroup.items.map((item, itemIdx) => (
+                    <span 
+                      key={itemIdx} 
+                      className={`px-2 py-0.5 rounded text-xs ${
+                        idx % 3 === 0 ? 'bg-slate-700 text-slate-200' : 
+                        idx % 3 === 1 ? 'bg-indigo-900/50 text-indigo-200' : 
+                        'bg-rose-900/50 text-rose-200'
+                      }`}
+                    >
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </div>
             ))}
@@ -97,8 +101,8 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
                     }} />
                 </div>
                 <div className="text-xs text-slate-500 font-medium">
-                  <EditableField value={edu.dates} onChange={(val: string) => {
-                      const updated = [...data.education]; updated[idx].dates = val; updateData({ education: updated });
+                  <EditableField value={edu.year} onChange={(val: string) => {
+                      const updated = [...data.education]; updated[idx].year = val; updateData({ education: updated });
                     }} />
                 </div>
               </div>
@@ -124,16 +128,13 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <h3 className="text-2xl font-bold text-slate-800 mb-4 flex justify-between items-center group-hover/section:text-indigo-600 transition-colors">
             Profile
           </h3>
-          <ul className="list-disc list-outside ml-5 space-y-2 text-sm text-slate-700 leading-relaxed">
-             {data.summary.map((point, idx) => (
-              <li key={idx} className="group/item relative">
-                <button onClick={() => updateData({ summary: data.summary.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-500 hover:text-red-700"><Trash2 size={14}/></button>
-                <EditableField 
-                  value={point} multiline onChange={(val: string) => { const updated = [...data.summary]; updated[idx] = val; updateData({ summary: updated }); }} 
-                />
-              </li>
-            ))}
-          </ul>
+          <div className="text-sm text-slate-700 leading-relaxed">
+            <EditableField 
+              value={data.summary} 
+              multiline 
+              onChange={(val: string) => updateData({ summary: val })} 
+            />
+          </div>
         </div>
 
         {/* Experience */}
@@ -157,22 +158,22 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
                     </span>
                     <span className="text-slate-300">•</span>
                     <span className="text-slate-500">
-                      <EditableField value={job.dates} onChange={(val: string) => { const updated = [...data.experience]; updated[idx].dates = val; updateData({ experience: updated }); }} />
+                      <EditableField value={job.duration} onChange={(val: string) => { const updated = [...data.experience]; updated[idx].duration = val; updateData({ experience: updated }); }} />
                     </span>
                   </div>
                 </div>
                 
-                <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-slate-700 leading-relaxed relative group/points">
+                <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-slate-700 leading-relaxed relative group/achievements">
 
-                  {job.points.map((point, pIdx) => (
-                    <li key={pIdx} className="group/point relative">
+                  {job.achievements?.map((point, pIdx) => (
+                    <li key={pIdx} className="group/item relative">
                       <button onClick={() => {
                         const updated = [...data.experience];
-                        updated[idx].points = updated[idx].points.filter((_, i) => i !== pIdx);
+                        updated[idx].achievements = updated[idx].achievements.filter((_, i) => i !== pIdx);
                         updateData({ experience: updated });
-                      }} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/point:opacity-100 text-red-400 hover:text-red-600"><Trash2 size={12}/></button>
+                      }} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-600"><Trash2 size={12}/></button>
                       <EditableField 
-                        value={point} multiline onChange={(val: string) => { const updated = [...data.experience]; updated[idx].points[pIdx] = val; updateData({ experience: updated }); }} 
+                        value={point} multiline onChange={(val: string) => { const updated = [...data.experience]; updated[idx].achievements[pIdx] = val; updateData({ experience: updated }); }} 
                       />
                     </li>
                   ))}

@@ -1,9 +1,7 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table
-from sqlalchemy.orm import relationship, declarative_base
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table, JSON
+from sqlalchemy.orm import relationship
 from datetime import datetime
-
-Base = declarative_base()
+from database import Base
 
 # Many-to-Many Association Table linking a Course to context-providing JDs
 course_jd_association = Table(
@@ -35,9 +33,7 @@ class JobDescription(Base):
     __tablename__ = "job_descriptions"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    company = Column(String)
-    role = Column(String)
-    raw_text = Column(Text)
+    payload = Column(JSON) # The JD Schema JSON containing company, role, skills, etc.
     
     user = relationship("User", back_populates="job_descriptions")
     courses = relationship("Course", secondary=course_jd_association, back_populates="jds")
@@ -47,7 +43,7 @@ class Resume(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     title = Column(String, default="Default Configuration")
-    payload = Column(JSONB) # The Resume schema JSON
+    payload = Column(JSON) # The Resume schema JSON
 
     user = relationship("User", back_populates="resumes")
     courses = relationship("Course", secondary=course_resume_association, back_populates="resumes")
@@ -91,6 +87,6 @@ class CourseWidget(Base):
     position = Column(Integer, default=0)
     
     # Polymorphic payload holding the actual widget study data
-    payload = Column(JSONB, nullable=False)
+    payload = Column(JSON, nullable=False)
     
     module = relationship("CourseModule", back_populates="widgets")

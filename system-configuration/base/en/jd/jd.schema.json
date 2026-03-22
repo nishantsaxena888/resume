@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JobDescription",
+  "type": "object",
+  "required": ["companyName", "roleTitle", "minExperience", "requiredSkills"],
+  "properties": {
+    "companyName": {
+      "type": "string",
+      "title": "Target Company",
+      "description": "Enter the name of the hiring organization"
+    },
+    "roleTitle": {
+      "type": "string",
+      "title": "Role Title",
+      "description": "The exact title mapped on the job requisition"
+    },
+    "location": {
+      "type": "string",
+      "title": "Target Location",
+      "description": "Remote, On-site, or Hybrid"
+    },
+    "minExperience": {
+      "type": "number",
+      "title": "Minimum Experience (Years)",
+      "description": "Strict years of experience requested by the recruiter",
+      "minimum": 0
+    },
+    "requiredSkills": {
+      "type": "array",
+      "title": "Core Technical Skills",
+      "description": "List the fundamental engineering constraints (e.g., Python, AWS, TS)",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "recruiterFeedback": {
+      "type": "string",
+      "title": "Recruiter Red/Green Flags",
+      "description": "Any specific contextual feedback governing the interview loop (Scenario questions, FTE mindset, leadership)"
+    }
+  }
+}

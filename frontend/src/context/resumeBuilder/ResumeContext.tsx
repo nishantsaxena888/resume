@@ -34,6 +34,10 @@ interface ResumeContextType {
   setProfileId: (profileId: string) => void;
   setIsConfigOpen: (isOpen: boolean) => void;
   getPermissions: (entity: string, field: string) => string[];
+  isSaving: boolean;
+  isSaved: boolean;
+  hasChanges: boolean;
+  saveToDatabase: () => Promise<void>;
 }
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
@@ -46,6 +50,69 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [user, setUser] = useState('u_ceo'); // Logged in as Alice
   const [profileId, setProfileId] = useState('u_ceo'); // Viewing Alice's Resume
   const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [lastSavedDataStr, setLastSavedDataStr] = useState<string>(JSON.stringify(initialData));
+  
+  const hasChanges = JSON.stringify(data) !== lastSavedDataStr;
+
+  // 0. Auto-Fetch true database persistence payload on mount!
+  useEffect(() => {
+    fetch('http://localhost:9999/api/v1/resumes')
+      .then(async res => {
+        if (res.status === 401) {
+          console.warn("⚠️ Database initialization locked behind a 401 Unauthorized NS Backend payload on Port 9999. Please ensure JWT is injected.");
+          return [];
+        }
+        return res.json();
+      })
+      .then(dbResumes => {
+        if (dbResumes && dbResumes.length > 0 && dbResumes[0].payload) {
+          console.log("🔥 Successfully intercepted PostgreSQL Database Payload. Overriding local mocks!");
+          setData(dbResumes[0].payload);
+          setLastSavedDataStr(JSON.stringify(dbResumes[0].payload));
+        }
+      })
+      .catch(e => console.error("Database connection failed, falling back to local mocks:", e));
+  }, []);
+
+  const saveToDatabase = async () => {
+    setIsSaving(true);
+    try {
+      const response = await fetch('http://localhost:9999/api/v1/resumes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: data.personalInfo.fullName + " Auto-Saved Resume",
+          payload: data
+        })
+      });
+      
+      if (response.status === 401) {
+        alert("🔒 Unauthorized: The NS Backend (Port 9999) rejected the sync request due to a missing or expired authentication token. Please Log In!");
+        throw new Error("HTTP 401: Unauthorized API Lockout");
+      }
+
+      if (!response.ok) {
+        const errText = await response.text();
+        alert(`❌ Backend Rejected Save (Status ${response.status}):\n${errText}`);
+        throw new Error(`HTTP ${response.status}: ${errText}`);
+      }
+      
+      const result = await response.json();
+      console.log("✅ Successfully persisting physical state to PostgreSQL:", result);
+      setLastSavedDataStr(JSON.stringify(data));
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (error) {
+      console.error("❌ Fatal PostgreSQL synchronization error:", error);
+      alert(`⚠️ Network Error: Could not connect to the Backend on port 8080.\nDetails: ${String(error)}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   // 0. Auto-Resolve Role when standard User impersonation changes
   // Escalates to 'owner' if the Active User matches the Viewing Profile Workspace
@@ -135,7 +202,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   return (
-    <ResumeContext.Provider value={{ data, client, language, role, user, profileId, isConfigOpen, updateData, updateMetadata, updatePersonalInfo, setClient, setLanguage, setRole, setUser, setProfileId, setIsConfigOpen, getPermissions }}>
+    <ResumeContext.Provider value={{ data, client, language, role, user, profileId, isConfigOpen, updateData, updateMetadata, updatePersonalInfo, setClient, setLanguage, setRole, setUser, setProfileId, setIsConfigOpen, getPermissions, isSaving, isSaved, hasChanges, saveToDatabase }}>
       {children}
     </ResumeContext.Provider>
   );

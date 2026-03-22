@@ -16,15 +16,11 @@ class UserResponse(BaseModel):
 
 class JDCreate(BaseModel):
     user_id: str
-    company_name: str
-    role_title: str
-    job_description_text: str
+    payload: Dict[str, Any] # Mirrors the jd.schema.json layout
 
 class JDResponse(BaseModel):
     id: str
-    company_name: str
-    role_title: str
-    job_description_text: str
+    payload: Dict[str, Any]
 
     class Config:
         orm_mode = True

@@ -1,8 +1,10 @@
 import { useResume } from '../../context/resumeBuilder/ResumeContext';
-import { Download, Book } from 'lucide-react';
+import { Download, Book, Save, Loader2 } from 'lucide-react';
 import ConfigSidebar from './ConfigSidebar';
 
 export default function TopBar() {
+  const { isSaving, isSaved, hasChanges, saveToDatabase } = useResume();
+
   return (
     <>
       <div className="bg-white border-b sticky top-0 z-40 shadow-sm print:hidden">
@@ -13,10 +15,19 @@ export default function TopBar() {
               <span className="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xl shadow-inner shadow-indigo-900/20">R</span>
               Resume Engine
             </div>
-            <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] uppercase font-bold tracking-widest ml-2 border border-slate-200">v1.2.0</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] uppercase font-bold tracking-widest ml-2 border border-emerald-200">Live PostgreSQL Sync</span>
           </div>
 
           <div className="flex items-center gap-3">
+
+            <button 
+              onClick={saveToDatabase}
+              disabled={isSaving || (!hasChanges && !isSaved)}
+              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-bold rounded-lg hover:bg-emerald-700 shadow-sm hover:shadow active:scale-95 transition-all disabled:opacity-50"
+            >
+              {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} 
+              {isSaving ? "Syncing..." : isSaved ? "Saved !" : "Save"}
+            </button>
 
             <button 
               onClick={() => window.location.href = '/docs'}

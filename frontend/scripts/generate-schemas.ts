@@ -34,6 +34,12 @@ function readJsonSchema(relativePath: string) {
 const profileSchema = readJsonSchema('common/profile.schema.json');
 const metadataSchema = readJsonSchema('resumeBuilder/metadata.schema.json');
 const softwareSchema = readJsonSchema('industry/software.schema.json');
+const directories = [
+  'resumeBuilder',
+  'industry',
+  'auth',
+  'jd'
+];
 const salesSchema = readJsonSchema('industry/sales.schema.json');
 
 // 2. Dynamically construct the "Super Schema"
@@ -52,10 +58,10 @@ const superSchema = {
     ...salesSchema.properties,
     
     // Legacy mapping support while we migrate
-    summary: { type: "array", items: { type: "string" } },
-    skills: { type: "array", items: { type: "object", properties: { category: { type: "string" }, items: { type: "string" } }, required: ["category", "items"] } },
-    experience: { type: "array", items: { type: "object", properties: { company: { type: "string" }, role: { type: "string" }, dates: { type: "string" }, points: { type: "array", items: { type: "string" } } }, required: ["company", "role", "dates", "points"] } },
-    education: { type: "array", items: { type: "object", properties: { degree: { type: "string" }, institution: { type: "string" }, dates: { type: "string" } }, required: ["degree", "institution", "dates"] } }
+    summary: { type: "string" },
+    skills: { type: "array", items: { type: "object", properties: { category: { type: "string" }, items: { type: "array", items: { type: "string" } } }, required: ["category", "items"] } },
+    experience: { type: "array", items: { type: "object", properties: { id: { type: "string" }, company: { type: "string" }, role: { type: "string" }, duration: { type: "string" }, location: { type: "string" }, achievements: { type: "array", items: { type: "string" } } }, required: ["company", "role", "duration", "achievements"] } },
+    education: { type: "array", items: { type: "object", properties: { degree: { type: "string" }, institution: { type: "string" }, year: { type: "string" } }, required: ["degree", "institution", "year"] } }
   },
   required: ["metadata", "personalInfo", "summary", "skills", "experience", "education"]
 };
@@ -71,6 +77,10 @@ const courseZodCode = parseSchema(courseSchemaObj);
 // AUTH GATEWAY SCHEMAS
 const authLoginSchemaObj = readJsonSchema('auth/login.schema.json');
 const authLoginZodCode = parseSchema(authLoginSchemaObj);
+
+// JOB DESCRIPTION SCHEMAS
+const jdSchemaObj = readJsonSchema('jd/jd.schema.json');
+const jdZodCode = parseSchema(jdSchemaObj);
 
 const finalFileContent = `import { z } from 'zod';
 
@@ -88,6 +98,9 @@ export type CourseModel = z.infer<typeof CourseModelSchema>;
 
 export const AuthLoginSchema = ${authLoginZodCode};
 export type AuthLoginModel = z.infer<typeof AuthLoginSchema>;
+
+export const JobDescriptionModelSchema = ${jdZodCode};
+export type JobDescriptionModel = z.infer<typeof JobDescriptionModelSchema>;
 `;
 
 // 4. Write back into the React App architecture

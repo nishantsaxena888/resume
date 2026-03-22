@@ -31,12 +31,12 @@ export default function GlobalAppShell() {
           </Link>
 
           <Link 
-            to="/jds" 
-            title="JD Tracker"
-            className={`p-3 rounded-xl transition-all duration-200 group relative ${path.includes('/jds') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+            to="/jd" 
+            title="Job Description"
+            className={`p-3 rounded-xl transition-all duration-200 group relative ${path.includes('/jd') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
           >
             <BriefcaseBusiness className="w-5 h-5" />
-            <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Job Tracker</span>
+            <span className="absolute left-full ml-3 px-2 py-1 bg-slate-800 text-white text-xs font-bold rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Job Description</span>
           </Link>
 
           <Link 

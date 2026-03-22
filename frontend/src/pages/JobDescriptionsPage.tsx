@@ -6,17 +6,10 @@ export default function JobDescriptionsPage() {
   const [jds, setJds] = useState([
     {
       id: '1',
-      company: 'TechCorp Global',
-      role: 'Senior Frontend Engineer',
-      date: 'Oct 24, 2026',
-      resumeTailored: 'Frontend Lead - TechCorp Variant'
-    },
-    {
-      id: '2',
-      company: 'DataFlow Systems',
-      role: 'Fullstack Staff Engineer',
-      date: 'Oct 22, 2026',
-      resumeTailored: 'Default Resume'
+      company: 'Truist Bank (via CTS)',
+      role: 'Lead AWS / Python Engineer',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      resumeTailored: 'FSG Master Variant'
     }
   ]);
 
