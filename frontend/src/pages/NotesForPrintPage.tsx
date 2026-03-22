@@ -9,6 +9,8 @@ export default function NotesForPrintPage() {
   const { data: resume } = useResume();
   const [notesContent, setNotesContent] = useState('<h2>Interview Talking Points</h2><p>Synthesize your stories and architectures here...</p>');
   const [searchQuery, setSearchQuery] = useState('');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // 1. Fetch existing Notes payload from the DB on load
   useEffect(() => {
@@ -24,6 +26,12 @@ export default function NotesForPrintPage() {
 
   // 2. Debounced Auto-Save to the DB
   useEffect(() => {
+    if (isInitialLoad) {
+       setIsInitialLoad(false);
+       return;
+    }
+    
+    setSaveStatus('saving');
     const timer = setTimeout(() => {
       fetch(`http://localhost:9999/api/v1/preparations/${prepId}/notes`, {
         method: 'PUT',
@@ -31,7 +39,12 @@ export default function NotesForPrintPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ content: notesContent })
-      }).catch(console.error);
+      })
+      .then(() => {
+         setSaveStatus('saved');
+         setTimeout(() => setSaveStatus('idle'), 3000);
+      })
+      .catch(console.error);
     }, 1500); // 1.5s debounce
 
     return () => clearTimeout(timer);
@@ -62,7 +75,11 @@ export default function NotesForPrintPage() {
         
         <div className={`w-full flex items-center justify-between ${hasAttachedResume ? 'max-w-4xl' : 'max-w-6xl'} mb-6`}>
           <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Printable Cheat Sheet</h1>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              Printable Cheat Sheet
+              {saveStatus === 'saving' && <span className="text-[10px] uppercase tracking-widest bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" /> Saving...</span>}
+              {saveStatus === 'saved' && <span className="text-[10px] uppercase tracking-widest bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-1.5"><CheckCircle2 className="w-3 h-3" /> Saved!</span>}
+            </h1>
             <p className="text-slate-500 font-medium text-sm mt-1">Compile your absolute best talking points here for the interview.</p>
           </div>
           <button className="bg-white border border-slate-200 text-slate-700 font-bold text-sm px-4 py-2 rounded-xl shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
