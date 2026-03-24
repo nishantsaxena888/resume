@@ -80,7 +80,7 @@ export default function CoursesDashboardPage() {
           {courses.map(course => (
             <div 
               key={course.id}
-              onClick={() => navigate(`/courses/${course.id}`)}
+              onClick={() => navigate(prepId ? `/prep/${prepId}/courses/${course.id}` : `/courses/${course.id}`)}
               className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden group cursor-pointer hover:shadow-xl hover:border-indigo-300 transition-all duration-300 flex flex-col h-72 relative"
             >
               {/* Embedded JD Context Badge */}

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>દશાવતારની આરતી</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, "Segoe UI", Roboto, sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 20px;
+    background-color: #fcfcfc;
+  }
+  .print-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    min-height: 98vh;
+    box-sizing: border-box;
+  }
+  .title-container {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .title {
+    font-size: 38px;
+    font-weight: 900;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 6px;
+    margin: 0;
+    padding-bottom: 5px;
+  }
+  .chorus-box {
+    border: 1px solid #333;
+    border-radius: 6px;
+    text-align: center;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+    background-color: #f7f7f7;
+    font-size: 23px;
+    font-weight: bold;
+  }
+  .highlight-blue {
+    background-color: #cbe0f5;
+    padding: 3px 6px;
+  }
+  .content-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    gap: 35px;
+  }
+  .column {
+    flex: 1;
+  }
+  .col-divider {
+    width: 1px;
+    background-color: #ddd;
+    margin: 0 5px;
+  }
+  .verse-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 4px;
+    border-radius: 6px;
+  }
+  .avatar-img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: #fff;
+    margin-right: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .verse {
+    font-size: 19px;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+  }
+  .verse-number {
+    color: #cc292b;
+    font-weight: bold;
+    margin-right: 6px;
+    font-size: 20px;
+  }
+  .no-image-indent {
+    margin-left: 80px; 
+  }
+  .footer-credit {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+    font-weight: bold;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 20px;
+    color: #555;
+  }
+  
+  /* Print Optimization for Landscape */
+  @media print {
+    @page {
+      size: landscape;
+      margin: 12mm;
+    }
+    body {
+      padding: 0;
+      background-color: #fff;
+    }
+    .print-container {
+      max-width: 100%;
+      padding: 0;
+      box-shadow: none;
+      border: none;
+      height: 99vh;
+    }
+    .title {
+      font-size: 32px;
+      margin-bottom: 8px;
+      padding-bottom: 2px;
+    }
+    .title-container {
+      margin-bottom: 10px;
+    }
+    .chorus-box {
+      border: 1px solid #000;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      font-size: 19px;
+      padding: 6px 12px;
+      margin-bottom: 8px;
+    }
+    .highlight-blue {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .content-columns {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      gap: 25px;
+    }
+    .verse-row {
+      margin-bottom: 16px;
+      padding: 0;
+    }
+    .verse {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    .verse-number {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      font-size: 16px;
+      margin-right: 4px;
+    }
+    .avatar-img {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      border: 1px solid #cdcdcd !important;
+      box-shadow: none !important;
+      width: 50px;
+      height: 50px;
+      margin-right: 12px;
+    }
+    .no-image-indent {
+      margin-left: 62px;
+    }
+    .footer-credit {
+      margin-top: auto;
+      padding-top: 5px;
+      padding-bottom: 0px;
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-container">
+  
+  <div class="title-container">
+    <h1 class="title">દશાવતારની આરતી</h1>
+  </div>
+
+  <div class="chorus-box">
+    <span class="highlight-blue">જય દેવ જય દેવ જય જાદવરાયા પ્રભુ શ્રી માધવરાયા,</span>
+  </div>
+  <div class="chorus-box">
+    આરતી કરી એ કરુણાનંદન (૨) વ્યાપે નહી માયા - જયદેવ.
+  </div>
+
+  <div class="content-columns">
+    <div class="column">
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/matsya_avatar_1774297654671.png" class="avatar-img" alt="Matsya Avatar" />
+        <div class="verse"><span class="verse-number">૧.</span> પ્રથમે મત્સ્યતણો અવતાર, માર્યો શંખાસુર પાપી - પ્રભુ. ચતુરા નંદન દેવ (૨) વેદ વિપ્રોને આપ્યા - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/kurma_avatar_1774297674201.png" class="avatar-img" alt="Kurma Avatar" />
+        <div class="verse"><span class="verse-number">૨.</span> બીજે સુર ને અસુર, મળિયા સાગર મથવાને - પ્રભુ. વાંસો પર વાર્યો વિંધ્યાચલ (૨) કચ્છપ મહારાજે - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/varaha_avatar_1774297692780.png" class="avatar-img" alt="Varaha Avatar" />
+        <div class="verse"><span class="verse-number">૩.</span> ત્રીજે હિરણ્યાક્ષ બળભૂપ, રમતો પૃથ્વીની પાપી - પ્રભુ. દાઢે ગ્રહી લાવ્યા વા રાસુર (૨) અવની સ્થિર સ્થાપી - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/narasimha_avatar_1774297704933.png" class="avatar-img" alt="Narasimha Avatar" />
+        <div class="verse"><span class="verse-number">૪.</span> ચોથે નરસિંહનો અવતાર, સેવક પોતાનો જાણી - પ્રભુ. નખે કરી બિદાર્યા નરહર (૨) નરસિંહના સ્વામી - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/vamana_avatar_1774297719841.png" class="avatar-img" alt="Vamana Avatar" />
+        <div class="verse"><span class="verse-number">૫.</span> પાંચમે અતિબળિયો બળદેવ, જેથી સુરપતિઓ કાંપે - પ્રભુ. વામન રૂપ ધર્યું મહારાજે (૨) બલિને પાતાળે ચાંપે - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/parashurama_avatar_1774297733148.png" class="avatar-img" alt="Parashurama Avatar" />
+        <div class="verse"><span class="verse-number">૬.</span> છઠ્ઠે પરશુરામ તણો અવતાર, ફરસી હાથોમાં ઝાલી - પ્રભુ. સહસ્ત્ર અર્જુન મારી (૨) પૃથ્વી નક્ષત્ર કીધી - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/rama_avatar_1774297750244.png" class="avatar-img" alt="Rama Avatar" />
+        <div class="verse"><span class="verse-number">૭.</span> સાતમે રઘુવંશી અવતાર, આનંદ કૌશલ્યા પામ્યા - પ્રભુ. પંચવટીમાં વસીયા રાઘવ (૨) સીતાના સ્વામી - જયદેવ.</div>
+      </div>
+    </div>
+    
+    <div class="col-divider"></div>
+
+    <div class="column">
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/krishna_avatar_1774297765721.png" class="avatar-img" alt="Krishna Avatar" />
+        <div class="verse"><span class="verse-number">૮.</span> આઠમે કૃષ્ણ તણો અવતાર, કૃષ્ણે ગોકુળ ગૌ ચારી - પ્રભુ. રાખ્યા ગોપી ગોવાળ (૨) ગોવર્ધન ધારી - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/buddha_avatar_1774297779768.png" class="avatar-img" alt="Buddha Avatar" />
+        <div class="verse"><span class="verse-number">૯.</span> નવમે બુદ્ધ તણો અવતાર, ભાર પૃથ્વી પર વાધ્યો - પ્રભુ. ધ્યાન ધરી બેઠા ધરણીધર (૨) જોગ જગત સ્થાપ્યો - જયદેવ.</div>
+      </div>
+      <div class="verse-row">
+        <img src="file:///Users/nishantsaxena/.gemini/antigravity/brain/6671d249-c6a2-43c7-88b9-49b51a12eb58/kalki_avatar_1774297793983.png" class="avatar-img" alt="Kalki Avatar" />
+        <div class="verse"><span class="verse-number">૧૦.</span> દશમે કલંકી અવતાર, પૃથ્વી નકલંકી કરશો - પ્રભુ. મ્લેચ્છોને મારી રાઘવજી (૨) સેવક સુખ કેરશો - જયદેવ.</div>
+      </div>
+      
+      <!-- Verses 11-13 -->
+      <div class="verse-row no-image-indent">
+        <div class="verse"><span class="verse-number">૧૧.</span> અગિયારમે મોહન ને મહાદેવ, આરતી અંતરમાં ધરશો - પ્રભુ. ભાવે ભુદરને ભજતા (૨) ભવસાગર તરશો - જયદેવ.</div>
+      </div>
+      <div class="verse-row no-image-indent">
+        <div class="verse"><span class="verse-number">૧૨.</span> એ આરતીનો મોટો મહિમા, સુનીવર મુનીવર ગાવે - પ્રભુ. મોતી પુષ્પ વધાવે (૨) મનવાંછિત પાવે - જયદેવ.</div>
+      </div>
+      <div class="verse-row no-image-indent">
+        <div class="verse"><span class="verse-number">૧૩.</span> દશ અવતારની આરતી, જે કોઈ ગાશે - પ્રભુ. ભણે શિવાનંદ સ્વામી (૨) વૈકુંઠે જાશે - જયદેવ.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <div>અ. સૌ. :: મયુરી / યોગેશ રાણા</div>
+    <div>ચિ. :: ફ્રેયા / યોમ રાણા</div>
+  </div>
+</div>
+
+</body>
+</html>

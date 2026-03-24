@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate, Outlet, useParams } from 'react-router-dom';
-import { FileText, BriefcaseBusiness, BookOpen, PenTool, LogOut, ArrowLeft, Target, Loader2, Trash2, Edit } from 'lucide-react';
+import { FileText, BriefcaseBusiness, BookOpen, PenTool, LogOut, ArrowLeft, Target, Loader2, Trash2, Edit, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { EditableField } from './EditableField';
 
@@ -11,6 +11,16 @@ export default function PreparationWorkspaceShell() {
 
   const [prep, setPrep] = useState<{ id: string; title: string; company: string; resumes?: any[]; jds?: any[]; courses?: any[] } | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Remember the global Show/Hide preference in the browser cache
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem('isWorkspaceSidebarOpen');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('isWorkspaceSidebarOpen', JSON.stringify(isSidebarOpen));
+  }, [isSidebarOpen]);
 
   // Fetch the active target preparation context
   useEffect(() => {
@@ -44,13 +54,23 @@ export default function PreparationWorkspaceShell() {
   const handleUpdateTitle = async (newTitle: string) => {
     if (!prep || prep.title === newTitle) return;
     
+    // Convert populated objects back to simple ID arrays for the Backend Pydantic Schema wrapper
+    const putPayload = {
+      ...prep,
+      title: newTitle,
+      course_ids: prep.courses?.map((c: any) => c.id) || [],
+      resume_ids: prep.resumes?.map((r: any) => r.id) || [],
+      jd_ids: prep.jds?.map((j: any) => j.id) || []
+    };
+
     // Optimistic UI update
     setPrep({ ...prep, title: newTitle });
+    
     try {
       await fetch(`http://localhost:9999/api/v1/preparations/${currentPrepId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...prep, title: newTitle })
+        body: JSON.stringify(putPayload)
       });
     } catch (e) {
       console.error("Failed to update prep title", e);
@@ -61,8 +81,9 @@ export default function PreparationWorkspaceShell() {
     <div className="flex h-screen w-screen overflow-hidden bg-slate-100">
       
       {/* 1. Contextual Workspace Sidebar Table of Contents */}
-      <nav className="w-72 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col py-6 z-50 shadow-2xl relative">
-        <div className="px-6 mb-8 flex items-center justify-between">
+      <nav className={`${isSidebarOpen ? 'w-72' : 'w-0'} shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col z-50 shadow-2xl relative transition-all duration-300 ease-in-out`}>
+        <div className={`flex flex-col h-full w-72 pt-6 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+          <div className="px-6 mb-8 flex items-center justify-between">
            <div className="flex flex-col">
              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Workspace Target</span>
              <h2 className="text-white font-black text-lg line-clamp-1">{prep?.title || 'Loading Context...'}</h2>
@@ -89,7 +110,7 @@ export default function PreparationWorkspaceShell() {
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 font-bold text-sm ${path.includes('/resume') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
                 >
                   <FileText className="w-4 h-4" />
-                  Target Resume Engine
+                  Target Resume
                 </Link>
               )}
 
@@ -139,15 +160,23 @@ export default function PreparationWorkspaceShell() {
              Exit Workspace
            </button>
         </div>
+        </div>
       </nav>
 
       {/* Main Workspace Layout */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-slate-50">
         
         {/* Workspace Identification Topbar */}
-        <header className="h-[60px] shrink-0 bg-white border-b border-slate-200 flex items-center px-6 justify-between z-40 shadow-sm relative">
-          <div className="flex items-center gap-4">
-             <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm">
+        <header className="h-[60px] shrink-0 bg-white border-b border-slate-200 flex items-center px-4 justify-between z-40 shadow-sm relative">
+          <div className="flex items-center gap-3">
+             <button 
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none"
+                title={isSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
+             >
+                {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
+             </button>
+             <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm ml-2">
                <Target className="w-4 h-4" />
              </div>
              {loading ? (

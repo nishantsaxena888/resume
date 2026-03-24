@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, HelpCircle, Code, PlaySquare } from 'lucide-react';
+import { FileText, HelpCircle, Code, PlaySquare, Youtube } from 'lucide-react';
 
 export function PrepNoteWidget({ payload }: { payload: any }) {
   return (
@@ -52,6 +52,60 @@ export function PrepVideoWidget({ payload }: { payload: any }) {
     <div className="bg-black rounded-xl shadow-sm overflow-hidden flex flex-col h-80 items-center justify-center relative group">
       <PlaySquare className="w-16 h-16 text-slate-400 group-hover:text-rose-500 transition-colors opacity-80" />
       <span className="mt-4 text-slate-300 font-medium">{payload.videoUrl || "Video missing"}</span>
+    </div>
+  );
+}
+
+export function PrepYouTubeWidget({ payload }: { payload: any }) {
+  // Extract video ID and playlist ID dynamically from raw user YouTube links
+  let videoId = '';
+  let listId = '';
+  
+  try {
+    const urlObj = new URL(payload.url || '');
+    if (urlObj.hostname.includes('youtube.com')) {
+      videoId = urlObj.searchParams.get('v') || '';
+      listId = urlObj.searchParams.get('list') || '';
+    } else if (urlObj.hostname.includes('youtu.be')) {
+      videoId = urlObj.pathname.slice(1);
+    }
+  } catch (e) {
+    // Fallback if not a clean URL
+  }
+
+  let embedUrl = '';
+  if (videoId && listId) {
+    embedUrl = `https://www.youtube.com/embed/${videoId}?listType=playlist&list=${listId}`;
+  } else if (videoId) {
+    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  } else if (listId) {
+    embedUrl = `https://www.youtube.com/embed/videoseries?list=${listId}`;
+  }
+
+  return (
+    <div className="bg-slate-900 rounded-xl shadow-sm overflow-hidden flex flex-col h-96 group relative border border-slate-800">
+      <div className="px-4 py-3 border-b border-slate-800 bg-slate-900 flex items-center justify-between z-10">
+        <div className="flex items-center gap-2">
+          <Youtube className="w-5 h-5 text-rose-500" />
+          <span className="text-sm font-bold text-slate-200 line-clamp-1">{payload.title || "Video Lecture"}</span>
+        </div>
+      </div>
+      <div className="flex-1 w-full bg-black relative">
+        {embedUrl ? (
+          <iframe 
+            src={embedUrl} 
+            title={payload.title || "YouTube video player"} 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+            className="w-full h-full absolute inset-0"
+          ></iframe>
+        ) : (
+          <div className="flex items-center justify-center h-full text-slate-500 text-sm font-medium">
+            Invalid YouTube URL provided
+          </div>
+        )}
+      </div>
     </div>
   );
 }
