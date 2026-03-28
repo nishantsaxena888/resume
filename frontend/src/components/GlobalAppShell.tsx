@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Menu, X, Network, FileText, BriefcaseBusiness, BookOpen, LogOut } from 'lucide-react';
+import { Menu, X, Network, FileText, BriefcaseBusiness, BookOpen, LogOut, LayoutTemplate } from 'lucide-react';
 import { useState } from 'react';
 
 export default function GlobalAppShell() {
@@ -14,10 +14,10 @@ export default function GlobalAppShell() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-50 relative">
+    <div className="flex flex-col h-screen print:h-auto w-screen print:w-auto overflow-hidden print:overflow-visible bg-slate-50 relative">
       
       {/* 1. Global Header with Hamburger */}
-      <header className="h-[72px] shrink-0 bg-white border-b border-slate-200 px-6 flex items-center justify-between shadow-sm z-40 relative">
+      <header className="print:hidden h-[72px] shrink-0 bg-white border-b border-slate-200 px-6 flex items-center justify-between shadow-sm z-40 relative">
         <div className="flex items-center gap-5">
           <button 
             onClick={() => setMenuOpen(true)}
@@ -100,6 +100,17 @@ export default function GlobalAppShell() {
                 <span>Courses</span>
               </Link>
 
+              <Link 
+                to="/static-notes" 
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-200 font-bold ${path.includes('/static-notes') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-200'}`}
+              >
+                <div className={`p-2 rounded-xl border ${path.includes('/static-notes') ? 'bg-white/20 border-white/20' : 'bg-white border-slate-200 shadow-sm'}`}>
+                  <LayoutTemplate className="w-5 h-5" />
+                </div>
+                <span>Static Notes</span>
+              </Link>
+
               <div className="w-full h-px bg-slate-100 my-4"></div>
               <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase px-4 mb-2 mt-2">Platform Orchestration</span>
               
@@ -126,7 +137,7 @@ export default function GlobalAppShell() {
       )}
 
       {/* 3. Main Global Container */}
-      <main className="flex-1 overflow-y-auto bg-slate-50 h-full">
+      <main className="flex-1 overflow-y-auto print:overflow-visible bg-slate-50 h-full print:h-auto">
         <Outlet />
       </main>
     </div>

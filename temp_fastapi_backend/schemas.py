@@ -42,13 +42,38 @@ class ResumeResponse(BaseModel):
         orm_mode = True
         from_attributes = True
 
+class WidgetResponse(BaseModel):
+    id: int
+    widget_type: str
+    payload: Dict[str, Any]
+    position: int
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+class ModuleResponse(BaseModel):
+    id: int
+    title: str
+    position: int
+    widgets: List[WidgetResponse] = []
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
 class CourseResponse(BaseModel):
     id: int
     title: str
+    position: int = 0
+    modules: List[ModuleResponse] = []
     
     class Config:
         orm_mode = True
         from_attributes = True
+
+class CourseReorder(BaseModel):
+    course_ordered_ids: List[int]
 
 # --- Preparation Omni-OS Schemas ---
 
@@ -73,6 +98,7 @@ class PreparationCreate(BaseModel):
     resume_ids: List[int] = []
     jd_ids: List[int] = []
     course_ids: List[int] = []
+    links: List[Dict[str, str]] = []
 
 class PreparationResponse(BaseModel):
     id: str
@@ -81,6 +107,7 @@ class PreparationResponse(BaseModel):
     icon: str
     status: str
     progress: int
+    links: List[Dict[str, str]] = []
     created_at: Any
     
     notes: Optional[PreparationNoteResponse] = None

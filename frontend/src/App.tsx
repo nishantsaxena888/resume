@@ -4,9 +4,14 @@ import { ResumeProvider } from './context/resumeBuilder/ResumeContext';
 
 import LoginPage from './pages/LoginPage';
 import PreparationsDashboardPage from './pages/PreparationsDashboardPage';
+import ResumesDashboardPage from './pages/ResumesDashboardPage';
+import JDsDashboardPage from './pages/JDsDashboardPage';
 import PreparationWorkspaceShell from './components/PreparationWorkspaceShell';
 import ResumeBuilderPage from './pages/ResumeBuilderPage';
 import SingleJDPage from './pages/SingleJDPage';
+import StaticNotesPage from './pages/static/StaticNotesPage';
+import TerraformTutorialPage from './pages/static/TerraformTutorialPage';
+import StaticNotesHubPage from './pages/static/StaticNotesHubPage';
 import InterviewPrepPage from './pages/InterviewPrepPage';
 import CoursesDashboardPage from './pages/CoursesDashboardPage';
 import NotesForPrintPage from './pages/NotesForPrintPage';
@@ -29,9 +34,14 @@ export default function App() {
             <Route path="/dashboard" element={<PreparationsDashboardPage />} />
             
             {/* Dedicated Sandbox Repositories */}
-            <Route path="/resumes" element={<ResumeBuilderPage />} />
-            <Route path="/jds" element={<SingleJDPage />} />
+            <Route path="/resumes" element={<ResumesDashboardPage />} />
+            <Route path="/resumes/:resumeId" element={<ResumeBuilderPage />} />
+            <Route path="/jds" element={<JDsDashboardPage />} />
+            <Route path="/jds/:jdId" element={<SingleJDPage />} />
             <Route path="/courses" element={<CoursesDashboardPage />} />
+            <Route path="/static-notes" element={<StaticNotesHubPage />} />
+            <Route path="/static-notes/aws-architect" element={<StaticNotesPage />} />
+            <Route path="/static-notes/terraform" element={<TerraformTutorialPage />} />
           </Route>
 
           {/* Authenticated Workspace Shell (Left Sidebar Menu locked to Prep ID) */}

@@ -39,9 +39,14 @@ export default function PreparationsDashboardPage() {
     else setArr([...arr, id]);
   };
 
+  const toggleSingle = (arr: number[], setArr: any, id: number) => {
+    if (arr.includes(id)) setArr([]); // Deselect
+    else setArr([id]);                // Exclusive Select
+  };
+
   // Fetch all active preparations from the Python FastAPI Backend
     useEffect(() => {
-    fetch('http://localhost:9999/api/v1/preparations')
+    fetch('/api/v1/preparations')
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -61,17 +66,17 @@ export default function PreparationsDashboardPage() {
       });
 
     // Hydrate Configuration Modal Selectors natively from the DB
-    fetch('http://localhost:9999/api/v1/resumes')
+    fetch('/api/v1/resumes')
       .then(res => res.json())
       .then(setDbResumes)
       .catch(console.error);
 
-    fetch('http://localhost:9999/api/v1/jds')
+    fetch('/api/v1/jds')
       .then(res => res.json())
       .then(setDbJds)
       .catch(console.error);
 
-    fetch('http://localhost:9999/api/v1/courses')
+    fetch('/api/v1/courses')
       .then(res => res.json())
       .then(setDbCourses)
       .catch(console.error);
@@ -83,10 +88,7 @@ export default function PreparationsDashboardPage() {
       alert("Please provide a Target Role Name.");
       return;
     }
-    if (selectedCourses.length === 0) {
-      alert("You must include at least one Interactive Course.");
-      return;
-    }
+    // Removed course validation logic as 0 or more courses are now permitted
 
     setCreating(true);
     
@@ -102,8 +104,8 @@ export default function PreparationsDashboardPage() {
     try {
       const isEditing = !!editingPrepId;
       const url = isEditing 
-        ? `http://localhost:9999/api/v1/preparations/${editingPrepId}`
-        : 'http://localhost:9999/api/v1/preparations';
+        ? `/api/v1/preparations/${editingPrepId}`
+        : '/api/v1/preparations';
 
       const res = await fetch(url, {
         method: isEditing ? 'PUT' : 'POST',
@@ -196,7 +198,7 @@ export default function PreparationsDashboardPage() {
                              setNewPrepSubtitle(prep.subtitle || '');
                              // Fetch full preparation details for editing
                              try {
-                               const res = await fetch(`http://localhost:9999/api/v1/preparations/${prep.id}`);
+                               const res = await fetch(`/api/v1/preparations/${prep.id}`);
                                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                                const fullPrep = await res.json();
                                setSelectedResumes(fullPrep.resumes?.map((r: any) => r.id) || []);
@@ -221,7 +223,7 @@ export default function PreparationsDashboardPage() {
                             e.preventDefault();
                             e.stopPropagation(); 
                             if (deletingPrepId === prep.id) {
-                               fetch(`http://localhost:9999/api/v1/preparations/${prep.id}`, {method: 'DELETE'})
+                               fetch(`/api/v1/preparations/${prep.id}`, {method: 'DELETE'})
                                  .then(res => {
                                     if(res.ok) {
                                        setPreparations(preparations.filter(p => p.id !== prep.id));
@@ -336,7 +338,7 @@ export default function PreparationsDashboardPage() {
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Include Resumes</label>
                     <div className="flex flex-wrap gap-2">
                       {dbResumes.map(res => (
-                        <div key={res.id} onClick={() => toggleArray(selectedResumes, setSelectedResumes, res.id)} className={`px-3 py-2 rounded-lg border cursor-pointer text-xs font-bold transition-all flex items-center gap-2 ${selectedResumes.includes(res.id) ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:shadow-sm'}`}>
+                        <div key={res.id} onClick={() => toggleSingle(selectedResumes, setSelectedResumes, res.id)} className={`px-3 py-2 rounded-lg border cursor-pointer text-xs font-bold transition-all flex items-center gap-2 ${selectedResumes.includes(res.id) ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:shadow-sm'}`}>
                           {selectedResumes.includes(res.id) && <Check className="w-3.5 h-3.5" />} {res.title}
                         </div>
                       ))}
@@ -350,8 +352,10 @@ export default function PreparationsDashboardPage() {
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Include Target Descriptions</label>
                     <div className="flex flex-wrap gap-2">
                       {dbJds.map(jd => (
-                        <div key={jd.id} onClick={() => toggleArray(selectedJds, setSelectedJds, jd.id)} className={`px-3 py-2 rounded-lg border cursor-pointer text-xs font-bold transition-all flex items-center gap-2 ${selectedJds.includes(jd.id) ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:shadow-sm'}`}>
-                          {selectedJds.includes(jd.id) && <Check className="w-3.5 h-3.5" />} {jd.payload?.title || jd.payload?.target_role || `Target Context #${jd.id}`}
+                        <div key={jd.id} onClick={() => toggleSingle(selectedJds, setSelectedJds, jd.id)} className={`px-3 py-2 rounded-lg border cursor-pointer text-xs font-bold transition-all flex items-center gap-2 ${selectedJds.includes(jd.id) ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:shadow-sm'}`}>
+                          {selectedJds.includes(jd.id) && <Check className="w-3.5 h-3.5" />} 
+                          <span>{jd.payload?.role || jd.payload?.title || jd.payload?.target_role || `Target Context #${jd.id}`}</span>
+                          {jd.payload?.company && <span className="text-slate-400 font-medium group-hover:text-indigo-200">@ {jd.payload.company}</span>}
                         </div>
                       ))}
                     </div>

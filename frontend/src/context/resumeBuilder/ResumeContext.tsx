@@ -58,7 +58,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   // 0. Auto-Fetch true database persistence payload on mount!
   useEffect(() => {
-    fetch('http://localhost:9999/api/v1/resumes')
+    fetch('/api/v1/resumes')
       .then(async res => {
         if (res.status === 401) {
           console.warn("⚠️ Database initialization locked behind a 401 Unauthorized NS Backend payload on Port 9999. Please ensure JWT is injected.");
@@ -67,9 +67,21 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         return res.json();
       })
       .then(dbResumes => {
-        if (dbResumes && dbResumes.length > 0 && dbResumes[0].payload) {
-          console.log("🔥 Successfully intercepted PostgreSQL Database Payload. Deep merging with structural anchors!");
-          const dbPayload = dbResumes[0].payload;
+        if (dbResumes && dbResumes.length > 0) {
+          // Parse destination ID from native URL
+          const pathSegments = window.location.pathname.split('/');
+          const targetResumeId = pathSegments.includes('resumes') && !isNaN(Number(pathSegments[pathSegments.length - 1]))
+            ? Number(pathSegments[pathSegments.length - 1])
+            : null;
+
+          let targetData = dbResumes[0];
+          if (targetResumeId) {
+            targetData = dbResumes.find((r: any) => r.id === targetResumeId) || dbResumes[0];
+          }
+
+          if (!targetData.payload) return;
+          console.log(`🔥 Intercepted PostgreSQL DB Payload for Resume #${targetData.id}. Deep merging!`);
+          const dbPayload = targetData.payload;
           
           const mergedData = {
             ...initialData,
@@ -91,7 +103,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const saveToDatabase = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch('http://localhost:9999/api/v1/resumes', {
+      const response = await fetch('/api/v1/resumes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

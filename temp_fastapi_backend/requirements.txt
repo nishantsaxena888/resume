@@ -5,3 +5,9 @@ sqladmin
 psycopg2-binary
 pydantic
 jsonschema
+gunicorn
+youtube-transcript-api
+yt-dlp
+email-validator
+python-dotenv
+google-genai

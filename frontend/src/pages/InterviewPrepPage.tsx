@@ -1,145 +1,138 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { BookOpen, ChevronRight, PanelLeftClose, PanelLeftOpen, ShieldCheck, Zap, Network, Cloud, Maximize, Minimize, Globe, MessageSquare } from 'lucide-react';
-import { PrepNoteWidget, PrepFlashcardWidget, PrepCodeWidget, PrepVideoWidget, PrepYouTubeWidget } from '../components/preparation/PrepWidgets';
-import type { CourseModel } from '../types/resumeBuilder/resume';
-
-const mockCoursePayload: CourseModel = {
-  id: "python-advanced-01",
-  title: "Python/AWS Lead Architect Preparation",
-  tags: ["AWS", "Serverless", "IAM", "Lambda", "Step Functions"],
-  modules: [
-    {
-      id: "mod-iam-serverless",
-      title: "AWS IAM Serverless",
-      icon: "ShieldCheck",
-      widgets: [
-        {
-          id: "wid-iam-1",
-          widgetType: "markdown",
-          payload: { title: "Serverless IAM Security Constraints", content: "In a fully Serverless architecture, IAM Roles and Policies form the rigid backbone of boundary enforcement.\n\nNever use `*` wildcards. An AWS Lambda execution role must be explicitly scoped to exactly the resources it touches (e.g., `dynamodb:PutItem` on a specific ARN) to enforce the Principle of Least Privilege." }
-        },
-        {
-          id: "wid-iam-2",
-          widgetType: "flashcard",
-          payload: { question: "What is the difference between an IAM Role and a Resource Policy in API Gateway?", answer: "An IAM Role (Execution Role) defines what an entity (like a Lambda) can do downstream. A Resource Policy (on API Gateway) controls exactly WHO can invoke the API endpoint itself from the outside." }
-        }
-      ]
-    },
-    {
-      id: "mod-lambda",
-      title: "Lambda",
-      icon: "Zap",
-      widgets: [
-        {
-          id: "wid-lambda-1",
-          widgetType: "markdown",
-          payload: { title: "Lambda Cold Starts & VPC Bridging", content: "Serverless functions natively run in AWS-managed VPCs and execute extremely fast. \n\nHowever, if a Lambda needs to connect to an internal RDS database, it must attach ENIs (Elastic Network Interfaces) to land inside your private VPC. This historically caused massive Cold Starts, though AWS dramatically improved this with Hyperplane ENIs." }
-        },
-        {
-          id: "wid-lambda-2",
-          widgetType: "code_snippet",
-          payload: { language: "python", snippet: "import boto3\nimport json\nimport os\n\ndef lambda_handler(event, context):\n    \"\"\"\n    Native Serverless Entrypoint.\n    Executes in a transient microVM.\n    \"\"\"\n    # Event parsing ensures strict boundary validation\n    payload = json.loads(event.get('body', '{}'))\n    \n    return {\n        'statusCode': 200,\n        'body': json.dumps({'message': 'Lambda processed successfully.', 'echo': payload})\n    }" }
-        },
-        {
-          id: "wid-lambda-yt-1",
-          widgetType: "youtube",
-          payload: { title: "AWS Lambda Masterclass Playlist", url: "https://www.youtube.com/watch?v=iUIWG0h2D84&list=PL9nWRykSBSFjodfc8l8M8yN0ieP94QeEL" }
-        }
-      ]
-    },
-    {
-      id: "mod-step-functions",
-      title: "Step Functions",
-      icon: "Network",
-      widgets: [
-        {
-          id: "wid-step-1",
-          widgetType: "markdown",
-          payload: { title: "State Machine Orchestration", content: "Serverless pipelines rapidly grow too complex for Lambdas linearly calling other Lambdas (Spaghetti Code).\n\nStep Functions orchestrate distributed microservices using Amazon States Language (ASL). They handle error retries, exponential backoffs, `.catch` blocks, and branching parallelism completely out of the Lambda execution runtime." }
-        },
-        {
-          id: "wid-step-yt-1",
-          widgetType: "youtube",
-          payload: { title: "Step Functions Overview", url: "https://www.youtube.com/watch?v=zCIpWFYDJ8s" }
-        },
-        {
-          id: "wid-step-yt-2",
-          widgetType: "youtube",
-          payload: { title: "Step Functions Advanced Tutorial", url: "https://www.youtube.com/watch?v=GVpmVu8vcNQ" }
-        },
-        {
-          id: "wid-step-yt-3",
-          widgetType: "youtube",
-          payload: { title: "Step Functions Deep Dive Playlist", url: "https://www.youtube.com/watch?v=zCIpWFYDJ8s&list=PL9nWRykSBSFgQrO66TmO1vHFP6yuPF5G-" }
-        }
-      ]
-    },
-    {
-      id: "mod-api-gateway",
-      title: "API Gateway",
-      icon: "Globe",
-      widgets: [
-        {
-          id: "wid-apigw-yt-1",
-          widgetType: "youtube",
-          payload: { title: "API Gateway Complete Guide", url: "https://www.youtube.com/watch?v=jcibXVFiFek" }
-        }
-      ]
-    },
-    {
-      id: "mod-sqs-sns-eventbridge",
-      title: "SQS SNS EventBridge",
-      icon: "MessageSquare",
-      widgets: [
-        {
-          id: "wid-messaging-yt-1",
-          widgetType: "youtube",
-          payload: { title: "AWS Asynchronous Messaging", url: "https://www.youtube.com/watch?v=RoKAEzdcr7k" }
-        }
-      ]
-    }
-  ]
-};
+import { useParams, useSearchParams } from 'react-router-dom';
+import { Maximize, Minimize, PlusSquare, ChevronDown, ChevronRight } from 'lucide-react';
+import { WidgetRenderer } from '../components/widgets/WidgetRenderer';
 
 export default function InterviewPrepPage() {
-  const { prepId, courseId } = useParams();
-  const [courseTitle, setCourseTitle] = useState(mockCoursePayload.title);
+  const { courseId } = useParams();
+  const [courseTitle, setCourseTitle] = useState("");
+  const [openWidgets, setOpenWidgets] = useState<Record<number, boolean>>({});
+  const [modules, setModules] = useState<any[]>([]);
+  const [activeModuleId, setActiveModuleId] = useState<number | string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Dynamically filter mock payload based on explicit active database Course
-  const getFilteredModules = () => {
-    const t = courseTitle.toLowerCase();
-    if (t.includes('iam')) return mockCoursePayload.modules.filter(m => m.id === 'mod-iam-serverless');
-    if (t.includes('lambda')) return mockCoursePayload.modules.filter(m => m.id === 'mod-lambda');
-    if (t.includes('step')) return mockCoursePayload.modules.filter(m => m.id === 'mod-step-functions');
-    if (t.includes('api gateway')) return mockCoursePayload.modules.filter(m => m.id === 'mod-api-gateway');
-    if (t.includes('sqs') || t.includes('sns') || t.includes('event')) return mockCoursePayload.modules.filter(m => m.id === 'mod-sqs-sns-eventbridge');
-    return mockCoursePayload.modules;
-  };
-
-  const filteredModules = getFilteredModules();
-  const [activeModuleId, setActiveModuleId] = useState(filteredModules[0]?.id || mockCoursePayload.modules[0].id);
-  
-  // Re-sync active module when the context dynamically pivots
   useEffect(() => {
-    const newModules = getFilteredModules();
-    if (newModules.length > 0 && !newModules.find(m => m.id === activeModuleId)) {
-      setActiveModuleId(newModules[0].id);
+    if (courseId) {
+      setIsLoading(true);
+      fetch(`/api/v1/courses/${courseId}/curriculum`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.title) {
+            setCourseTitle(data.title);
+            setModules(data.modules || []);
+            
+            // Sync with URL Query Param or Fallback
+            const urlModuleId = searchParams.get('module');
+            if (urlModuleId) {
+              setActiveModuleId(Number(urlModuleId));
+            } else {
+              setActiveModuleId(null);
+            }
+          }
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setIsLoading(false);
+        });
     }
-  }, [courseTitle, activeModuleId]);
-  
-  const [isModuleSidebarOpen, setIsModuleSidebarOpen] = useState(() => {
-    const savedState = localStorage.getItem('isModuleSidebarOpen');
-    return savedState !== null ? JSON.parse(savedState) : true;
-  });
-  
+  }, [courseId]);
+
+  // Sync state if URL changes dynamically via Outer Shell
+  useEffect(() => {
+    const urlModuleId = searchParams.get('module');
+    if (urlModuleId && activeModuleId !== Number(urlModuleId)) {
+      setActiveModuleId(Number(urlModuleId));
+    } else if (!urlModuleId && activeModuleId !== null) {
+      setActiveModuleId(null);
+    }
+  }, [searchParams, activeModuleId]);
+
   const [isFocusMode, setIsFocusMode] = useState(false);
 
-  const activeModule = mockCoursePayload.modules.find(m => m.id === activeModuleId);
+  const activeModule = modules.find(m => m.id === activeModuleId);
 
-  useEffect(() => {
-    localStorage.setItem('isModuleSidebarOpen', JSON.stringify(isModuleSidebarOpen));
-  }, [isModuleSidebarOpen]);
+  const addModule = async () => {
+    const title = prompt("Enter new module name:");
+    if (!title) return;
+    try {
+      const res = await fetch(`/api/v1/courses/${courseId}/modules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, position: modules.length })
+      });
+      if (res.ok) {
+        const newMod = await res.json();
+        setModules([...modules, { ...newMod, widgets: [] }]);
+        setActiveModuleId(newMod.id);
+      }
+    } catch (e) { console.error(e); }
+  };
+
+  const addWidget = async () => {
+    if (!activeModuleId) return;
+    const type = prompt("Enter widget type (markdown, flashcard, youtube, code_snippet, video_embed):", "markdown");
+    if (!type) return;
+    
+    let payload = {};
+    if (type === 'markdown') payload = { title: "New Note", content: "Write here..." };
+    else if (type === 'flashcard') payload = { question: "Q?", answer: "A!" };
+    else if (type === 'youtube') payload = { url: "https://youtube.com/watch?v=dQw4w9WgXcQ" };
+    else if (type === 'code_snippet') payload = { language: "python", snippet: "print('hello')" };
+    else if (type === 'video_embed') payload = { videoUrl: "https://..." };
+
+    const activeMod = modules.find(m => m.id === activeModuleId);
+    if (!activeMod) return;
+
+    try {
+      const res = await fetch(`/api/v1/modules/${activeModuleId}/widgets`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ widget_type: type, payload, position: activeMod.widgets?.length || 0 })
+      });
+      if (res.ok) {
+        const newWidget = await res.json();
+        const updatedModules = modules.map(m => {
+          if (m.id === activeModuleId) {
+            return { ...m, widgets: [...(m.widgets || []), newWidget] };
+          }
+          return m;
+        });
+        setModules(updatedModules);
+      }
+    } catch (e) { console.error(e); }
+  };
+
+  const updateWidgetPayload = async (widgetId: number, newPayload: any) => {
+    try {
+      const res = await fetch(`/api/v1/widgets/${widgetId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPayload)
+      });
+      if (res.ok) {
+        setModules(modules.map(m => m.id === activeModuleId ? {
+          ...m, widgets: m.widgets.map((w: any) => w.id === widgetId ? { ...w, payload: newPayload } : w)
+        } : m));
+      }
+    } catch (e) { console.error(e); }
+  };
+
+  const removeWidget = async (widgetId: number) => {
+    if (!window.confirm("Are you securely authorizing the formal deletion of this Curriculum Widget? This action cannot be reversed.")) return;
+    try {
+      const res = await fetch(`/api/v1/widgets/${widgetId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setModules(modules.map(m => ({
+          ...m,
+          widgets: m.widgets?.filter((w: any) => w.id !== widgetId)
+        })));
+      }
+    } catch (e) { console.error(e); }
+  };
+
+
 
   // Sync React state accurately if User naturally exits Fullscreen via 'Esc' key hardware event
   useEffect(() => {
@@ -150,134 +143,179 @@ export default function InterviewPrepPage() {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  const getModuleIcon = (iconName: string, isActive: boolean) => {
-    const className = `w-5 h-5 shrink-0 transition-colors ${isActive ? 'text-rose-600' : 'text-slate-400'}`;
-    if (iconName === 'ShieldCheck') return <ShieldCheck className={className} />;
-    if (iconName === 'Zap') return <Zap className={className} />;
-    if (iconName === 'Network') return <Network className={className} />;
-    if (iconName === 'Globe') return <Globe className={className} />;
-    if (iconName === 'MessageSquare') return <MessageSquare className={className} />;
-    return <Cloud className={className} />;
+  const navigateToWidget = (moduleId: number, widgetId: number) => {
+    setSearchParams({ module: moduleId.toString() });
+    
+    // Auto-open Accordion when navigating to it from Index
+    setOpenWidgets(prev => ({ ...prev, [widgetId]: true }));
+    
+    setTimeout(() => {
+      const el = document.getElementById(`widget-${widgetId}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200); // Allow render cycle
   };
 
-  useEffect(() => {
-    if (prepId && courseId) {
-      fetch(`http://localhost:9999/api/v1/preparations/${prepId}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.courses) {
-            const course = data.courses.find((c: any) => c.id.toString() === courseId);
-            if (course && course.title) {
-              setCourseTitle(course.title);
-            }
-          }
-        })
-        .catch(console.error);
-    }
-  }, [prepId, courseId]);
+  const toggleWidget = (widgetId: number) => {
+    setOpenWidgets(prev => ({ ...prev, [widgetId]: prev[widgetId] === undefined ? false : !prev[widgetId] }));
+  };
+
+  const navigateToModule = (moduleId: number) => {
+    setSearchParams({ module: moduleId.toString() });
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button 
-             onClick={() => setIsModuleSidebarOpen(!isModuleSidebarOpen)}
-             className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none hidden md:flex shrink-0"
-             title={isModuleSidebarOpen ? "Collapse Modules" : "Expand Modules"}
-          >
-             {isModuleSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-rose-100 rounded-lg text-rose-600 shrink-0">
-              <BookOpen className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-900 line-clamp-1">{courseTitle}</h1>
-              <p className="text-sm text-slate-500">JSON Schema Extensible CMS Board</p>
-            </div>
-          </div>
-        </div>
-        
-      </header>
-
-      {/* Split Pane CMS Layout */}
-      <main className="flex-1 flex overflow-hidden h-[calc(100vh-73px)]">
-        
-        {/* Left TOC Nav (Generic Menu Editor) */}
-        <aside className={`${isModuleSidebarOpen ? 'w-72' : 'w-20'} bg-white border-r border-slate-200 overflow-y-auto hidden md:flex flex-col transition-all duration-300 ease-in-out shrink-0`}>
-          <div className="p-4 flex flex-col w-full h-full relative">
-            {isModuleSidebarOpen && <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 px-2 whitespace-nowrap">Knowledge Base</h2>}
-            <div className="flex flex-col gap-2 w-full mt-2">
-              {filteredModules.map(module => {
-                const isActive = activeModuleId === module.id;
-                return (
-                  <button
-                    key={module.id}
-                    onClick={() => setActiveModuleId(module.id)}
-                    title={!isModuleSidebarOpen ? module.title : undefined}
-                    className={`flex items-center transition-all duration-200 rounded-lg font-medium text-sm
-                      ${isModuleSidebarOpen ? 'w-full px-3 py-2.5 justify-between' : 'w-10 h-10 mx-auto justify-center px-0 py-0'}
-                      ${isActive ? 'bg-rose-50 text-rose-700 shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
-                    `}
-                  >
-                    <div className="flex items-center gap-3">
-                      {getModuleIcon(module.icon || 'Cloud', isActive)}
-                      {isModuleSidebarOpen && <span className="line-clamp-1 text-left">{module.title}</span>}
-                    </div>
-                    {isModuleSidebarOpen && isActive && <ChevronRight className="w-4 h-4 text-rose-500 shrink-0" />}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </aside>
-
+      {/* Expansive Full-Screen Canvas Layout (Zero Sidebars) */}
+      <main className="flex-1 flex overflow-hidden h-[100vh] relative">
         {/* Right Canvas Layout (Polymorphic Widget Renderer) */}
         <section id="course-zen-canvas" className={`bg-slate-50 overflow-y-auto p-8 relative transition-all duration-300 ${isFocusMode ? 'fixed inset-0 z-[100] w-screen h-screen' : 'flex-1'}`}>
           
-          <button 
-             onClick={() => {
-                const nextMode = !isFocusMode;
-                setIsFocusMode(nextMode);
-                try {
-                  if (nextMode) {
-                    document.getElementById('course-zen-canvas')?.requestFullscreen?.();
-                  } else {
-                    if (document.fullscreenElement) {
-                      document.exitFullscreen?.();
-                    }
-                  }
-                } catch (e) {
-                  console.error("Fullscreen API not supported", e);
-                }
-             }}
-             className={`absolute top-6 right-8 p-2.5 rounded-xl border border-slate-200 transition-all duration-300 shadow-sm focus:outline-none z-50
-               ${isFocusMode ? 'bg-indigo-600 text-white border-indigo-700 hover:bg-indigo-700 shadow-md' : 'bg-white text-slate-500 hover:text-indigo-600 hover:bg-slate-50'}
-             `}
-             title={isFocusMode ? "Exit Focus Mode" : "Enter Focus Mode"}
-          >
-             {isFocusMode ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
-          </button>
+          <div className="absolute top-6 right-8 flex items-center gap-3 z-50">
+             <button 
+                onClick={addModule} 
+                className={`py-2 px-4 bg-white text-indigo-600 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 rounded-xl text-sm font-bold flex justify-center items-center gap-2 transition-all shadow-sm ${isFocusMode ? 'hidden' : 'flex'}`}
+             >
+               <PlusSquare className="w-4 h-4" /> Add Module Node
+             </button>
+             
+             <button 
+                onClick={() => {
+                   const nextMode = !isFocusMode;
+                   setIsFocusMode(nextMode);
+                   try {
+                     if (nextMode) {
+                       document.getElementById('course-zen-canvas')?.requestFullscreen?.();
+                     } else {
+                       if (document.fullscreenElement) {
+                         document.exitFullscreen?.();
+                       }
+                     }
+                   } catch (e) {
+                     console.error("Fullscreen API not supported", e);
+                   }
+                }}
+                className={`p-2.5 rounded-xl border transition-all duration-300 shadow-sm focus:outline-none 
+                  ${isFocusMode ? 'bg-indigo-600 text-white border-indigo-700 hover:bg-indigo-700 shadow-md' : 'bg-white text-slate-500 border-slate-200 hover:text-indigo-600 hover:bg-slate-50'}
+                `}
+                title={isFocusMode ? "Exit Focus Mode" : "Enter Focus Mode"}
+             >
+                {isFocusMode ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+             </button>
+          </div>
           
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-slate-800 capitalize flex items-center gap-3 mb-2">
-              {activeModule?.title}
-            </h2>
-            <p className="text-slate-500">The RHS Widget engine natively rendering from system-configuration Zod schemas.</p>
-          </div>
+          {/* Dynamic Configuration Driven Course Index */}
+          {!activeModuleId && !isLoading ? (
+            <div className="max-w-4xl mx-auto py-12 px-8 z-10 relative">
+               <h1 className="text-4xl font-black text-slate-900 mb-8 border-b-4 border-indigo-600 pb-4 inline-block tracking-tight">{courseTitle} • Dynamic Engine Index</h1>
+               <div className="grid gap-8">
+                 {modules.map((mod: any, idx: number) => (
+                   <div key={mod.id} className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                     <h2 className="flex items-center gap-4 text-2xl font-bold text-slate-800 mb-6 cursor-pointer hover:text-indigo-600 transition-colors"
+                         onClick={() => navigateToModule(mod.id)}>
+                        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700">{idx + 1}</div>
+                        {mod.title}
+                     </h2>
+                     {mod.widgets && mod.widgets.length > 0 ? (
+                       <ul className="space-y-3 ml-14">
+                         {mod.widgets.map((w: any) => (
+                           <li key={w.id} className="flex flex-col gap-1">
+                             <button
+                               onClick={() => navigateToWidget(mod.id, w.id)}
+                               className="text-left text-slate-600 hover:text-indigo-600 font-medium hover:underline text-lg flex items-center gap-3 transition-colors"
+                             >
+                                <span className="text-xl bg-slate-50 p-2 rounded-xl text-slate-500 shadow-sm border border-slate-100 group-hover:bg-indigo-50">
+                                  {w.widget_type === 'youtube' ? '📺' : w.widget_type === 'markdown' ? '📝' : w.widget_type === 'flashcard' ? '⚡' : '⚙️'}
+                                </span>
+                                {w.payload?.title || w.widget_type}
+                             </button>
+                           </li>
+                         ))}
+                       </ul>
+                     ) : (
+                       <p className="ml-14 text-slate-400 italic">No exact curriculum injected for this chapter yet.</p>
+                     )}
+                   </div>
+                 ))}
+                 
+                 {modules.length === 0 && (
+                   <div className="text-center p-12 bg-white rounded-2xl border border-dashed border-slate-300 text-slate-500">
+                     <p>This course is completely empty. Create a module to begin.</p>
+                   </div>
+                 )}
+               </div>
+            </div>
+          ) : (
+          <div className="ml-0">
+            <div className="mb-8 mt-2">
+              <h2 className="text-3xl font-black text-slate-900 capitalize flex items-center gap-3 mb-2">
+                {activeModule?.title} Content
+              </h2>
+              <p className="text-slate-500 text-lg">Interactive structured study material and widgets for {activeModule?.title}.</p>
+            </div>
 
-          {/* Interactive Widget Grid Loop */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            {activeModule?.widgets.map(widget => {
-               if (widget.widgetType === 'markdown') return <PrepNoteWidget key={widget.id} payload={widget.payload} />;
-               if (widget.widgetType === 'flashcard') return <PrepFlashcardWidget key={widget.id} payload={widget.payload} />;
-               if (widget.widgetType === 'code_snippet') return <PrepCodeWidget key={widget.id} payload={widget.payload} />;
-               if (widget.widgetType === 'video_embed') return <PrepVideoWidget key={widget.id} payload={widget.payload} />;
-               if (widget.widgetType === 'youtube') return <PrepYouTubeWidget key={widget.id} payload={widget.payload} />;
-               return <div key={widget.id} className="p-4 bg-red-100 text-red-600">Unknown Widget Type Error!</div>
-            })}
+          {/* Interactive Widget Accordion Stack */}
+          {isLoading ? (
+             <div className="flex justify-center my-12 text-slate-400">Loading Configuration...</div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {activeModule?.widgets?.map((widget: any) => {
+                const isOpen = openWidgets[widget.id] ?? true; // Default Open if undefined
+                return (
+                  <div 
+                    key={widget.id} 
+                    id={`widget-${widget.id}`}
+                    className="flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm"
+                  >
+                    {/* Native Accordion Wrapper Header */}
+                    <div 
+                      className="px-6 py-4 flex items-center justify-between bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors border-b border-transparent data-[open=true]:border-slate-200"
+                      data-open={isOpen}
+                      onClick={() => toggleWidget(widget.id)}
+                    >
+                      <div className="flex items-center gap-4">
+                         <span className="text-xl bg-white p-2 rounded-xl text-slate-500 shadow-sm border border-slate-200">
+                           {widget.widget_type === 'youtube' || widget.widget_type === 'video_embed' ? '📺' : widget.widget_type === 'markdown' ? '📝' : widget.widget_type === 'flashcard' ? '⚡' : '⚙️'}
+                         </span>
+                         <h3 className="text-[17px] font-black tracking-tight text-slate-800">{widget.payload?.title || widget.widget_type}</h3>
+                      </div>
+                      <button className="text-slate-400 hover:text-indigo-600 transition-colors bg-white p-1.5 rounded-lg border border-slate-200 shadow-sm">
+                        {isOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                      </button>
+                    </div>
+
+                    {/* Accordion Content Body */}
+                    {isOpen && (
+                      <div className="p-0 sm:p-2 bg-slate-100/50">
+                        <WidgetRenderer 
+                          domain="course" 
+                          widget={widget} 
+                          onUpdate={updateWidgetPayload} 
+                          onDelete={removeWidget}
+                          activeModuleId={Number(activeModuleId)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          
+          {(!activeModule?.widgets || activeModule.widgets.length === 0) && (
+             <div className="col-span-full p-8 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center text-slate-400">
+               <p className="font-bold mb-2 text-slate-500">No Widgets Found</p>
+               <p className="text-sm max-w-sm">This module currently contains no study resources. Start adding interactive notes, flashcards, or video timelines to build your curriculum.</p>
+             </div>
+          )}
+
+          {activeModuleId && !isLoading && (
+            <button onClick={addWidget} className="mt-8 px-6 py-3 bg-white border border-dashed border-slate-300 text-slate-600 hover:border-indigo-500 hover:text-indigo-600 rounded-xl text-sm font-bold flex justify-center items-center gap-2 transition-colors shadow-sm w-max mx-auto">
+              <PlusSquare className="w-4 h-4" /> Inject New Curriculum Widget
+            </button>
+          )}
+
           </div>
+          )}
 
         </section>
       </main>

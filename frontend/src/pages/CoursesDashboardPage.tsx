@@ -1,130 +1,145 @@
-import React, { useState, useEffect } from 'react';
-import { BookOpen, Search, BriefcaseBusiness, FileText, Server, Terminal, Code, Brain, ChevronRight, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Loader2, BookOpen, Check, Save } from 'lucide-react';
 
 export default function CoursesDashboardPage() {
   const navigate = useNavigate();
   const { prepId } = useParams();
 
-  const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [prep, setPrep] = useState<any>(null);
+  const [allCourses, setAllCourses] = useState<any[]>([]);
+  const [selectedCourseIds, setSelectedCourseIds] = useState<number[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (prepId) {
-      fetch(`http://localhost:9999/api/v1/preparations/${prepId}`)
-        .then(res => res.json())
-        .then(data => {
-          setCourses(data.courses || []);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error(err);
-          setLoading(false);
-        });
-    } else {
-      fetch(`http://localhost:9999/api/v1/courses`)
-        .then(res => res.json())
-        .then(data => {
-          setCourses(data || []);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error(err);
-          setLoading(false);
-        });
+    const initialize = async () => {
+      try {
+        if (prepId) {
+           const [prepRes, coursesRes] = await Promise.all([
+             fetch(`/api/v1/preparations/${prepId}`),
+             fetch('/api/v1/courses')
+           ]);
+           
+           const prepData = await prepRes.json();
+           const coursesData = await coursesRes.json();
+           
+           setPrep(prepData);
+           setAllCourses(coursesData);
+           
+           if (prepData.courses) {
+             setSelectedCourseIds(prepData.courses.map((c: any) => c.id));
+           }
+        } else {
+           // Global fallback routing
+           const res = await fetch(`/api/v1/courses`);
+           const data = await res.json();
+           if (data && data.length > 0) {
+             navigate(`/courses/${data[0].id}`, { replace: true });
+           }
+        }
+      } catch (e) {
+        console.error("Failed to load Hub", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    initialize();
+  }, [prepId, navigate]);
+
+  const toggleCourse = (id: number) => {
+    setSelectedCourseIds(prev => 
+      prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
+    );
+  };
+
+  const handleSave = async () => {
+    if (!prep) return;
+    setIsSaving(true);
+    
+    // Reconstruct the full Pydantic payload required by the PUT endpoint
+    const putPayload = {
+      ...prep,
+      course_ids: selectedCourseIds,
+      resume_ids: prep.resumes?.map((r: any) => r.id) || [],
+      jd_ids: prep.jds?.map((j: any) => j.id) || []
+    };
+
+    try {
+      await fetch(`/api/v1/preparations/${prepId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(putPayload)
+      });
+      // Force hard refresh to rehydrate the Global Sidebar state natively 
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+      setIsSaving(false);
     }
-  }, [prepId]);
-  
-  const getIcon = (title: string) => {
-    if (title.toLowerCase().includes('aws')) return <Server className="w-6 h-6 text-indigo-500" />;
-    if (title.toLowerCase().includes('python')) return <Terminal className="w-6 h-6 text-emerald-500" />;
-    return <BookOpen className="w-6 h-6 text-slate-500" />;
   };
-  
-  const getColor = (title: string) => {
-    if (title.toLowerCase().includes('aws')) return 'bg-indigo-500';
-    if (title.toLowerCase().includes('python')) return 'bg-emerald-500';
-    return 'bg-slate-500';
-  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4">
+        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+        <span className="text-sm font-bold text-slate-400 tracking-widest uppercase">Initializing Curriculum Manager...</span>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Workspace Scoped Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-8 py-5">
-        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
-          <BookOpen className="w-8 h-8 text-indigo-600 drop-shadow-sm" />
-          Targeted Prep Curriculum
-        </h1>
-        <p className="text-sm font-medium text-slate-500 mt-1">Modules strictly curated for Python & AWS architectural readiness.</p>
-      </header>
-
-      {/* Main Grid */}
-      <main className="flex-1 p-8 max-w-[1400px] mx-auto w-full">
+    <div className="min-h-screen bg-slate-50 flex flex-col p-10 font-sans w-full">
+      <div className="max-w-4xl mx-auto w-full flex flex-col gap-8">
         
-        <div className="flex items-center justify-between mb-8">
-          <div className="relative w-96">
-            <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="Search active courses..." 
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-sm transition-all"
-            />
-          </div>
-          <div className="text-sm font-medium text-slate-500">
-            Showing {courses.length} critical paths
-          </div>
-        </div>
+        <header className="flex items-center justify-between border-b border-slate-200 pb-6">
+           <div>
+             <h1 className="text-2xl font-black text-slate-900 tracking-tight">Curriculum Manager</h1>
+             <p className="text-sm font-medium text-slate-500">Bind independent study modules into your Active Preparation context.</p>
+           </div>
+           <button 
+             onClick={handleSave} 
+             disabled={isSaving}
+             className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all disabled:opacity-75 disabled:cursor-not-allowed"
+           >
+             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+             {isSaving ? 'Synchronizing...' : 'Save & Attach'}
+           </button>
+        </header>
 
-        {/* Course Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {courses.map(course => (
-            <div 
-              key={course.id}
-              onClick={() => navigate(prepId ? `/prep/${prepId}/courses/${course.id}` : `/courses/${course.id}`)}
-              className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden group cursor-pointer hover:shadow-xl hover:border-indigo-300 transition-all duration-300 flex flex-col h-72 relative"
-            >
-              {/* Embedded JD Context Badge */}
-              {course.attachedJd && (
-                 <div className="absolute top-4 right-4 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md z-10 flex items-center gap-1 shadow-sm">
-                   <BriefcaseBusiness className="w-3 h-3" />
-                   Priority Map
-                 </div>
-              )}
+        <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+           <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-6">Available Global Courses</h3>
+           
+           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+             {allCourses.length === 0 ? (
+               <div className="col-span-3 py-10 text-center text-slate-500 font-medium">No courses exist in the global platform yet. Create one from the Home Dashboard to link it here.</div>
+             ) : (
+               allCourses.map((course) => {
+                 const isSelected = selectedCourseIds.includes(course.id);
+                 return (
+                   <div 
+                     key={course.id}
+                     onClick={() => toggleCourse(course.id)}
+                     className={`cursor-pointer transition-all duration-200 p-5 rounded-xl border flex flex-col gap-3 group ${isSelected ? 'bg-indigo-50 border-indigo-400 shadow-inner' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-sm'}`}
+                   >
+                     <div className="flex items-start justify-between">
+                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-600'}`}>
+                         <BookOpen className="w-5 h-5" />
+                       </div>
+                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 bg-white'}`}>
+                         {isSelected && <Check className="w-3 h-3 text-white" />}
+                       </div>
+                     </div>
+                     <h4 className={`font-bold text-sm line-clamp-2 ${isSelected ? 'text-indigo-900' : 'text-slate-700 group-hover:text-slate-900'}`}>{course.title}</h4>
+                   </div>
+                 );
+               })
+             )}
+           </div>
+        </section>
 
-              <div className={`h-2 w-full ${getColor(course.title)}`} />
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm">
-                  {getIcon(course.title)}
-                </div>
-                
-                <h3 className="font-bold text-slate-900 text-lg mb-2 line-clamp-2 leading-tight group-hover:text-indigo-600 transition-colors">
-                  {course.title}
-                </h3>
-                
-                <p className="text-slate-500 text-sm line-clamp-3 mb-4 flex-1">
-                  A foundational curriculum block aligned with your target context mapping.
-                </p>
-                
-                <div className="mt-auto">
-                  <div className="flex justify-between items-end mb-2">
-                       <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Progress</span>
-                       <span className="text-xs font-bold text-slate-700">0%</span>
-                    </div>
-                    <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                      <div className={`${getColor(course.title)} h-1.5 rounded-full transition-all`} style={{ width: `0%` }}></div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="px-6 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="text-xs font-medium text-slate-500">Launch Platform</span>
-                  <ChevronRight className="w-4 h-4 text-indigo-500" />
-                </div>
-              </div>
-            ))}
-        </div>
-
-      </main>
+      </div>
     </div>
   );
 }

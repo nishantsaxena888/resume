@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqladmin import Admin, ModelView
@@ -53,3 +54,21 @@ app.include_router(router, prefix="/api/v1")
 @app.get("/health")
 def health_check():
     return {"status": "ok", "message": "Interview Prep Skillon API is running."}
+
+# Mount React Frontend SPA natively if statically compiled by deploy.sh
+if os.path.exists("static"):
+    from fastapi.staticfiles import StaticFiles
+    from starlette.responses import FileResponse
+    from starlette.exceptions import HTTPException as StarletteHTTPException
+
+    app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
+    
+    @app.get("/{full_path:path}")
+    async def serve_react_app(full_path: str):
+        # Serve favicon or other static root files if they exist explicitly
+        root_file = os.path.join("static", full_path)
+        if os.path.isfile(root_file):
+            return FileResponse(root_file)
+        
+        # Fallback to index.html for native React-Router processing
+        return FileResponse("static/index.html")

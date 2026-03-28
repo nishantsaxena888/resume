@@ -69,6 +69,7 @@ class Preparation(Base):
     icon = Column(String(50), default="BriefcaseBusiness")
     status = Column(String, default="Active")
     progress = Column(Integer, default=0)
+    links = Column(JSON, default=list)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -77,7 +78,7 @@ class Preparation(Base):
     jds = relationship("JobDescription", secondary=prep_jd_association, back_populates="preparations")
     
     # Content
-    courses = relationship("Course", secondary=prep_course_association, back_populates="preparations")
+    courses = relationship("Course", secondary=prep_course_association, back_populates="preparations", order_by="Course.position")
     notes = relationship("PreparationNote", back_populates="preparation", uselist=False, cascade="all, delete-orphan")
 
 class PreparationNote(Base):
@@ -96,6 +97,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     title = Column(String, nullable=False)
+    position = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     user = relationship("User", back_populates="courses")

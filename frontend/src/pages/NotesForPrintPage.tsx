@@ -14,7 +14,7 @@ export default function NotesForPrintPage() {
 
   // 1. Fetch existing Notes payload from the DB on load
   useEffect(() => {
-    fetch(`http://localhost:9999/api/v1/preparations/${prepId}`)
+    fetch(`/api/v1/preparations/${prepId}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.notes && data.notes.content) {
@@ -33,7 +33,7 @@ export default function NotesForPrintPage() {
     
     setSaveStatus('saving');
     const timer = setTimeout(() => {
-      fetch(`http://localhost:9999/api/v1/preparations/${prepId}/notes`, {
+      fetch(`/api/v1/preparations/${prepId}/notes`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
