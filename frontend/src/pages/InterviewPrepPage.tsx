@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Maximize, Minimize, PlusSquare, ChevronDown, ChevronRight } from 'lucide-react';
+import { Maximize, Minimize, PlusSquare, ChevronDown, ChevronRight, Edit2, Trash2, Check, X } from 'lucide-react';
 import { WidgetRenderer } from '../components/widgets/WidgetRenderer';
 
 export default function InterviewPrepPage() {
@@ -9,6 +9,8 @@ export default function InterviewPrepPage() {
   const [openWidgets, setOpenWidgets] = useState<Record<number, boolean>>({});
   const [modules, setModules] = useState<any[]>([]);
   const [activeModuleId, setActiveModuleId] = useState<number | string | null>(null);
+  const [isEditingModule, setIsEditingModule] = useState(false);
+  const [editModuleTitle, setEditModuleTitle] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -70,17 +72,44 @@ export default function InterviewPrepPage() {
     } catch (e) { console.error(e); }
   };
 
-  const addWidget = async () => {
+  const saveModuleTitle = async () => {
+    if (!activeModuleId || !editModuleTitle.trim()) return;
+    try {
+      const res = await fetch(`/api/v1/modules/${activeModuleId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: editModuleTitle })
+      });
+      if (res.ok) {
+        setModules(modules.map(m => m.id === activeModuleId ? { ...m, title: editModuleTitle } : m));
+        setIsEditingModule(false);
+      }
+    } catch(e) {}
+  };
+
+  const deleteModule = async () => {
     if (!activeModuleId) return;
-    const type = prompt("Enter widget type (markdown, flashcard, youtube, code_snippet, video_embed):", "markdown");
-    if (!type) return;
+    if (!window.confirm("Are you securely authorizing the formal permanent deletion of this Module and ALL its underlying Curriculum Widgets?")) return;
+    try {
+      const res = await fetch(`/api/v1/modules/${activeModuleId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setModules(modules.filter(m => m.id !== activeModuleId));
+        setActiveModuleId(null);
+      }
+    } catch(e) {}
+  };
+
+  const [showWidgetMenu, setShowWidgetMenu] = useState(false);
+
+  const addWidget = async (type: string) => {
+    if (!activeModuleId) return;
     
     let payload = {};
-    if (type === 'markdown') payload = { title: "New Note", content: "Write here..." };
-    else if (type === 'flashcard') payload = { question: "Q?", answer: "A!" };
-    else if (type === 'youtube') payload = { url: "https://youtube.com/watch?v=dQw4w9WgXcQ" };
-    else if (type === 'code_snippet') payload = { language: "python", snippet: "print('hello')" };
-    else if (type === 'video_embed') payload = { videoUrl: "https://..." };
+    if (type === 'markdown') payload = { title: "", content: "" };
+    else if (type === 'flashcard') payload = { question: "", answer: "" };
+    else if (type === 'youtube') payload = { title: "", url: "" };
+    else if (type === 'code_snippet') payload = { language: "python", snippet: "" };
+    else if (type === 'video_embed') payload = { videoUrl: "" };
 
     const activeMod = modules.find(m => m.id === activeModuleId);
     if (!activeMod) return;
@@ -100,6 +129,7 @@ export default function InterviewPrepPage() {
           return m;
         });
         setModules(updatedModules);
+        setShowWidgetMenu(false);
       }
     } catch (e) { console.error(e); }
   };
@@ -246,14 +276,42 @@ export default function InterviewPrepPage() {
             </div>
           ) : (
           <div className="ml-0">
-            <div className="mb-8 mt-2">
-              <h2 className="text-3xl font-black text-slate-900 capitalize flex items-center gap-3 mb-2">
-                {activeModule?.title} Content
-              </h2>
-              <p className="text-slate-500 text-lg">Interactive structured study material and widgets for {activeModule?.title}.</p>
-            </div>
-
-          {/* Interactive Widget Accordion Stack */}
+            <div className="mb-8 mt-2 flex flex-col items-start gap-1 group/mheader">
+              {isEditingModule ? (
+                <div className="flex items-center gap-2 mb-2 w-full max-w-xl bg-white p-2 rounded-xl shadow-sm border border-indigo-200 animate-in fade-in zoom-in-95 duration-200">
+                  <input
+                    autoFocus
+                    value={editModuleTitle}
+                    onChange={(e) => setEditModuleTitle(e.target.value)}
+                    className="flex-1 text-2xl font-black text-slate-800 bg-transparent focus:outline-none placeholder-slate-300 px-2"
+                    placeholder="Enter Module Name..."
+                  />
+                  <div className="flex gap-1 shrink-0">
+                     <button onClick={() => setIsEditingModule(false)} className="p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-lg transition-colors" title="Cancel">
+                       <X className="w-5 h-5"/>
+                     </button>
+                     <button onClick={saveModuleTitle} disabled={!editModuleTitle.trim()} className="p-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-slate-400 rounded-lg transition-colors shadow-sm" title="Save Module Title">
+                       <Check className="w-5 h-5"/>
+                     </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center flex-wrap gap-3 mb-2">
+                  <h2 className="text-3xl font-black text-slate-900 capitalize flex items-center gap-3">
+                    {activeModule?.title}
+                  </h2>
+                  <div className="flex items-center gap-1.5 ml-2 mt-1">
+                    <button onClick={() => { setEditModuleTitle(activeModule?.title || ""); setIsEditingModule(true); }} className="p-2 text-indigo-500 bg-indigo-50/50 border border-indigo-100 hover:bg-indigo-100 hover:text-indigo-700 rounded-lg transition-all shadow-sm shrink-0 flex items-center gap-1.5 font-bold text-xs" title="Edit Module Name">
+                      <Edit2 className="w-3.5 h-3.5"/> Edit Title
+                    </button>
+                    <button onClick={deleteModule} className="p-2 text-rose-500 bg-rose-50/50 border border-rose-100 hover:bg-rose-100 hover:text-rose-700 rounded-lg transition-all shadow-sm shrink-0 flex items-center gap-1.5 font-bold text-xs" title="Delete Entire Module">
+                      <Trash2 className="w-3.5 h-3.5"/> Delete
+                    </button>
+                  </div>
+                </div>
+              )}
+              <p className="text-slate-500 text-lg">Interactive structured study material and widgets for {activeModule?.title || 'this module'}.</p>
+            </div>          {/* Interactive Widget Accordion Stack */}
           {isLoading ? (
              <div className="flex justify-center my-12 text-slate-400">Loading Configuration...</div>
           ) : (
@@ -276,7 +334,15 @@ export default function InterviewPrepPage() {
                          <span className="text-xl bg-white p-2 rounded-xl text-slate-500 shadow-sm border border-slate-200">
                            {widget.widget_type === 'youtube' || widget.widget_type === 'video_embed' ? '📺' : widget.widget_type === 'markdown' ? '📝' : widget.widget_type === 'flashcard' ? '⚡' : '⚙️'}
                          </span>
-                         <h3 className="text-[17px] font-black tracking-tight text-slate-800">{widget.payload?.title || widget.widget_type}</h3>
+                         <h3 className="text-[17px] font-black tracking-tight text-slate-800">
+                           {widget.payload?.title || widget.payload?.question || widget.payload?.language || (
+                             widget.widget_type === 'markdown' ? 'Study Note' :
+                             widget.widget_type === 'youtube' ? 'Media Player' :
+                             widget.widget_type === 'flashcard' ? 'Flashcard Node' :
+                             widget.widget_type === 'code_snippet' ? 'Code Sandbox' :
+                             widget.widget_type
+                           )}
+                         </h3>
                       </div>
                       <button className="text-slate-400 hover:text-indigo-600 transition-colors bg-white p-1.5 rounded-lg border border-slate-200 shadow-sm">
                         {isOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
@@ -309,9 +375,38 @@ export default function InterviewPrepPage() {
           )}
 
           {activeModuleId && !isLoading && (
-            <button onClick={addWidget} className="mt-8 px-6 py-3 bg-white border border-dashed border-slate-300 text-slate-600 hover:border-indigo-500 hover:text-indigo-600 rounded-xl text-sm font-bold flex justify-center items-center gap-2 transition-colors shadow-sm w-max mx-auto">
-              <PlusSquare className="w-4 h-4" /> Inject New Curriculum Widget
-            </button>
+            <div className="mt-8 flex flex-col items-center">
+              {!showWidgetMenu ? (
+                <button onClick={() => setShowWidgetMenu(true)} className="px-6 py-3 bg-white border border-dashed border-slate-300 text-slate-600 hover:border-indigo-500 hover:text-indigo-600 rounded-xl text-sm font-bold flex justify-center items-center gap-2 transition-colors shadow-sm w-max">
+                  <PlusSquare className="w-5 h-5" /> Inject New Curriculum Widget
+                </button>
+              ) : (
+                <div className="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-lg p-6 animate-in slide-in-from-bottom-2 fade-in duration-200">
+                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+                     <h4 className="font-black text-slate-800 text-lg">Select Widget Type</h4>
+                     <button onClick={() => setShowWidgetMenu(false)} className="text-sm font-bold text-slate-400 hover:text-slate-600 px-3 py-1 rounded-lg hover:bg-slate-100 transition-colors">Cancel</button>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                     <button onClick={() => addWidget('markdown')} className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-indigo-400 hover:bg-indigo-50 hover:text-indigo-600 transition-all group">
+                       <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</span>
+                       <span className="text-[11px] font-bold text-slate-600 group-hover:text-indigo-600 uppercase tracking-wider">Markdown</span>
+                     </button>
+                     <button onClick={() => addWidget('youtube')} className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all group">
+                       <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">📺</span>
+                       <span className="text-[11px] font-bold text-slate-600 group-hover:text-rose-600 uppercase tracking-wider">YouTube</span>
+                     </button>
+                     <button onClick={() => addWidget('flashcard')} className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-amber-400 hover:bg-amber-50 hover:text-amber-600 transition-all group">
+                       <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">⚡</span>
+                       <span className="text-[11px] font-bold text-slate-600 group-hover:text-amber-600 uppercase tracking-wider">Flashcard</span>
+                     </button>
+                     <button onClick={() => addWidget('code_snippet')} className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-600 transition-all group">
+                       <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">⚙️</span>
+                       <span className="text-[11px] font-bold text-slate-600 group-hover:text-emerald-600 uppercase tracking-wider">Code Exec</span>
+                     </button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           </div>

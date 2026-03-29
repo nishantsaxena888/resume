@@ -211,6 +211,25 @@ def add_module_to_course(course_id: int, module: CourseModuleCreate, db: Session
     db.refresh(db_module)
     return db_module
 
+@router.put("/modules/{module_id}")
+def update_course_module(module_id: int, payload: Dict[Any, Any], db: Session = Depends(get_db)):
+    db_mod = db.query(CourseModule).filter(CourseModule.id == module_id).first()
+    if not db_mod:
+        raise HTTPException(status_code=404, detail="Module not found")
+    if "title" in payload:
+        db_mod.title = payload["title"]
+    db.commit()
+    return {"status": "ok"}
+
+@router.delete("/modules/{module_id}")
+def delete_course_module(module_id: int, db: Session = Depends(get_db)):
+    db_mod = db.query(CourseModule).filter(CourseModule.id == module_id).first()
+    if not db_mod:
+        raise HTTPException(status_code=404, detail="Module not found")
+    db.delete(db_mod)
+    db.commit()
+    return {"status": "ok"}
+
 @router.post("/modules/{module_id}/widgets", response_model=WidgetResponse)
 def add_widget_to_module(module_id: int, widget: CourseWidgetCreate, db: Session = Depends(get_db)):
     db_widget = CourseWidget(
@@ -374,10 +393,12 @@ def capture_youtube_frame_jpg(video_id: str, timestamp: float):
         from fastapi.responses import Response
         return Response(content=frame_bytes, media_type="image/jpeg")
     except Exception as e:
-        import urllib.request
-        # On failure (e.g. YouTube 403), yield a generic placeholder safely instead of crashing the markdown DOM
-        with urllib.request.urlopen("https://placehold.co/600x400/101827/a78bfa.jpg?text=Frame+Timeout") as response:
-            return Response(content=response.read(), media_type="image/jpeg")
+        # Upon yt-dlp 429 Rate Limits or FFmpeg segfaults, yield a 1x1 transparent binary 
+        # GIF instantly to prevent browser DOMs from rendering broken HTML image artifacts 
+        # or triggering secondary urllib concurrent crashing loops.
+        blank_gif = b'GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;'
+        from fastapi.responses import Response
+        return Response(content=blank_gif, media_type="image/gif")
 
 from pydantic import BaseModel
 class GenerateNotesRequest(BaseModel):
@@ -425,8 +446,12 @@ def generate_ai_notes(
     class GeneratedNotes(BaseModel):
         sections: list[SectionNote]
 
+    user_timeline = widget.payload.get("timeline", [])
+    user_snapshots = [node["timestamp"] for node in user_timeline if node.get("type") == "image"]
+    user_snapshots_str = ", ".join([str(t) for t in user_snapshots]) if user_snapshots else "None"
+
     client = genai.Client(api_key=api_key)
-    prompt = """
+    prompt = f"""
     You are an elite technical curriculum architect. Analyze the provided video transcript and its timestamps.
     Divide the video log into logical, highly cohesive, chronological sections.
     
@@ -434,8 +459,9 @@ def generate_ai_notes(
     1. EXPLAIN THE CONCEPTS SMARTLY and thoroughly, but STRICTLY retain the original flow, language, and core phrasing of the speaker. Do not miss any details! 
     2. Write a formal `heading` for each section.
     3. Determine the actual mapped `timestamp_range` covered in this section (e.g., "1:20 - 2:45").
-    4. Provide MULTIPLE `snapshot_timestamps` (in seconds, as a list of floats) where an important architectural diagram, code screen, or informative slide appears. DO NOT MISS ANY. Provide 1-4 snapshots per section if there is heavy visual activity.
-    5. Write the `markdown_content` block containing the smartly explained flow, formatted into highly readable bullet points. DO NOT manually insert any markdown images yourself.
+    4. MANDATORY INCLUSIONS: The user explicitly extracted key frames at these specific elapsed seconds: [{user_snapshots_str}]. You MUST definitively assign and include every single one of these exact floating-point timestamps into the `snapshot_timestamps` array for their chronologically corresponding section. Do NOT skip any user-defined snapshots!
+    5. Additionally, you may provide MAXIMUM 1 or 2 extra autonomous `snapshot_timestamps` ONLY IF a completely undocumented architectural diagram or critical code screen appears. Otherwise, do not spam timestamps artificially!
+    6. Write the `markdown_content` block containing the smartly explained flow, formatted into highly readable bullet points. DO NOT manually insert any markdown images yourself.
 
     Transcript JSON map:
     """ + transcript_text

@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HelpCircle, Trash2 } from 'lucide-react';
 
 export function FlashcardWidget({ payload, widgetId, onUpdate, onDelete }: { payload: any, widgetId?: number, onUpdate?: (id: number, p: any) => void, onDelete?: (id: number) => void }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!payload.question && !payload.answer);
   const [question, setQuestion] = useState(payload.question || "");
   const [answer, setAnswer] = useState(payload.answer || "");
+
+  useEffect(() => {
+    if (isEditing) {
+      setQuestion(payload.question || "");
+      setAnswer(payload.answer || "");
+    }
+  }, [isEditing, payload]);
 
   const save = () => {
     if (onUpdate && widgetId) onUpdate(widgetId, { ...payload, question, answer });

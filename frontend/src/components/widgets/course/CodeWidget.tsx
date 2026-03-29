@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Code, Trash2 } from 'lucide-react';
 
 export function CodeWidget({ payload, widgetId, onUpdate, onDelete }: { payload: any, widgetId?: number, onUpdate?: (id: number, p: any) => void, onDelete?: (id: number) => void }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!payload.snippet);
   const [language, setLanguage] = useState(payload.language || "python");
   const [snippet, setSnippet] = useState(payload.snippet || "");
+
+  useEffect(() => {
+    if (isEditing) {
+      setLanguage(payload.language || "python");
+      setSnippet(payload.snippet || "");
+    }
+  }, [isEditing, payload]);
 
   const save = () => {
     if (onUpdate && widgetId) onUpdate(widgetId, { ...payload, language, snippet });
@@ -39,10 +46,6 @@ export function CodeWidget({ payload, widgetId, onUpdate, onDelete }: { payload:
            <Trash2 className="w-3.5 h-3.5" />
          </button>
       )}
-      <div className="px-4 py-3 border-b border-slate-800 bg-slate-950 flex items-center gap-2 pr-20 shrink-0">
-        <Code className="w-4 h-4 text-emerald-400 shrink-0"/>
-        <span className="text-sm font-bold text-slate-200 line-clamp-1">{payload.language || "code"}</span>
-      </div>
       <div className="p-5 overflow-y-auto font-mono text-xs md:text-sm text-emerald-300 flex-1 whitespace-pre custom-scrollbar w-full overflow-x-auto">
         {payload.snippet || "// write some code"}
       </div>

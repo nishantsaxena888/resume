@@ -20,3 +20,22 @@
     @apply bg-surface/70 backdrop-blur-md border border-white/10 shadow-xl;
   }
 }
+
+@media print {
+  @page {
+    /* Base margins */
+    margin: 1.5cm;
+  }
+  
+  /* Right-side pages (Odd pages, like Page 1) need a wider left margin for bind/hole-punch */
+  @page :right {
+    margin-left: 2.5cm;
+    margin-right: 1.5cm;
+  }
+  
+  /* Left-side pages (Even pages, like Page 2) need a wider right margin for bind/hole-punch */
+  @page :left {
+    margin-left: 1.5cm;
+    margin-right: 2.5cm;
+  }
+}

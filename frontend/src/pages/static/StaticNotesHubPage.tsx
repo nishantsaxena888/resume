@@ -17,6 +17,30 @@ export default function StaticNotesHubPage() {
       subtitle: 'Zero-To-Hero • IaC, State Locking, VPC Modules, CI/CD Design',
       path: '/static-notes/terraform',
       color: 'bg-emerald-500'
+    },
+    {
+      title: 'Python 101: Zero to Hero',
+      subtitle: 'Native Memory Primitives, Iteration, Subroutines, Scope',
+      path: '/static-notes/python-basics',
+      color: 'bg-blue-500'
+    },
+    {
+      title: 'Python: Advanced Architecture',
+      subtitle: 'FastAPI Microservices, Recon SQL Syncs, Asyncio, The GIL',
+      path: '/static-notes/python-advanced',
+      color: 'bg-yellow-500'
+    },
+    {
+      title: 'Awesome System Design',
+      subtitle: 'Curated Holy Grail Engineering Articles (Meta, Netflix, Stripe)',
+      path: '/static-notes/system-design',
+      color: 'bg-rose-500'
+    },
+    {
+      title: 'Algomaster Selection',
+      subtitle: 'DSA Patterns, System Design Fundamentals, Low Level Design',
+      path: '/static-notes/algomaster',
+      color: 'bg-cyan-600'
     }
   ];
 

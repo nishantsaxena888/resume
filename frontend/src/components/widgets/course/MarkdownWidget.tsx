@@ -1,12 +1,21 @@
-import { useState } from 'react';
-import { FileText, Trash2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Trash2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payload: any, widgetId?: number, onUpdate?: (id: number, p: any) => void, onDelete?: (id: number) => void }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!payload.content && !payload.title);
   const [content, setContent] = useState(payload.content || "");
-  const [title, setTitle] = useState(payload.title || "Study Note");
+  const [title, setTitle] = useState(payload.title || "");
+
+  // Force strict synchronization with remote database payload when entering edit mode 
+  // to discard phantom unsaved changes or stale states from previous interactions
+  useEffect(() => {
+    if (isEditing) {
+      setContent(payload.content || "");
+      setTitle(payload.title || "Study Note");
+    }
+  }, [isEditing, payload]);
 
   const save = () => {
     if (onUpdate && widgetId) onUpdate(widgetId, { ...payload, title, content });
@@ -38,10 +47,6 @@ export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payl
            <Trash2 className="w-3.5 h-3.5" />
          </button>
       )}
-      <div className="px-4 py-3 border-b border-slate-100 bg-slate-50 flex items-center gap-2 pr-20 shrink-0">
-        <FileText className="w-4 h-4 text-blue-500"/>
-        <span className="text-sm font-bold text-slate-700 line-clamp-1">{payload.title || "Study Note"}</span>
-      </div>
       <div className="p-5 overflow-y-auto prose prose-slate prose-sm max-w-none text-slate-600 flex-1 custom-scrollbar">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {payload.content || "Empty content payload."}

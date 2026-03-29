@@ -9,9 +9,9 @@ declare global {
 }
 
 export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeModuleId }: { payload: any, widgetId?: number, onUpdate?: (id: number, p: any) => void, onDelete?: (id: number) => void, activeModuleId?: number }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!payload.url);
   const [url, setUrl] = useState(payload.url || "");
-  const [title, setTitle] = useState(payload.title || "YouTube Stream");
+  const [title, setTitle] = useState(payload.title || "");
 
   const save = () => {
     if (onUpdate && widgetId) onUpdate(widgetId, { ...payload, title, url });
@@ -237,22 +237,39 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
   };
 
   if (isEditing) {
+    const isUrlValid = (testUrl: string) => {
+      try {
+        const urlObj = new URL(testUrl);
+        return urlObj.hostname.includes('youtube.com') || urlObj.hostname.includes('youtu.be');
+      } catch {
+        return false;
+      }
+    };
+    const canSave = title.trim().length > 0 && isUrlValid(url);
+
     return (
       <div className="bg-slate-900 rounded-xl shadow-lg border border-indigo-500 overflow-hidden flex flex-col h-80 p-6 relative z-30">
         <h3 className="text-white font-bold text-sm mb-3 flex flex-col gap-1">Configure Media Tunnel</h3>
-        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Display Title" className="bg-slate-800 border border-slate-700 text-white p-3 text-sm focus:outline-none focus:border-rose-500 rounded-lg mb-3" />
-        <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="bg-slate-800 border border-slate-700 text-white p-3 text-sm focus:outline-none focus:border-rose-500 rounded-lg font-mono text-xs" />
         
-        <div className="flex justify-end gap-3 mt-auto shrink-0">
-          <button onClick={() => setIsEditing(false)} className="px-4 py-2 text-xs text-slate-400 font-bold hover:bg-slate-800 hover:text-white rounded-lg transition-colors">Cancel</button>
-          <button onClick={save} className="px-4 py-2 text-xs bg-rose-600 text-white font-bold hover:bg-rose-500 shadow border border-rose-700 rounded-lg transition-colors">Apply Matrix</button>
+        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Stream Display Title <span className="text-rose-500">*</span></label>
+        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Required: AWS Practitioner Guide..." className="bg-slate-800 border-b border-slate-700 text-white p-2 text-sm focus:outline-none focus:border-rose-500 rounded font-bold mb-4 w-full" />
+        
+        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Source URL <span className="text-rose-500">*</span></label>
+        <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." className="bg-slate-800 border border-slate-700 text-emerald-400 p-3 text-sm focus:outline-none focus:border-rose-500 rounded-lg font-mono text-xs shadow-inner w-full" />
+        {url && !isUrlValid(url) && (
+           <span className="text-rose-500 text-[10px] uppercase tracking-wider font-bold mt-2 flex items-center gap-1"><Sparkles className="w-3 h-3" /> Warning: Unrecognized YouTube Hostname</span>
+        )}
+        
+        <div className="flex justify-end gap-3 mt-auto shrink-0 border-t border-slate-800 pt-4">
+          <button onClick={() => setIsEditing(false)} className="px-4 py-2 text-xs text-slate-400 font-bold hover:bg-slate-800 hover:text-white rounded-lg transition-colors">Abort Override</button>
+          <button onClick={save} disabled={!canSave} className={`px-4 py-2 text-xs text-white font-bold shadow rounded-lg transition-all ${canSave ? 'bg-rose-600 hover:bg-rose-500 border border-rose-700 hover:scale-105' : 'bg-slate-800 text-slate-500 border border-slate-700 opacity-50 cursor-not-allowed grayscale'}`}>Initialize Matrix</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div ref={widgetRef} className={`bg-slate-900 rounded-xl shadow-sm overflow-hidden flex flex-col group relative border border-slate-800 transition-all duration-300 hover:border-slate-600 hover:shadow-lg ${isFullscreen && timeline ? 'h-screen w-screen z-[9999] rounded-none' : (timeline ? 'h-[850px]' : 'min-h-[450px]')}`}>
+    <div ref={widgetRef} className={`bg-slate-900 shadow-sm flex flex-col group relative transition-all duration-300 hover:shadow-lg ${isFullscreen && timeline ? 'h-screen w-screen z-[9999] rounded-none overflow-hidden' : 'min-h-[450px] h-auto rounded-xl overflow-hidden border border-slate-800 hover:border-slate-600'}`}>
       
       {onUpdate && (
          <button onClick={() => setIsEditing(true)} className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded flex items-center gap-1 text-[10px] font-bold z-20 uppercase tracking-widest backdrop-blur shadow border border-slate-700">
@@ -265,24 +282,22 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
          </button>
       )}
 
-      <div className="px-4 py-3 border-b border-slate-800 bg-slate-900 flex items-center justify-between z-10 shrink-0 pr-28">
-        <div className="flex items-center gap-2">
+      <div className="px-4 py-3 border-b border-slate-800 bg-slate-900 flex flex-wrap items-center justify-between gap-3 z-10 shrink-0 pr-28">
+        <div className="flex items-center gap-2 shrink-0">
           <Youtube className="w-5 h-5 text-rose-500 shrink-0" />
           <span className="text-sm font-bold text-slate-200 line-clamp-1">{payload.title || "Video Lecture"}</span>
         </div>
         {(videoId) && (
-           <div className="flex items-center gap-2">
-             {!payload.has_notes && (
-               <button
-                 onClick={generateAiNotes}
-                 disabled={isGeneratingNotes}
-                 title="Autonomously generate AI Curriculum"
-                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors text-xs font-bold text-white shadow shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed group whitespace-nowrap"
-               >
-                 {isGeneratingNotes ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-                 <span className="hidden sm:inline">{isGeneratingNotes ? "AI Analyzing..." : "Make notes by Gemini"}</span>
-               </button>
-             )}
+           <div className="flex flex-wrap items-center gap-2 shrink-0">
+             <button
+               onClick={generateAiNotes}
+               disabled={isGeneratingNotes}
+               title="Autonomously generate or regenerate AI Curriculum notes from the Video Transcript"
+               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors text-xs font-bold text-white shadow shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed group whitespace-nowrap"
+             >
+               {isGeneratingNotes ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+               <span className="hidden sm:inline">{isGeneratingNotes ? "AI Analyzing..." : (payload.has_notes ? "Regenerate AI Notes" : "Make notes by Gemini")}</span>
+             </button>
              <button 
                onClick={captureFrame}
                disabled={!timeline || isCapturing}
@@ -292,11 +307,11 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
                {isCapturing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Camera className="w-3.5 h-3.5" />}
                Snapshot
              </button>
-             <button onClick={toggleFullScreen} className="flex items-center justify-center p-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 focus:outline-none transition-colors text-slate-300" title="Toggle Theater Mode">
+             <button onClick={toggleFullScreen} className="flex items-center justify-center p-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 focus:outline-none transition-colors text-slate-300 shrink-0" title="Toggle Theater Mode">
                {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
              </button>
               {timeline ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   {confirmDeleteTimeline ? (
                     <button 
                       onClick={() => {
@@ -305,7 +320,7 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
                         setConfirmDeleteTimeline(false);
                         if (onUpdate && widgetId) onUpdate(widgetId, { ...payload, timeline: null });
                       }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 focus:ring-2 focus:ring-rose-500 focus:outline-none transition-colors text-xs font-bold text-white shadow-lg animate-pulse"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 focus:ring-2 focus:ring-rose-500 focus:outline-none transition-colors text-xs font-bold text-white shadow-lg animate-pulse whitespace-nowrap"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Yes, Delete
@@ -313,7 +328,7 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
                   ) : (
                     <button 
                       onClick={() => setConfirmDeleteTimeline(true)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-950/50 border border-rose-900/50 hover:bg-rose-900/80 focus:ring-2 focus:ring-rose-600 focus:outline-none transition-colors text-xs font-bold text-rose-400 border-dashed"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-950/50 border border-rose-900/50 hover:bg-rose-900/80 focus:ring-2 focus:ring-rose-600 focus:outline-none transition-colors text-xs font-bold text-rose-400 border-dashed whitespace-nowrap"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Delete Timeline
@@ -321,10 +336,10 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
                   )}
                   <button 
                     onClick={() => setIsTimelineHidden(!isTimelineHidden)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 focus:ring-2 focus:ring-slate-600 focus:outline-none transition-colors text-xs font-bold text-slate-300"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 focus:ring-2 focus:ring-slate-600 focus:outline-none transition-colors text-xs font-bold text-slate-300 whitespace-nowrap"
                   >
-                    <FileText className="w-3.5 h-3.5 text-indigo-400" />
-                    <span className="hidden sm:inline">{isTimelineHidden ? "Show Timeline" : "Hide Timeline"}</span>
+                    <FileText className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                    <span>{isTimelineHidden ? "Show Timeline" : "Hide Timeline"}</span>
                   </button>
                 </div>
               ) : (
@@ -341,8 +356,8 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
         )}
       </div>
 
-      <div className={`flex flex-1 overflow-hidden ${isFullscreen && timeline ? 'flex-col lg:flex-row' : 'flex-col'}`}>
-        <div className={`bg-black relative ${isFullscreen && timeline ? 'flex-1 min-h-[40vh] lg:min-h-0' : (timeline ? 'w-full h-[450px] shrink-0 shadow-xl z-20' : 'w-full flex-1')}`}>
+      <div className={`flex flex-1 ${isFullscreen && timeline ? 'flex-col lg:flex-row overflow-hidden' : 'flex-col min-h-0'}`}>
+        <div className={`bg-black relative ${isFullscreen && timeline ? 'flex-1 min-h-[40vh] lg:min-h-0' : 'w-full h-[450px] shrink-0 shadow-xl z-20'}`}>
           {embedUrl ? (
             <iframe 
               ref={iframeRef}
@@ -368,7 +383,7 @@ export function YoutubeWidget({ payload, widgetId, onUpdate, onDelete, activeMod
         )}
 
         {!isTimelineHidden && timeline && (
-          <div className={`overflow-y-auto bg-slate-950 custom-scrollbar relative ${isFullscreen ? 'w-full lg:w-[450px] xl:w-[600px] shrink-0 border-t lg:border-t-0 lg:border-l border-slate-800 p-8' : 'flex-1 border-t border-slate-800 p-6 sm:p-8 xl:p-10'}`}>
+          <div className={`bg-slate-950 relative ${isFullscreen ? 'overflow-y-auto custom-scrollbar w-full lg:w-[450px] xl:w-[600px] shrink-0 border-t lg:border-t-0 lg:border-l border-slate-800 p-8 h-full' : 'w-full max-h-[600px] overflow-y-auto custom-scrollbar border-t border-slate-800 p-6 sm:p-8 xl:p-10'}`}>
              <div className="sticky top-0 bg-slate-950/90 backdrop-blur-sm z-10 pb-4 mb-6 border-b border-slate-800 flex justify-between items-center">
              <h4 className="text-slate-500 text-[10px] sm:text-xs font-black uppercase tracking-widest">Extracted Intelligence Timeline</h4>
              <button onClick={() => setIsTimelineHidden(true)} className="text-xs font-bold text-slate-500 hover:text-slate-300">Close</button>
