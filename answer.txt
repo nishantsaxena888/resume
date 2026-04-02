@@ -1,0 +1,59 @@
+1. Describe your experience designing and delivering full-stack applications as a Solution Architect?
+
+Answer:
+With 17+ years of experience, I architect and deliver scalable full-stack platforms from concept to production. 
+E.g. At Mind Master Solutions and KKR, my focus was engineering **low-code, API-driven architectures** utilizing **Django/DRF** and **FastAPI**. 
+I specialize in extending these frameworks into generic, schema-driven backends that automatically configure dynamic React (Next.js) frontends. 
+I oversee end-to-end delivery, including integrating powerful search and analytics backbones via **Elasticsearch**, configuring secure authentication (Keycloak/OAuth2), and automating AWS cloud deployments via strict CI/CD pipelines.
+
+***
+
+2. Describe a specific example where you designed a complex data model and then optimized it to improve performance (what you changed and the measured impact). Also list the databases you have strong hands-on experience with?
+
+Answer:
+Databases: PostgreSQL, MySQL, SQL Server, MongoDB, DynamoDB, Redis, **Elasticsearch** (Deep Hands-on).
+Example: At Mind Master Solutions, I architected a highly complex data model for a Document Extraction platform handling Invoices and POs where the sheer volume of fields and data distributions constantly fluctuated between diverse clients.
+ What I changed: I implemented an "Everything is a Source" philosophy. 
+ Rather than hardcoding database columns for every possible field, I extended **Django/DRF** natively to generate dynamic schemas on the fly. 
+ I built custom generic connector wrappers combining AWS Textract, docTR, and Tesseract outputs into this unified schema. 
+ Measured Impact: This abstraction dramatically optimized our data ingestion pipeline speed. 
+ It enabled seamless, zero-downtime integration with diverse enterprise ERPs, and allowed the system to absorb entirely new document formats with zero structural backend code changes.
+
+***
+
+3. Describe your hands-on responsibilities across backend development (Python APIs), frontend development (React), and cloud infrastructure operations/maintenance. Include the typical tasks you perform in each area.
+
+Answer:
+* Backend (Python): Architecting heavily extended REST APIs in **Django/DRF** and microservices in **FastAPI**. My primary focus is building **low-code API generation engines** where backend schemas dictate frontend rendering. 
+I also integrate **Elasticsearch** for rapid query parsing and Celery for async pipeline execution.
+* Frontend (React): Building Next.js/React components designed specifically to consume my low-code backend schemas, creating dynamic, automatically generated user interfaces, dashboards, and live WebSocket streams.
+* Cloud/DevOps: Containerizing these Django/FastAPI and React applications (Docker), routing traffic, and orchestrating robust, automated AWS deployments exclusively through GitHub Actions CI/CD pipelines.
+
+***
+
+4. List the cloud (preferably Google Cloud Platform) services you have used in production, and briefly describe what you used each service for?
+
+Answer:
+*Note: My production expertise is in AWS.*
+* Amazon ECS (Elastic Container Service): Deploying, scaling, and orchestrating containerized Python and Node.js microservices securely in production via automated CI/CD pipelines.
+* AWS Lambda & Step Functions: Serverless execution and robust orchestration of multi-step document extraction and data validation pipelines.
+* Amazon RDS (PostgreSQL) & DynamoDB: Managing robust relational data storage and scalable NoSQL state/metadata tracking.
+* Amazon S3: Secure object storage for raw documents, pipeline assets, and React UI artifacts.
+* Amazon SNS, SQS & MSK (Kafka): Handling event-driven messaging, system decoupling, and asynchronous tasks at scale.
+* AWS Textract: Core OCR engine utilized for automated, structured data extraction from complex PDF documents and invoices.
+* AWS IAM (Identity and Access Management): Managing secure, entity-based access control and enforcing least-privilege boundaries for microservices.
+* **GCP Knowledge:** While my enterprise deployments center on AWS, I also have practical working knowledge of **Google Cloud Platform** (independent of core projects), specifically utilizing **Google App Engine** for application hosting, **Firebase** for real-time mobile/web backend synchronization, and **Vertex AI** for exploring and deploying generative ML models.
+
+***
+
+5. List your core development skills and technologies, and indicate your proficiency level for each (hands-on / working knowledge)?
+
+Answer:
+* Languages: Python (Hands-on), JavaScript/TypeScript (Working Knowledge)
+* Backend & Architecture: **Django & DRF (Hands-on, Low-code extensions)**, **FastAPI (Hands-on)**, Flask (Working Knowledge)
+* Search & Analytics: **Elasticsearch (Hands-on)**
+* Frontend: React.js / Next.js (Hands-on), Tailwind CSS (Working Knowledge)
+* Cloud & DevOps: AWS Core (Lambda/S3/ECS) (Hands-on), Docker (Hands-on), Terraform (Working Knowledge), CI/CD Pipelines (Hands-on)
+* Databases: PostgreSQL & SQL Server (Hands-on), MongoDB & DynamoDB (Working Knowledge)
+* AI/ML: Document AI / AWS Textract (Hands-on), LLM API integrations (Hands-on)
+* Messaging & Async: Celery (Hands-on), Kafka (Working Knowledge)

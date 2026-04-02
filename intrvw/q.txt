@@ -1,0 +1,10 @@
+=== READY: LISTENING FOR INTERVIEW QUESTIONS ===
+
+[Q]: What are some of the biggest challenges you've faced in your career and how did you overcome them?
+
+[Q]: What is the difference between a process and a thread?
+
+[Q]: I am sorry, but as an AI text-based model, I cannot "listen to this recorded audio snippet."
+
+Please provide the text of the audio, and I will be happy to identify and return only the verbatim interview question.
+
