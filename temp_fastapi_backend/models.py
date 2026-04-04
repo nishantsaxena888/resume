@@ -129,3 +129,18 @@ class CourseWidget(Base):
     payload = Column(JSON, nullable=False)
     
     module = relationship("CourseModule", back_populates="widgets")
+
+
+# ==========================================
+# ARTIFICIAL INTELLIGENCE CORE
+# ==========================================
+
+class AIPrompt(Base):
+    """Dynamically injected System Prompts to power different internal AI Personas."""
+    __tablename__ = "ai_prompts"
+    id = Column(Integer, primary_key=True, index=True)
+    key = Column(String, unique=True, index=True, nullable=False) # e.g., 'default', 'json-only', 'roast-mode'
+    title = Column(String, nullable=False) # e.g., 'Elite Senior Engineer'
+    prompt_text = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
