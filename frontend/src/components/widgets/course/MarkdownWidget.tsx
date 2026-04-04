@@ -2,6 +2,37 @@ import { useState, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import mermaid from 'mermaid';
+import { useRef } from 'react';
+
+// Specialized Hook to automatically render Mermaid.js structural flowcharts directly inside markdown blocks
+function MermaidDiagram({ chart }: { chart: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    if (ref.current) {
+      mermaid.render('mermaid-svg-' + Math.random().toString(36).substring(7), chart)
+        .then((result) => {
+          if (ref.current) {
+            ref.current.innerHTML = result.svg;
+          }
+        })
+        .catch((e) => {
+          console.error("Mermaid parsing failed", e);
+          if (ref.current) {
+             ref.current.innerHTML = `<div class="text-rose-500 font-mono text-xs">Failed to render Mermaid diagram: ${e.message}</div>`;
+          }
+        });
+    }
+  }, [chart]);
+
+  return (
+    <div className="relative my-4 overflow-hidden rounded-xl bg-[#0f172a] shadow-xl border border-slate-700/50 p-6 flex justify-center items-center">
+      <div ref={ref} className="mermaid-diagram w-full flex justify-center" />
+    </div>
+  );
+}
 
 export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payload: any, widgetId?: number, onUpdate?: (id: number, p: any) => void, onDelete?: (id: number) => void }) {
   const [isEditing, setIsEditing] = useState(!payload.content && !payload.title);
@@ -62,6 +93,11 @@ export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payl
             code({node, inline, className, children, ...props}: any) {
               const match = new RegExp("language-(\\w+)").exec(className || "");
               const isBlock = !inline && match;
+              
+              if (isBlock && match[1] === 'mermaid') {
+                 return <MermaidDiagram chart={String(children).replace(/\n$/, '')} />
+              }
+              
               return isBlock ? (
                 <div className="relative my-4 overflow-hidden rounded-xl bg-[#0f172a] shadow-xl border border-slate-700/50">
                   <div className="flex items-center px-4 py-2 bg-[#1e293b] border-b border-slate-700/50">
