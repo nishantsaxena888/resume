@@ -183,10 +183,10 @@ export default function PreparationWorkspaceShell() {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-100">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-100 print:h-auto print:w-auto print:overflow-visible print:bg-white print:block">
       
       {/* 1. Contextual Workspace Sidebar Table of Contents */}
-      <nav className={`${isSidebarOpen ? 'w-72' : 'w-0'} shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col z-50 shadow-2xl relative transition-all duration-300 ease-in-out`}>
+      <nav className={`print:hidden ${isSidebarOpen ? 'w-72' : 'w-0'} shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col z-50 shadow-2xl relative transition-all duration-300 ease-in-out`}>
         <div className={`flex flex-col h-full w-72 pt-5 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
            <button 
               onClick={() => setIsSidebarOpen(false)} 
@@ -400,7 +400,7 @@ export default function PreparationWorkspaceShell() {
       </nav>
 
       {/* Main Workspace Layout */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-slate-50">
+      <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-slate-50 print:h-auto print:overflow-visible print:bg-white print:block print:p-0 print:m-0">
         
         {/* Floating Open Button (visible only when Sidebar is collapsed) */}
         {!isSidebarOpen && (
@@ -414,7 +414,7 @@ export default function PreparationWorkspaceShell() {
         )}
 
         {/* Content Outlet */}
-        <main className="flex-1 w-full relative overflow-hidden flex flex-col">
+        <main className="flex-1 w-full relative overflow-hidden flex flex-col print:h-auto print:overflow-visible print:block">
           <Outlet />
         </main>
       </div>

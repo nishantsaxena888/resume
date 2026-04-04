@@ -36,7 +36,7 @@ export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payl
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-80 relative group transition-all duration-300 hover:shadow-md hover:border-slate-300">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[550px] relative group transition-all duration-300 hover:shadow-md hover:border-slate-300">
       {onUpdate && (
          <button onClick={() => setIsEditing(true)} className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded flex items-center gap-1 text-[10px] font-bold z-10 uppercase tracking-widest border border-slate-200 shadow-sm">
            Edit
@@ -47,8 +47,40 @@ export function MarkdownWidget({ payload, widgetId, onUpdate, onDelete }: { payl
            <Trash2 className="w-3.5 h-3.5" />
          </button>
       )}
-      <div className="p-5 overflow-y-auto prose prose-slate prose-sm max-w-none text-slate-600 flex-1 custom-scrollbar">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      <div className="p-5 overflow-y-auto w-full max-w-none text-slate-600 flex-1 custom-scrollbar">
+        <ReactMarkdown 
+          remarkPlugins={[remarkGfm]}
+          components={{
+            h1: ({node, ...props}) => <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-6 mb-4" {...props} />,
+            h2: ({node, ...props}) => <h2 className="text-lg font-bold text-slate-800 mt-6 mb-3 border-b border-slate-200 pb-2" {...props} />,
+            h3: ({node, ...props}) => <h3 className="text-base font-bold text-slate-800 mt-4 mb-2" {...props} />,
+            p: ({node, ...props}) => <p className="text-[15px] text-slate-600 leading-relaxed mb-4" {...props} />,
+            ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-5 space-y-2 marker:text-indigo-400" {...props} />,
+            ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-5 space-y-2 marker:text-indigo-500 font-medium" {...props} />,
+            li: ({node, ...props}) => <li className="text-[14px] text-slate-700 leading-relaxed pl-1" {...props} />,
+            strong: ({node, ...props}) => <strong className="font-extrabold text-slate-900" {...props} />,
+            code({node, inline, className, children, ...props}: any) {
+              const match = new RegExp("language-(\\w+)").exec(className || "");
+              const isBlock = !inline && match;
+              return isBlock ? (
+                <div className="relative my-4 overflow-hidden rounded-xl bg-[#0f172a] shadow-xl border border-slate-700/50">
+                  <div className="flex items-center px-4 py-2 bg-[#1e293b] border-b border-slate-700/50">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{match[1]}</span>
+                  </div>
+                  <pre className="p-4 overflow-x-auto text-[13px] font-mono text-emerald-400 leading-relaxed custom-scrollbar">
+                    <code className="" {...props}>
+                      {children}
+                    </code>
+                  </pre>
+                </div>
+              ) : (
+                <code className="px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 font-mono text-[13px] font-bold border border-indigo-100/50 shadow-sm" {...props}>
+                  {children}
+                </code>
+              )
+            }
+          }}
+        >
           {payload.content || "Empty content payload."}
         </ReactMarkdown>
       </div>

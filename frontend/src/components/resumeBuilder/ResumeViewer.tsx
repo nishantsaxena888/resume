@@ -16,7 +16,7 @@ export default function ResumeViewer() {
   };
 
   return (
-    <div className="h-full overflow-y-auto w-full flex flex-col items-center p-4 sm:p-8 hide-scrollbar">
+    <div className="h-full overflow-y-auto w-full flex flex-col items-center p-4 sm:p-8 hide-scrollbar print:h-auto print:overflow-visible print:block print:p-0 print:m-0">
       {renderTemplate()}
     </div>
   );

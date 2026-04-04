@@ -23,17 +23,19 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
             <EditableField 
               entity="personalInfo" field="fullName"
               value={info.fullName} 
+              multiline
               onChange={(val: string) => updatePersonalInfo({ fullName: val })} 
-              className="text-4xl font-light text-slate-800 tracking-tight text-left"
+              className="text-4xl font-light text-slate-800 tracking-tight text-left min-w-[350px]"
               placeholder="First Last"
             />
           </h1>
-          <h2 className="text-lg text-gray-600 font-medium">
+          <h2 className="text-lg text-gray-600 font-medium pt-1">
             <EditableField 
               entity="personalInfo" field="title"
               value={info.title || ''} 
+              multiline
               onChange={(val: string) => updatePersonalInfo({ title: val })} 
-              className="text-lg text-slate-500 font-medium text-left"
+              className="text-lg text-slate-500 font-medium text-left min-w-[350px]"
               placeholder="Professional Title"
             />
           </h2>
@@ -78,7 +80,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         
         {/* Skill Specifications */}
         <section className="relative group/section pb-4">
-          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between print:break-after-avoid">
             <span>Skill Specifications</span>
           </h3>
           <ul className="list-disc list-outside ml-5 space-y-2 text-sm text-gray-800 leading-relaxed">
@@ -90,7 +92,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               return safeSkills.map((skillGroup, sIdx) => {
                 const isLast = sIdx === safeSkills.length - 1;
                 return (
-                <li key={sIdx} className="group/item relative pl-1">
+                <li key={sIdx} className="group/item relative pl-1 print:break-inside-avoid mb-2">
                    <button onClick={() => {
                         const updated = [...data.skills];
                         updated.splice(sIdx, 1);
@@ -140,7 +142,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
 
         {/* Professional Experience */}
         <section className="relative group/section pb-4">
-          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-4 tracking-wider flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-4 tracking-wider flex items-center justify-between print:break-after-avoid">
             <span>Professional Experience</span>
           </h3>
           <div className="space-y-6">
@@ -148,10 +150,11 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               <div key={idx} className="group/job relative">
                 <button onClick={() => updateData({ experience: data.experience.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/job:opacity-100 text-red-500 hover:text-red-700 bg-red-50 p-1 rounded-full"><Trash2 size={14}/></button>
                 
-                <div className="flex flex-col sm:flex-row justify-between sm:items-baseline mb-1 gap-4">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-baseline mb-1 gap-4 print:break-after-avoid">
                   <h4 className="font-bold text-black text-base flex-1">
                     <EditableField 
                       value={job.company} 
+                      multiline
                       onChange={(val: string) => {
                         const updated = [...data.experience];
                         updated[idx].company = val;
@@ -171,9 +174,10 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                     />
                   </span>
                 </div>
-                <div className="font-semibold text-gray-800 text-sm mb-2 italic">
+                <div className="font-semibold text-gray-800 text-sm mb-2 italic print:break-after-avoid">
                   <EditableField 
                     value={job.role} 
+                    multiline
                     onChange={(val: string) => {
                       const updated = [...data.experience];
                       updated[idx].role = val;
@@ -186,7 +190,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
                   {job.achievements?.map((point, pIdx) => {
                     const isLastTrait = pIdx === job.achievements.length - 1;
                     return (
-                    <li key={pIdx} className="group/point relative">
+                    <li key={pIdx} className="group/point relative print:break-inside-avoid">
                       <button onClick={() => {
                         const updated = [...data.experience];
                         updated[idx].achievements = updated[idx].achievements.filter((_, i) => i !== pIdx);
@@ -233,40 +237,48 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
 
         {/* Education */}
         <section className="relative group/section pb-4">
-          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-900 uppercase border-b border-gray-400 mb-3 tracking-wider flex items-center justify-between print:break-after-avoid">
             <span>Education</span>
           </h3>
           <ul className="list-disc list-outside ml-5 space-y-1.5 text-sm text-gray-800 leading-relaxed">
             {(Array.isArray(data?.education) ? data.education : []).map((edu, idx) => {
               const isLastEdu = idx === (data?.education?.length || 0) - 1;
               return (
-              <li key={idx} className="group/item relative flex gap-1 flex-wrap">
+              <li key={idx} className="group/item relative flex items-baseline gap-1.5 print:break-inside-avoid mb-2">
                 <button onClick={() => updateData({ education: data.education.filter((_, i) => i !== idx) })} className="absolute -left-6 top-1 print:hidden opacity-0 group-hover/item:opacity-100 text-red-400 hover:text-red-600"><Trash2 size={14}/></button>
-                <span className="font-semibold text-black inline-block min-w-[100px]">
-                  <EditableField value={edu.degree} onChange={(val: string) => {
+                <span className="font-semibold text-black block w-full flex-1">
+                  <EditableField value={edu.degree} multiline onChange={(val: string) => {
                       const updated = [...data.education];
                       updated[idx].degree = val;
                       updateData({ education: updated });
                     }} />
                 </span> 
-                <span className="inline-block px-1">in</span>
-                <span className="inline-block min-w-[120px]">
-                  <EditableField value={edu.year} onChange={(val: string) => {
-                      const updated = [...data.education];
-                      updated[idx].year = val;
-                      updateData({ education: updated });
-                    }} />
-                </span>
-                <span className="inline-block px-1">from</span>
-                <span className="inline-block flex-1 min-w-[150px]">
-                  <EditableField value={edu.institution} onChange={(val: string) => {
-                      const updated = [...data.education];
-                      updated[idx].institution = val;
-                      updateData({ education: updated });
-                    }} 
-                    onTab={isLastEdu ? () => updateData({ education: [...(data.education || []), { degree: 'New Degree', institution: 'University', year: 'Year' }] }) : undefined}
-                  />
-                </span>
+                {edu.year && (
+                  <>
+                    <span className="inline-block px-1">in</span>
+                    <span className="inline-block flex-shrink-0">
+                      <EditableField placeholder="" value={edu.year} onChange={(val: string) => {
+                          const updated = [...data.education];
+                          updated[idx].year = val;
+                          updateData({ education: updated });
+                        }} />
+                    </span>
+                  </>
+                )}
+                {edu.institution && (
+                  <>
+                    <span className="inline-block px-1">from</span>
+                    <span className="inline-block flex-1 min-w-[200px]">
+                      <EditableField placeholder="" value={edu.institution} multiline onChange={(val: string) => {
+                          const updated = [...data.education];
+                          updated[idx].institution = val;
+                          updateData({ education: updated });
+                        }} 
+                        onTab={isLastEdu ? () => updateData({ education: [...(data.education || []), { degree: 'New Degree', institution: 'University', year: 'Year' }] }) : undefined}
+                      />
+                    </span>
+                  </>
+                )}
               </li>
             )})}
           </ul>

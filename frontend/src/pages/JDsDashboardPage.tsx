@@ -73,12 +73,25 @@ export default function JDsDashboardPage() {
               ))}
 
               <div 
-                className="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 transition-all flex flex-col items-center justify-center p-8 text-center cursor-not-allowed min-h-[220px] group"
-                title="Upload via backend to generate a new entry."
+                onClick={() => {
+                  setLoading(true);
+                  fetch('/api/v1/jds', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({})
+                  })
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.jd_id) navigate(`/jds/${data.jd_id}`);
+                  })
+                  .catch(console.error)
+                  .finally(() => setLoading(false));
+                }}
+                className="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/50 hover:bg-slate-50 hover:border-emerald-400 transition-all flex flex-col items-center justify-center p-8 text-center cursor-pointer min-h-[220px] group"
               >
-                <div className="opacity-50 text-slate-400">
+                <div className="opacity-50 text-slate-400 group-hover:opacity-100 group-hover:text-emerald-600 transition-all">
                   <h3 className="text-lg font-bold">New JD Builder</h3>
-                  <p className="text-sm font-medium">Coming soon...</p>
+                  <p className="text-sm font-medium mt-1">Click to generate a fresh role canvas.</p>
                 </div>
               </div>
             </>

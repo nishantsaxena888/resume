@@ -284,6 +284,26 @@ def update_jd(jd_id: int, jd_in: dict, db: Session = Depends(get_db)):
     db.refresh(jd)
     return {"status": "success", "jd_id": jd.id}
 
+@router.post("/jds")
+def create_jd(jd_in: dict, db: Session = Depends(get_db)):
+    active_user = db.query(User).first()
+    if not active_user:
+        active_user = User(email="nishant.ceo@skillom.ai", name="Nishant")
+        db.add(active_user)
+        db.flush()
+        
+    payload = jd_in.get("payload", {
+        "role": "New Target Role",
+        "company": "New Company",
+        "status": "Active"
+    })
+    
+    new_jd = JobDescription(user_id=active_user.id, payload=payload)
+    db.add(new_jd)
+    db.commit()
+    db.refresh(new_jd)
+    return {"status": "success", "jd_id": new_jd.id}
+
 
 @router.get("/courses")
 def get_all_courses(db: Session = Depends(get_db)):
@@ -324,7 +344,12 @@ def get_youtube_transcript(video_id: str):
     """Fetches YouTube transcript dynamically using youtube-transcript-api"""
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
-        transcript = YouTubeTranscriptApi().fetch(video_id)
+        transcript_list = YouTubeTranscriptApi().list(video_id)
+        try:
+            t = transcript_list.find_transcript(['en', 'en-US', 'en-GB'])
+        except Exception:
+            t = list(transcript_list)[0].translate('en')
+        transcript = t.fetch()
         
         nodes = []
         for item in transcript:
@@ -432,8 +457,13 @@ def generate_ai_notes(
     
     from youtube_transcript_api import YouTubeTranscriptApi
     try:
-        transcript = YouTubeTranscriptApi().fetch(video_id)
-        transcript_text = "\n".join([f"[{t.start}s] {t.text}" for t in transcript])
+        transcript_list = YouTubeTranscriptApi().list(video_id)
+        try:
+            t = transcript_list.find_transcript(['en', 'en-US', 'en-GB'])
+        except Exception:
+            t = list(transcript_list)[0].translate('en')
+        transcript = t.fetch()
+        transcript_text = "\\n".join([f"[{getattr(item, 'start', 0)}s] {getattr(item, 'text', '')}" for item in transcript])
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to fetch streaming transcript: {str(e)}")
 
@@ -452,16 +482,21 @@ def generate_ai_notes(
 
     client = genai.Client(api_key=api_key)
     prompt = f"""
-    You are an elite technical curriculum architect. Analyze the provided video transcript and its timestamps.
-    Divide the video log into logical, highly cohesive, chronological sections.
-    
+    You are an Elite Senior Principal Engineer and Database Architect. Your objective is to brutally synthesize this video transcript into a master-class, high-density study guide for technical interviews.
+    Divide the massive video log into highly logical, cohesive chronological sections. 
+
     CRITICAL INSTRUCTIONS:
-    1. EXPLAIN THE CONCEPTS SMARTLY and thoroughly, but STRICTLY retain the original flow, language, and core phrasing of the speaker. Do not miss any details! 
-    2. Write a formal `heading` for each section.
-    3. Determine the actual mapped `timestamp_range` covered in this section (e.g., "1:20 - 2:45").
-    4. MANDATORY INCLUSIONS: The user explicitly extracted key frames at these specific elapsed seconds: [{user_snapshots_str}]. You MUST definitively assign and include every single one of these exact floating-point timestamps into the `snapshot_timestamps` array for their chronologically corresponding section. Do NOT skip any user-defined snapshots!
-    5. Additionally, you may provide MAXIMUM 1 or 2 extra autonomous `snapshot_timestamps` ONLY IF a completely undocumented architectural diagram or critical code screen appears. Otherwise, do not spam timestamps artificially!
-    6. Write the `markdown_content` block containing the smartly explained flow, formatted into highly readable bullet points. DO NOT manually insert any markdown images yourself.
+    1. EXTRACT EXTREME TECHNICAL DENSITY: Do NOT write superficial, high-level bullet points. Extract the EXACT commands, the EXACT architectural rules, and the EXACT API parameters discussed.
+    2. ZERO VERBAL FLUFF: Ignore all conversational filler (e.g., "welcome back", "so yeah", "install it here"). Convert the raw transcript into pure, high-signal technical documentation.
+    3. Determine the mapped `timestamp_range` covered in this section (e.g., "1:20 - 2:45").
+    4. MANDATORY INCLUSIONS: The user extracted key frames at these exact seconds: [{user_snapshots_str}]. You MUST assign EVERY single one of these floating-point timestamps into the `snapshot_timestamps` array for their corresponding section. Do NOT skip any!
+    5. MAXIMUM MARKDOWN BEAUTY: The `markdown_content` must be a rigorous, beautiful technical document. USE:
+       - Multi-line Syntax-highlighted code blocks for EVERY single query or command (e.g. \n```bash\nshow dbs\n```\n).
+       - NEVER use inline backticks for code commands, and NEVER merge the language name with the code string. Proper spacing prevents formatting errors.
+       - Markdown Tables to compare concepts if the video compares them (e.g., SQL vs NoSQL, or operators).
+       - Bold crucial technical terminology (**aggregation pipeline**, **BSON**).
+       - Never write generic paragraphs. Use nested bullet structures for extreme readability.
+    6. DO NOT manually insert any markdown images yourself.
 
     Transcript JSON map:
     """ + transcript_text
@@ -473,7 +508,8 @@ def generate_ai_notes(
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
                 response_schema=GeneratedNotes,
-                temperature=0.2
+                temperature=0.2,
+                max_output_tokens=8192
             )
         )
         structured_data = json.loads(response.text)
