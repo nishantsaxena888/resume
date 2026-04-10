@@ -144,3 +144,6 @@ class AIPrompt(Base):
     prompt_text = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+# Import Book Submodules to register them with Base.metadata
+from book.models import Book, BookChapter, BookWidget
+

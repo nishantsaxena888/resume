@@ -47,9 +47,12 @@ admin.add_view(CourseWidgetAdmin)
 admin.add_view(JobDescriptionAdmin)
 admin.add_view(ResumeAdmin)
 
-# Mount the CRUD routes (Wait until routes are updated to re-enable)
+# Mount the CRUD routes
 from routes import router
+from book.routes import router as book_router
+
 app.include_router(router, prefix="/api/v1")
+app.include_router(book_router, prefix="/api/v1/book", tags=["book"])
 
 @app.get("/health")
 def health_check():

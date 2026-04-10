@@ -32,6 +32,9 @@ import CoursesDashboardPage from './pages/CoursesDashboardPage';
 import NotesForPrintPage from './pages/NotesForPrintPage';
 import DocsPage from './pages/DocsPage';
 import NSDocsPage from './pages/NSDocsPage';
+import BooksDashboardPage from './pages/book/BooksDashboardPage';
+import DynamicBookPage from './pages/book/DynamicBookPage';
+import SyllabusMapPrototype from './pages/book/SyllabusMapPrototype';
 
 export default function App() {
   return (
@@ -98,6 +101,11 @@ export default function App() {
           {/* Global Standalone Documentation Links */}
           <Route path="/docs" element={<DocsPage />} />
           <Route path="/ns-docs" element={<NSDocsPage />} />
+          {/* NEW DIGITAL TEXTBOOK UI */}
+          <Route path="/books" element={<BooksDashboardPage />} />
+          <Route path="/books/:bookId" element={<DynamicBookPage />} />
+          <Route path="/books/:bookId/:chapterNum" element={<DynamicBookPage />} />
+          <Route path="/prototype-map" element={<SyllabusMapPrototype />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

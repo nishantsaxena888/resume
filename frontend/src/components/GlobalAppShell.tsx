@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Menu, X, Network, FileText, BriefcaseBusiness, BookOpen, LogOut, LayoutTemplate } from 'lucide-react';
+import { Menu, X, Network, FileText, BriefcaseBusiness, BookOpen, LogOut, LayoutTemplate, Library } from 'lucide-react';
 import { useState } from 'react';
 
 export default function GlobalAppShell() {
@@ -109,6 +109,28 @@ export default function GlobalAppShell() {
                   <LayoutTemplate className="w-5 h-5" />
                 </div>
                 <span>Static Notes</span>
+              </Link>
+
+              <Link 
+                to="/books" 
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-200 font-bold ${path.includes('/book') && !path.includes('prototype') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-200'}`}
+              >
+                <div className={`p-2 rounded-xl transition-colors ${path.includes('/book') && !path.includes('prototype') ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                Interactive Books
+              </Link>
+
+              <Link 
+                to="/prototype-map" 
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-200 font-bold ${path.includes('/prototype-map') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-200'}`}
+              >
+                <div className={`p-2 rounded-xl transition-colors ${path.includes('/prototype-map') ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
+                  <LayoutTemplate className="w-5 h-5" />
+                </div>
+                Architecture Map
               </Link>
 
               <div className="w-full h-px bg-slate-100 my-4"></div>
